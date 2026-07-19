@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<title>dTAO Trader — Subnet Dashboard</title>
+<style>
+:root {
+  --bg: #0a0a0a;
+  --card: #141414;
+  --border: #222;
+  --text: #e0e0e0;
+  --dim: #666;
+  --green: #4ade80;
+  --red: #f87171;
+  --yellow: #facc15;
+  --blue: #60a5fa;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+.meta { color: var(--dim); font-size: 12px; font-family: var(--mono); margin-bottom: 16px; }
+.controls { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.controls input, .controls select {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: var(--font);
+}
+.controls input { flex: 1; min-width: 200px; }
+.controls select { cursor: pointer; }
+.controls label { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--dim); }
+.controls label input { width: auto; min-width: auto; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-bottom: 16px; }
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+.stat-val { font-size: 22px; font-weight: 700; font-family: var(--mono); }
+.stat-label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; }
+
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--dim); border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap; }
+th:hover { color: var(--text); }
+td { padding: 8px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+tr:hover { background: var(--card); }
+.sn { color: var(--dim); }
+.name { font-family: var(--font); font-weight: 500; }
+.name a { color: var(--text); text-decoration: none; }
+.name a:hover { color: var(--blue); }
+.price { font-weight: 600; }
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+.zero { color: var(--dim); }
+.disabled { opacity: 0.4; }
+.badge { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-family: var(--font); font-weight: 600; }
+.badge-on { background: #162316; color: var(--green); }
+.badge-off { background: #231616; color: var(--red); }
+.bar { display: inline-block; height: 4px; background: var(--green); border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+.cb-high { color: var(--green); font-weight: 600; }
+.cb-mid { color: var(--yellow); }
+.cb-zero { color: var(--dim); }
+.sort-arrow { font-size: 10px; margin-left: 2px; }
+.footer { margin-top: 16px; color: var(--dim); font-size: 11px; text-align: center; }
+@media (max-width: 768px) {
+  body { padding: 8px; font-size: 12px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  table { font-size: 11px; }
+  th, td { padding: 4px; }
+  .hide-mobile { display: none; }
+}
+</style>
+</head>
+<body>
+<h1>dTAO Trader</h1>
+<div class="meta" id="meta">Loading...</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="Search subnets..." oninput="render()">
+  <select id="filter" onchange="render()">
+    <option value="all">All subnets</option>
+    <option value="enabled">Emission enabled</option>
+    <option value="disabled">Emission disabled</option>
+    <option value="cb">Has chain buys</option>
+    <option value="nocb">Zero chain buys</option>
+  </select>
+  <label><input type="checkbox" id="sortByCb" onchange="render()"> Sort by CB vs Pool</label>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th onclick="sortBy('netuid')">SN</th>
+      <th onclick="sortBy('name')">Name</th>
+      <th onclick="sortBy('price')">Price</th>
+      <th onclick="sortBy('daily_cb')" class="hide-mobile">Daily CB</th>
+      <th onclick="sortBy('cb_vs_pool')">CB vs Pool</th>
+      <th onclick="sortBy('tao_pool')" class="hide-mobile">Pool TAO</th>
+      <th onclick="sortBy('root_prop')" class="hide-mobile">RootProp</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="tbody"></tbody>
+</table>
+
+<div class="footer">Data from on-chain queries. Auto-refreshes every 5 min. Chain buys = actual SubnetExcessTao from storage.</div>
+
+<script>
+let data = null;
+let sortKey = 'price';
+let sortDir = -1;
+
+async function loadData() {
+  try {
+    const res = await fetch('dashboard-data.json');
+    data = await res.json();
+    render();
+    setTimeout(loadData, 300000); // 5 min refresh
+  } catch (e) {
+    document.getElementById('meta').textContent = 'Error loading data: ' + e.message;
+  }
+}
+
+function sortBy(key) {
+  if (sortKey === key) sortDir *= -1;
+  else { sortKey = key; sortDir = -1; }
+  render();
+}
+
+function render() {
+  if (!data) return;
+  
+  document.getElementById('meta').textContent = 
+    `Block ${data.block.toLocaleString()} · ${new Date(data.timestamp).toISOString().replace('T', ' ').slice(0, 19)} UTC · ${data.subnets.length} subnets`;
+
+  // Stats
+  const enabled = data.subnets.filter(s => s.emission_enabled).length;
+  const disabled = data.subnets.length - enabled;
+  const withCb = data.subnets.filter(s => s.excess_tao > 0).length;
+  const totalCb = data.subnets.reduce((a, s) => a + s.daily_cb, 0);
+  const topCb = data.subnets.filter(s => s.cb_vs_pool > 0.3).length;
+  
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-val">${data.subnets.length}</div><div class="stat-label">Subnets</div></div>
+    <div class="stat"><div class="stat-val pos">${enabled}</div><div class="stat-label">Emission On</div></div>
+    <div class="stat"><div class="stat-val neg">${disabled}</div><div class="stat-label">Emission Off</div></div>
+    <div class="stat"><div class="stat-val">${withCb}</div><div class="stat-label">Chain Buys</div></div>
+    <div class="stat"><div class="stat-val">${topCb}</div><div class="stat-label">CB >0.3%/d</div></div>
+    <div class="stat"><div class="stat-val">${totalCb.toFixed(0)}</div><div class="stat-label">Total CB TAO/d</div></div>
+  `;
+
+  // Filter
+  const search = document.getElementById('search').value.toLowerCase();
+  const filter = document.getElementById('filter').value;
+  const sortByCb = document.getElementById('sortByCb').checked;
+  
+  let rows = data.subnets.filter(s => {
+    if (search && !s.name.toLowerCase().includes(search) && !String(s.netuid).includes(search)) return false;
+    if (filter === 'enabled' && !s.emission_enabled) return false;
+    if (filter === 'disabled' && s.emission_enabled) return false;
+    if (filter === 'cb' && s.excess_tao === 0) return false;
+    if (filter === 'nocb' && s.excess_tao > 0) return false;
+    return true;
+  });
+
+  // Sort
+  const key = sortByCb ? 'cb_vs_pool' : sortKey;
+  rows.sort((a, b) => {
+    let va = a[key], vb = b[key];
+    if (typeof va === 'string') return va.localeCompare(vb) * sortDir;
+    return (va - vb) * sortDir;
+  });
+
+  // Render
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = rows.map(s => {
+    const cbClass = s.cb_vs_pool > 0.3 ? 'cb-high' : s.cb_vs_pool > 0.1 ? 'cb-mid' : 'cb-zero';
+    const cbBar = s.cb_vs_pool > 0 ? `<span class="bar" style="width:${Math.min(s.cb_vs_pool * 60, 60)}px"></span>` : '';
+    const githubLink = s.github ? `<a href="${s.github}" target="_blank" style="color:var(--dim);font-size:10px;text-decoration:none">⌥</a>` : '';
+    return `
+      <tr class="${s.emission_enabled ? '' : 'disabled'}">
+        <td class="sn">${s.netuid}</td>
+        <td class="name">${s.name} ${githubLink}</td>
+        <td class="price">${s.price.toFixed(6)}</td>
+        <td class="hide-mobile ${cbClass}">${s.daily_cb > 0 ? s.daily_cb.toFixed(1) : '—'}</td>
+        <td class="${cbClass}">${cbBar}${s.cb_vs_pool > 0 ? s.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
+        <td class="hide-mobile">${s.tao_pool > 0 ? s.tao_pool.toFixed(0) : '—'}</td>
+        <td class="hide-mobile">${(s.root_prop * 100).toFixed(1)}%</td>
+        <td><span class="badge ${s.emission_enabled ? 'badge-on' : 'badge-off'}">${s.emission_enabled ? 'ON' : 'OFF'}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+loadData();
+</script>
+</body>
+</html>
