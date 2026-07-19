@@ -1,0 +1,21 @@
+# Data files
+data/
+*.jsonl
+!docs/dashboard-data.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+*.key
+
+# Cache
+cache/

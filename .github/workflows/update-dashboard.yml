@@ -1,0 +1,34 @@
+name: Update Dashboard Data
+
+on:
+  schedule:
+    # Every hour at :00
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: pip install bittensor
+        
+      - name: Collect dashboard data
+        run: python dashboard_collector.py
+        env:
+          PYTHONUNBUFFERED: '1'
+          
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/dashboard-data.json
+          git diff --staged --quiet || git commit -m "Update dashboard data [skip ci]"
+          git push
