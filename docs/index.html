@@ -180,6 +180,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
       <th class="hide-mobile" onclick="sortBy('scores.holders')">Hold</th>
       <th class="hide-mobile" onclick="sortBy('scores.activity')">Act</th>
       <th onclick="sortBy('scores.concept')">Concept</th>
+      <th onclick="sortBy('flow_vs_pool')">Flow%</th>
       <th onclick="sortBy('locked_pct')">Locked%</th>
       <th onclick="sortBy('cb_vs_pool')">CB%</th>
       <th onclick="sortBy('commits_30d')" class="hide-mobile">C30d</th>
@@ -191,7 +192,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 </div>
 
 <div class="footer">
-  Score = Valuation (35) + Code (20) + Conviction (15) + Holders (15) + Concept (10) + Activity (5) = 100 max
+  Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) = 110 max · Flow% = 7d net stake flow vs pool
 </div>
 
 <div class="modal-overlay" id="conceptModal" onclick="if(event.target===this)closeModal()">
@@ -291,6 +292,7 @@ function render() {
         <td class="hide-mobile">${s.holders.toFixed(0)}</td>
         <td class="hide-mobile">${s.activity.toFixed(0)}</td>
         <td>${s.concept > 0 ? `<span class="concept-link" onclick="showConcept(${r.netuid})">${s.concept.toFixed(0)}</span>` : '<span class="dim">—</span>'}</td>
+        <td class="${r.flow_vs_pool > 5 ? 'pos' : r.flow_vs_pool < -5 ? 'neg' : ''}">${r.flow_vs_pool ? (r.flow_vs_pool > 0 ? '+' : '') + r.flow_vs_pool.toFixed(1) + '%' : '—'}</td>
         <td class="${r.locked_pct > 20 ? 'pos' : ''}">${r.locked_pct > 0 ? r.locked_pct.toFixed(1) + '%' : '—'}</td>
         <td>${r.cb_vs_pool > 0 ? r.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>

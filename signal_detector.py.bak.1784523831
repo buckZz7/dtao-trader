@@ -56,9 +56,6 @@ def collect_snapshot():
             emission_enabled = bool(sub.query(module.SubnetEmissionEnabled, params=[netuid]))
             excess_tao = int(sub.query(module.SubnetExcessTao, params=[netuid])) / 1e9
             tao_pool = int(sub.query(module.SubnetTAO, params=[netuid])) / 1e9
-            rp_raw = sub.query(module.RootProp, params=[netuid])
-            rp_bits = rp_raw.get('bits', 0) if isinstance(rp_raw, dict) else int(rp_raw)
-            root_prop = rp_bits / (2**32)
 
             # Compute equilibrium for context
             sum_prices_approx = sum(float(v) for v in all_prices.values() if v > 0)
@@ -72,10 +69,9 @@ def collect_snapshot():
                 'emission_enabled': emission_enabled,
                 'excess_tao': excess_tao,
                 'tao_pool': tao_pool,
-                'root_prop': root_prop,
                 'equilibrium': equilibrium,
             }
-        except Exception:
+        except:
             pass
 
     return snapshot

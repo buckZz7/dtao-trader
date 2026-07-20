@@ -92,6 +92,23 @@ def score_concept(concept_data):
     score = concept_data.get('concept_score', 0)
     return normalize(score, 0, 100) * 10
 
+def score_flow(flow_data):
+    """Score from 7-day net stake flow vs pool size.
+    Predictive (r=+0.191). Subnets with net inflow outperform.
+    Positive flow = bullish. Negative flow = bearish.
+    """
+    if not flow_data:
+        return 5  # Default neutral if no data
+    
+    flow_pct = flow_data.get('flow_vs_pool', 0)
+    
+    # Map flow to score:
+    # +20% flow vs pool = max score (10)
+    # 0% = neutral (5)
+    # -20% = min score (0)
+    score = 5 + normalize(flow_pct, -20, 20) * 5
+    return max(0, min(10, score))
+
 def compute_ranking():
     """Compute composite ranking for all emission-enabled subnets."""
     sub = bt.Subtensor(network='finney')
@@ -106,6 +123,14 @@ def compute_ranking():
         with open('data/concept_scores.json') as f:
             for c in json.load(f):
                 concept_scores[c['netuid']] = c
+    
+    # Load flow cache (updated daily by flow_scanner.py)
+    flow_cache = {}
+    if os.path.exists('data/flow_cache.json'):
+        with open('data/flow_cache.json') as f:
+            flow_data = json.load(f)
+            for r in flow_data.get('results', []):
+                flow_cache[r['netuid']] = r
     
     code_quality = {}
     if os.path.exists('data/code_quality.json'):
@@ -205,8 +230,9 @@ def compute_ranking():
             gh = github_activity.get(netuid, {})
             s_activity = score_activity(gh.get('commits_30d', 0) or 0, gh.get('commits_7d', 0) or 0)
             s_concept = score_concept(concept_scores.get(netuid, {}))
+            s_flow = score_flow(flow_cache.get(netuid, {}))
             
-            total_score = s_valuation + s_code + s_conviction + s_holders + s_activity + s_concept
+            total_score = s_valuation + s_code + s_conviction + s_holders + s_activity + s_concept + s_flow
             
             # Verdict
             if not emission_enabled:
@@ -250,6 +276,8 @@ def compute_ranking():
                 'concept_moat_reason': concept_scores.get(netuid, {}).get('moat_reasoning', ''),
                 'concept_execution': concept_scores.get(netuid, {}).get('execution_score', 0),
                 'concept_execution_reason': concept_scores.get(netuid, {}).get('execution_reasoning', ''),
+                'flow_vs_pool': flow_cache.get(netuid, {}).get('flow_vs_pool', 0),
+                'net_flow': flow_cache.get(netuid, {}).get('net_flow', 0),
                 'scores': {
                     'valuation': round(s_valuation, 1),
                     'code': round(s_code, 1),
@@ -257,6 +285,7 @@ def compute_ranking():
                     'holders': round(s_holders, 1),
                     'activity': round(s_activity, 1),
                     'concept': round(s_concept, 1),
+                    'flow': round(s_flow, 1),
                 },
                 'total_score': round(total_score, 1),
                 'verdict': verdict,
