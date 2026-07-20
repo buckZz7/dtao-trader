@@ -292,7 +292,7 @@ function render() {
         <td class="hide-mobile">${s.holders.toFixed(0)}</td>
         <td class="hide-mobile">${s.activity.toFixed(0)}</td>
         <td>${s.concept > 0 ? `<span class="concept-link" onclick="showConcept(${r.netuid})">${s.concept.toFixed(0)}</span>` : '<span class="dim">—</span>'}</td>
-        <td class="${r.flow_vs_pool > 5 ? 'pos' : r.flow_vs_pool < -5 ? 'neg' : ''}">${r.flow_vs_pool ? (r.flow_vs_pool > 0 ? '+' : '') + r.flow_vs_pool.toFixed(1) + '%' : '—'}</td>
+        <td class="${r.flow_vs_pool > 5 ? 'pos' : r.flow_vs_pool < -5 ? 'neg' : ''}">${r.flow_vs_pool ? (r.flow_vs_pool > 100 ? '+100%+' : r.flow_vs_pool < -100 ? '-100%+' : (r.flow_vs_pool > 0 ? '+' : '') + r.flow_vs_pool.toFixed(1) + '%') : '—'}</td>
         <td class="${r.locked_pct > 20 ? 'pos' : ''}">${r.locked_pct > 0 ? r.locked_pct.toFixed(1) + '%' : '—'}</td>
         <td>${r.cb_vs_pool > 0 ? r.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>

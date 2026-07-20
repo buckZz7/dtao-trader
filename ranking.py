@@ -96,11 +96,25 @@ def score_flow(flow_data):
     """Score from 7-day net stake flow vs pool size.
     Predictive (r=+0.191). Subnets with net inflow outperform.
     Positive flow = bullish. Negative flow = bearish.
+    
+    Filters out deregistration contamination: if stake dropped to near-zero
+    or pool is tiny (< 500 TAO), the flow data is unreliable.
     """
     if not flow_data:
         return 5  # Default neutral if no data
     
+    stake_now = flow_data.get('stake_now', 0)
+    stake_7d = flow_data.get('stake_7d_ago', 0)
+    pool = flow_data.get('pool_size', 0)
+    
+    # Skip deregistered/contaminated subnets
+    if stake_now < 100 or pool < 500:
+        return 5  # Neutral — don't penalize or reward
+    
     flow_pct = flow_data.get('flow_vs_pool', 0)
+    
+    # Cap extreme values (dereg artifacts, tiny pools)
+    flow_pct = max(-100, min(100, flow_pct))
     
     # Map flow to score:
     # +20% flow vs pool = max score (10)
