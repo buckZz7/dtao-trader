@@ -74,6 +74,20 @@ tr:hover { background: var(--card); }
   th, td { padding: 4px; }
   .hide-mobile { display: none; }
 }
+/* Horizontal scroll on mobile */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--bg);
+}
+.table-scroll::-webkit-scrollbar { height: 6px; }
+.table-scroll::-webkit-scrollbar-track { background: var(--bg); }
+.table-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+@media (max-width: 768px) {
+  .hide-mobile { display: none; }
+  .table-scroll table { min-width: 700px; }
+}
 </style>
 </head>
 <body>
@@ -95,8 +109,9 @@ tr:hover { background: var(--card); }
   </select>
 </div>
 
-<table>
-  <thead>
+<div class="table-scroll">
+  <table>
+    <thead>
     <tr>
       <th onclick="sortBy('rank')" style="width:30px">#</th>
       <th onclick="sortBy('netuid')">SN</th>
@@ -117,7 +132,8 @@ tr:hover { background: var(--card); }
     </tr>
   </thead>
   <tbody id="tbody"></tbody>
-</table>
+  </table>
+</div>
 
 <div class="footer">
   Composite score = Valuation (25) + Code Quality (25) + Conviction (20) + Holders (15) + Activity (15) = 100 max
