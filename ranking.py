@@ -191,6 +191,14 @@ def compute_ranking():
             for h in health_raw.get('results', []):
                 health_data[h['netuid']] = h
 
+    # Load conviction scan data (from conviction_scanner.py)
+    conviction_data = {}
+    if os.path.exists('data/conviction_scan.json'):
+        with open('data/conviction_scan.json') as f:
+            conv_raw = json.load(f)
+            for c in conv_raw.get('results', []):
+                conviction_data[c['netuid']] = c
+
     # Get all conviction locks for locker count
     locks_by_subnet = defaultdict(int)
     try:
@@ -405,6 +413,11 @@ def compute_ranking():
                 'eq_prot_vel_raw': round(prot_vel_raw, 2),  # pre-burn (for modal)
                 'eq_flow_vel': round(flow_vel, 1),
                 'eq_amp': round(amp, 2),
+                'conv_pct': conviction_data.get(netuid, {}).get('pct_of_threshold', 0),
+                'conv_days': conviction_data.get(netuid, {}).get('days_to_threshold', 0),
+                'conv_can_takeover': conviction_data.get(netuid, {}).get('can_takeover', False),
+                'conv_lockers': conviction_data.get(netuid, {}).get('num_lockers', 0),
+                'conv_top_external': next((l for l in conviction_data.get(netuid, {}).get('top_lockers', []) if not l.get('is_owner')), None),
                 'scores': {
                     'valuation': round(s_valuation, 1),
                     'code': round(s_code, 1),

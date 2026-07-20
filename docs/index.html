@@ -200,6 +200,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
       <th class="hide-mobile" onclick="sortBy('commits_30d')">C30d</th>
       <th onclick="sortBy('health_score')">Health</th>
       <th onclick="sortBy('eq_vel_cat')">EqVel</th>
+      <th onclick="sortBy('conv_pct')">Conv%</th>
       <th>Verdict</th>
     </tr>
   </thead>
@@ -210,7 +211,8 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 <div class="footer">
   Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) → normalized to 100<br>
   Health = Active Miners(40) + Freshness(30) + Validators(20) + Miner Burn(10)<br>
-  EqVel = Protocol velocity (chain buys × AMM × float amp) vs flow velocity (7d net stake flow vs pool)
+  EqVel = Protocol velocity (chain buys × AMM × float amp) vs flow velocity (7d net stake flow vs pool)<br>
+  Conv% = Conviction as % of takeover threshold (10% of circulating alpha)
 </div>
 
 <div class="modal-overlay" id="conceptModal" onclick="if(event.target===this)closeModal()">
@@ -320,6 +322,7 @@ function render() {
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>
         <td>${r.health_score > 0 ? `<span class="concept-link" onclick="showHealth(${r.netuid})">${r.health_score.toFixed(0)}</span>` : '<span class="dim">—</span>'}</td>
         <td><span class="eqvel-link ${eqVelClass(r.eq_vel_cat)}" onclick="showEqVel(${r.netuid})">${r.eq_vel_label}${r.eq_days > 0 && r.eq_days < 9999 ? ' ' + r.eq_days + 'd' : ''}</span></td>
+        <td>${r.conv_pct > 0 ? `<span class="concept-link" onclick="showConv(${r.netuid})">${r.conv_pct.toFixed(0)}%</span>` : '<span class="dim">—</span>'}</td>
         <td><span class="verdict ${vClass[r.verdict]}">${r.verdict}</span></td>
       </tr>
     `;
@@ -565,6 +568,88 @@ function showEqVel(netuid) {
         <span class="modal-dim-score">${amp.toFixed(2)}x</span>
       </div>
       <div class="modal-dim-reason">${locked.toFixed(1)}% of circulating supply locked in conviction. Less float = same buy pressure moves price further. Pool: ${pool.toFixed(0)} TAO.</div>
+    </div>
+  `;
+  document.getElementById('conceptModal').classList.add('active');
+}
+
+function showConv(netuid) {
+  if (!data) return;
+  const r = data.rankings.find(x => x.netuid === netuid);
+  if (!r) return;
+
+  const pct = r.conv_pct || 0;
+  const days = r.conv_days || 0;
+  const canTakeover = r.conv_can_takeover;
+  const lockers = r.conv_lockers || 0;
+  const topExt = r.conv_top_external || {};
+
+  // Only show if there's meaningful conviction
+  const isExternal = topExt.hotkey !== undefined;
+  const extPct = topExt.pct_of_threshold || 0;
+  const extLocked = topExt.locked_alpha || 0;
+  const extConv = topExt.conviction_alpha || 0;
+
+  const hc = pct >= 100 ? 'pos' : pct >= 50 ? '' : 'neg';
+
+  let explanation = '';
+  let warning = '';
+  
+  if (pct >= 100 && canTakeover) {
+    explanation = `Conviction at ${pct.toFixed(0)}% of takeover threshold. Subnet is eligible for ownership transfer.`;
+    warning = isExternal ? 'External hotkey has enough conviction to take over ownership. Takeover could execute at any epoch.' : '';
+  } else if (pct >= 50 && canTakeover) {
+    explanation = `Conviction at ${pct.toFixed(0)}% of takeover threshold. Subnet is old enough for ownership transfer. Conviction still building.`;
+    if (days > 0) {
+      warning = isExternal ? `External hotkey approaching threshold — ~${days.toFixed(0)} days to takeover if conviction continues maturing.` : '';
+    }
+  } else if (pct >= 50 && !canTakeover) {
+    explanation = `Conviction at ${pct.toFixed(0)}% of threshold, but subnet is not yet old enough for ownership transfer (must be > 1 year old).`;
+  } else {
+    explanation = `Conviction at ${pct.toFixed(0)}% of takeover threshold. ${lockers} locker(s) with locked alpha.`;
+  }
+
+  document.getElementById('modalContent').innerHTML = `
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-title">SN${r.netuid} — ${r.name}</div>
+    <div class="modal-verdict">Conviction: <span class="modal-dim-score ${hc}">${pct.toFixed(1)}%</span> of takeover threshold</div>
+    <div class="modal-summary">${explanation}</div>
+    ${warning ? `<div class="modal-summary" style="color:var(--yellow)">${warning}</div>` : ''}
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Takeover Eligibility</span>
+        <span class="modal-dim-score ${canTakeover ? 'pos' : 'neg'}">${canTakeover ? 'Eligible' : 'Not yet'}</span>
+      </div>
+      <div class="modal-dim-reason">Subnet must be > 1 year old (ownership changeable at block ${r.conv_changeable_at || 'N/A'}). ${canTakeover ? 'Age requirement met.' : 'Still waiting on age requirement.'}</div>
+    </div>
+
+    ${isExternal ? `
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Top External Locker</span>
+        <span class="modal-dim-score ${extPct > 80 ? 'pos' : ''}">${extPct.toFixed(1)}%</span>
+      </div>
+      <div class="modal-dim-reason">Hotkey ${topExt.hotkey ? topExt.hotkey.substring(0, 12) + '...' : 'N/A'} locked ${extLocked.toFixed(0)} TAO, conviction ${extConv.toFixed(0)} TAO. ${extPct > 80 ? 'Near or at takeover threshold.' : extPct > 50 ? 'More than halfway to threshold.' : 'Building conviction.'}</div>
+    </div>
+    ` : ''}
+
+    ${days > 0 ? `
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">ETA to Threshold</span>
+        <span class="modal-dim-score ${days < 7 ? 'pos' : ''}">${days.toFixed(0)} days</span>
+      </div>
+      <div class="modal-dim-reason">At current maturity rate, conviction reaches the 10% takeover threshold in ~${days.toFixed(0)} days. Assumes no additional locking and no unlocking.</div>
+    </div>
+    ` : ''}
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Total Lockers</span>
+        <span class="modal-dim-score">${lockers}</span>
+      </div>
+      <div class="modal-dim-reason">${lockers} hotkey(s) with locked alpha on this subnet. Owner locks = instant conviction. External locks = 60-day maturity curve.</div>
     </div>
   `;
   document.getElementById('conceptModal').classList.add('active');
