@@ -418,6 +418,10 @@ def compute_ranking():
                 'conv_can_takeover': conviction_data.get(netuid, {}).get('can_takeover', False),
                 'conv_lockers': conviction_data.get(netuid, {}).get('num_lockers', 0),
                 'conv_top_external': next((l for l in conviction_data.get(netuid, {}).get('top_lockers', []) if not l.get('is_owner')), None),
+                'conv_takeover': bool(
+                    conviction_data.get(netuid, {}).get('can_takeover', False) and
+                    next((l for l in conviction_data.get(netuid, {}).get('top_lockers', []) if not l.get('is_owner')), {}).get('pct_of_threshold', 0) > 10
+                ),
                 'scores': {
                     'valuation': round(s_valuation, 1),
                     'code': round(s_code, 1),

@@ -124,6 +124,8 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 .modal-dim-score { font-family: var(--mono); font-size: 14px; font-weight: 700; }
 .modal-dim-reason { font-size: 12px; color: var(--dim); line-height: 1.4; }
 .concept-link { cursor: pointer; text-decoration: underline; }
+.conv-takeover { cursor: pointer; font-weight: 700; color: var(--green); background: #0a2a0a; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-family: var(--mono); border: 1px solid var(--green); }
+.conv-takeover:hover { background: #0f3a0f; }
 .eqvel-link { cursor: pointer; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; font-family: var(--font); }
 .ev-fast { background: #162316; color: var(--green); }
 .ev-slow { background: #1a2316; color: #84cc16; }
@@ -322,7 +324,7 @@ function render() {
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>
         <td>${r.health_score > 0 ? `<span class="concept-link" onclick="showHealth(${r.netuid})">${r.health_score.toFixed(0)}</span>` : '<span class="dim">—</span>'}</td>
         <td><span class="eqvel-link ${eqVelClass(r.eq_vel_cat)}" onclick="showEqVel(${r.netuid})">${r.eq_vel_label}${r.eq_days > 0 && r.eq_days < 9999 ? ' ' + r.eq_days + 'd' : ''}</span></td>
-        <td>${r.conv_pct > 0 ? `<span class="concept-link" onclick="showConv(${r.netuid})">${r.conv_pct.toFixed(0)}%</span>` : '<span class="dim">—</span>'}</td>
+        <td>${r.conv_takeover ? `<span class="conv-takeover" onclick="showConv(${r.netuid})">⚡${r.conv_pct.toFixed(0)}%</span>` : r.conv_pct > 0 ? `<span class="concept-link" onclick="showConv(${r.netuid})">${r.conv_pct.toFixed(0)}%</span>` : '<span class="dim">—</span>'}</td>
         <td><span class="verdict ${vClass[r.verdict]}">${r.verdict}</span></td>
       </tr>
     `;
