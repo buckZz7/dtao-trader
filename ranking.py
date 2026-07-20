@@ -259,40 +259,56 @@ def compute_ranking():
             
             # Equilibrium velocity: how fast price moves toward equilibrium
             # Protocol velocity = chain buys / pool * 2 (AMM) * float amplification
+            # Burn-adjusted: effective protocol vel = prot_vel * (1 - burn/100)
             # Flow velocity = 7d net stake flow as % of pool (from flow_cache)
+            miner_burn = health_data.get(netuid, {}).get('miner_burn_pct', 0)
             flow_vs_pool_raw = flow_cache.get(netuid, {}).get('flow_vs_pool', 0)
             flow_vs_pool_capped = max(-50, min(50, flow_vs_pool_raw))
             
             float_ratio = max(0.1, 1 - locked_pct / 100)
             amp = min(5, 1 / float_ratio)
-            prot_vel = cb_vs_pool * 2 * amp  # %/day upward (only when below eq)
+            prot_vel_raw = cb_vs_pool * 2 * amp  # raw protocol velocity (pre-burn)
+            prot_vel = prot_vel_raw * max(0.01, 1 - miner_burn / 100)  # burn-adjusted
             flow_vel = flow_vs_pool_capped  # %/day (7d avg, capped)
             
-            # Categorize
+            # Days to equilibrium if flow stopped (protocol alone)
             if abs(distance_pct) < 2:
+                eq_days = 0
                 eq_cat = 'at_eq'
                 eq_label = 'At Eq'
             elif distance_pct < 0:
                 # Below equilibrium
-                if prot_vel > 0 and flow_vel >= 0:
+                # Days to eq without flow = distance / protocol_vel
+                if prot_vel > 0.01:
+                    eq_days = abs(distance_pct) / prot_vel
+                else:
+                    eq_days = 999  # effectively never without flow
+                
+                if prot_vel > 0.1 and flow_vel >= 0:
                     eq_cat = 'fast'
                     eq_label = '↑Fast'
-                elif prot_vel > 0 and flow_vel < 0:
+                elif prot_vel > 0.01 and flow_vel >= 0:
+                    eq_cat = 'flow_up'
+                    eq_label = '↑Flow'
+                elif prot_vel > 0.01 and flow_vel < 0:
                     if prot_vel > abs(flow_vel):
                         eq_cat = 'slow'
                         eq_label = '↑Slow'
                     else:
                         eq_cat = 'div'
                         eq_label = '↓Div'
-                elif prot_vel == 0 and flow_vel > 0:
+                elif flow_vel > 0:
                     eq_cat = 'flow_up'
                     eq_label = '↑Flow'
                 else:
                     eq_cat = 'stuck'
                     eq_label = 'Stuck'
             else:
-                # Above equilibrium, no chain buys
+                # Above equilibrium, no chain buys (prot_vel = 0 effectively)
+                eq_days = 999
                 if flow_vel < -0.1:
+                    # Days to eq from flow alone
+                    eq_days = distance_pct / abs(flow_vel) if abs(flow_vel) > 0.01 else 999
                     eq_cat = 'correcting'
                     eq_label = '↓Corr'
                 elif flow_vel > 0.1:
@@ -301,6 +317,9 @@ def compute_ranking():
                 else:
                     eq_cat = 'floating'
                     eq_label = 'Float'
+            
+            # Cap display at 999
+            eq_days = min(999, round(eq_days))
             
             # Compute scores
             miner_burn_pct = health_data.get(netuid, {}).get('miner_burn_pct', 0)
@@ -381,7 +400,9 @@ def compute_ranking():
                 'health_burn_pts': health_data.get(netuid, {}).get('burn_pts', 0),
                 'eq_vel_cat': eq_cat,
                 'eq_vel_label': eq_label,
-                'eq_prot_vel': round(prot_vel, 2),
+                'eq_days': eq_days,
+                'eq_prot_vel': round(prot_vel, 2),  # burn-adjusted
+                'eq_prot_vel_raw': round(prot_vel_raw, 2),  # pre-burn (for modal)
                 'eq_flow_vel': round(flow_vel, 1),
                 'eq_amp': round(amp, 2),
                 'scores': {
