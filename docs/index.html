@@ -67,6 +67,50 @@ tr:hover { background: var(--card); }
 .neg { color: var(--red); }
 .dim { color: var(--dim); }
 .footer { margin-top: 16px; color: var(--dim); font-size: 11px; text-align: center; }
+
+/* Concept modal */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  padding: 16px;
+  overflow-y: auto;
+}
+.modal-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  padding: 20px;
+  margin-top: 20px;
+}
+.modal-close {
+  float: right;
+  cursor: pointer;
+  color: var(--dim);
+  font-size: 24px;
+  line-height: 1;
+  padding: 0 8px;
+}
+.modal-close:hover { color: var(--text); }
+.modal-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+.modal-verdict { font-size: 13px; margin-bottom: 12px; }
+.modal-summary { font-size: 13px; color: var(--text); margin-bottom: 16px; line-height: 1.5; }
+.modal-dim { margin-bottom: 14px; }
+.modal-dim-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.modal-dim-name { font-weight: 600; font-size: 13px; }
+.modal-dim-score { font-family: var(--mono); font-size: 14px; font-weight: 700; }
+.modal-dim-reason { font-size: 12px; color: var(--dim); line-height: 1.4; }
+.concept-link { cursor: pointer; text-decoration: underline; }
 @media (max-width: 768px) {
   body { padding: 8px; font-size: 12px; }
   .stats { grid-template-columns: repeat(2, 1fr); }
@@ -137,6 +181,10 @@ tr:hover { background: var(--card); }
 
 <div class="footer">
   Score = Valuation (35) + Code (20) + Conviction (15) + Holders (15) + Concept (10) + Activity (5) = 100 max
+</div>
+
+<div class="modal-overlay" id="conceptModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalContent"></div>
 </div>
 
 <script>
@@ -231,7 +279,7 @@ function render() {
         <td class="hide-mobile">${s.conviction.toFixed(0)}</td>
         <td class="hide-mobile">${s.holders.toFixed(0)}</td>
         <td class="hide-mobile">${s.activity.toFixed(0)}</td>
-        <td>${s.concept ? s.concept.toFixed(0) : '—'}</td>
+        <td>${s.concept ? `<span class="concept-link" onclick="showConcept(${r.netuid})">${s.concept.toFixed(0)}</span>` : '—'}</td>
         <td class="${r.locked_pct > 20 ? 'pos' : ''}">${r.locked_pct > 0 ? r.locked_pct.toFixed(1) + '%' : '—'}</td>
         <td>${r.cb_vs_pool > 0 ? r.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>
@@ -242,6 +290,60 @@ function render() {
 }
 
 loadData();
+
+function showConcept(netuid) {
+  if (!data) return;
+  const r = data.rankings.find(x => x.netuid === netuid);
+  if (!r) return;
+  
+  const vClass = { 'Real network': 'v-strong', 'Borderline': 'v-fair', 'Business with token': 'v-risky' };
+  const vc = vClass[r.concept_verdict] || 'v-dead';
+  const sc = (score) => score >= 8 ? 'pos' : score <= 4 ? 'neg' : '';
+  
+  document.getElementById('modalContent').innerHTML = `
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-title">SN${r.netuid} — ${r.name}</div>
+    <div class="modal-verdict">Concept Score: ${r.concept_score || 0}/100 — <span class="verdict ${vc}">${r.concept_verdict || 'Not assessed'}</span></div>
+    ${r.concept_summary ? `<div class="modal-summary">${r.concept_summary}</div>` : '<div class="modal-summary dim">Not yet assessed.</div>'}
+    ${r.concept_necessity ? `
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Necessity — does this need to be a subnet?</span>
+        <span class="modal-dim-score ${sc(r.concept_necessity)}">${r.concept_necessity}/10</span>
+      </div>
+      <div class="modal-dim-reason">${r.concept_necessity_reason}</div>
+    </div>` : ''}
+    ${r.concept_tam ? `
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">TAM — total addressable market</span>
+        <span class="modal-dim-score ${sc(r.concept_tam)}">${r.concept_tam}/10</span>
+      </div>
+      <div class="modal-dim-reason">${r.concept_tam_reason}</div>
+    </div>` : ''}
+    ${r.concept_moat ? `
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Moat — defensibility</span>
+        <span class="modal-dim-score ${sc(r.concept_moat)}">${r.concept_moat}/10</span>
+      </div>
+      <div class="modal-dim-reason">${r.concept_moat_reason}</div>
+    </div>` : ''}
+    ${r.concept_execution ? `
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Execution — are they actually doing it?</span>
+        <span class="modal-dim-score ${sc(r.concept_execution)}">${r.concept_execution}/10</span>
+      </div>
+      <div class="modal-dim-reason">${r.concept_execution_reason}</div>
+    </div>` : ''}
+  `;
+  document.getElementById('conceptModal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('conceptModal').classList.remove('active');
+}
 </script>
 </body>
 </html>
