@@ -198,7 +198,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 
 <div class="footer">
   Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) → normalized to 100<br>
-  Health = Active Miners(40) + Freshness(30) + Validators(20) + Miner Burn(10)
+  Health = Active Miners(40) + Freshness(30) + Validators(20) + Reg Demand(10)
 </div>
 
 <div class="modal-overlay" id="conceptModal" onclick="if(event.target===this)closeModal()">
@@ -381,14 +381,15 @@ function showHealth(netuid) {
   const staked = r.health_staked || 0;
   const fresh = r.health_freshness || 0;
   const stale = r.health_stale || 0;
-  const burn = r.health_burn || 0;
+  const burn = r.health_burn || 0;  // registration burn price in TAO
   const actRate = r.health_activity_rate || 0;
 
-  // Score components (max: activity 40 + freshness 30 + validators 20 + burn 10)
+  // Score components (max: activity 40 + freshness 30 + validators 20 + reg demand 10)
   const actPts = Math.min(40, (actRate / 100) * 40);
   const freshPts = Math.min(30, (fresh / 100) * 30);
   const valPts = Math.min(20, (vals / 10) * 20);
-  const burnPts = Math.min(10, burn * 10);
+  // Log scale: 0 TAO = 0, 0.5 = ~5.7, 5 = ~9, 10+ = 10
+  const burnPts = burn > 0 ? Math.min(10, Math.log10(burn * 100) / Math.log10(1000) * 10) : 0;
 
   const hc = hs >= 50 ? 'pos' : hs >= 30 ? '' : 'neg';
   const sc = (v, max) => v >= max * 0.7 ? 'pos' : v <= max * 0.3 ? 'neg' : '';
@@ -399,7 +400,7 @@ function showHealth(netuid) {
     <span class="modal-close" onclick="closeModal()">&times;</span>
     <div class="modal-title">SN${r.netuid} — ${r.name}</div>
     <div class="modal-verdict">On-Chain Health: <span class="modal-dim-score ${hc}">${hs.toFixed(1)}/100</span></div>
-    <div class="modal-summary">Measures whether the subnet is actually alive on-chain: active miners, validator participation, freshness of updates, and miner burn commitment.</div>
+    <div class="modal-summary">Measures whether the subnet is actually alive on-chain: active miners, validator participation, freshness of updates, and registration demand (miners willing to pay to join).</div>
 
     <div class="modal-dim">
       <div class="modal-dim-header">
@@ -430,10 +431,10 @@ function showHealth(netuid) {
 
     <div class="modal-dim">
       <div class="modal-dim-header">
-        <span class="modal-dim-name">Miner Burn</span>
+        <span class="modal-dim-name">Reg Demand</span>
         <span class="modal-dim-score ${sc(burnPts, 10)}">${burnPts.toFixed(0)}/10</span>
       </div>
-      <div class="modal-dim-reason">${burn.toFixed(3)}% burn rate. ${burn > 1 ? 'Miners are paying to participate (commitment signal).' : burn > 0 ? 'Low burn, minimal commitment cost.' : 'No burn required, free to participate.'}</div>
+      <div class="modal-dim-reason">${burn.toFixed(3)} TAO registration burn. ${burn > 10 ? 'Frenzied demand, miners paying heavily to register.' : burn > 3 ? 'Active registration demand, miners want in.' : burn > 0.5 ? 'Moderate interest, some miners registering.' : burn > 0 ? 'Low demand, registrations are cheap.' : 'No recent registrations, registration is free or disabled.'}</div>
       ${bar(burnPts, 10, '#f97316')}
     </div>
   `;

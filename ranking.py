@@ -319,7 +319,7 @@ def compute_ranking():
                 'health_freshness': health_data.get(netuid, {}).get('freshness_rate', 0),
                 'health_activity_rate': health_data.get(netuid, {}).get('activity_rate', 0),
                 'health_stale': health_data.get(netuid, {}).get('stale_neurons', 0),
-                'health_burn': health_data.get(netuid, {}).get('miner_burn_pct', 0),
+                'health_burn': health_data.get(netuid, {}).get('reg_burn_tao', 0),
                 'scores': {
                     'valuation': round(s_valuation, 1),
                     'code': round(s_code, 1),
