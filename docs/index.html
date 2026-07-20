@@ -113,7 +113,6 @@ tr:hover { background: var(--card); }
   <table>
     <thead>
     <tr>
-      <th onclick="sortBy('rank')" style="width:30px">#</th>
       <th onclick="sortBy('netuid')">SN</th>
       <th onclick="sortBy('name')">Name</th>
       <th onclick="sortBy('price')">Price</th>
@@ -141,7 +140,7 @@ tr:hover { background: var(--card); }
 
 <script>
 let data = null;
-let sortKey = 'total_score';
+let sortKey = 'price';
 let sortDir = -1;
 
 async function loadData() {
@@ -220,7 +219,6 @@ function render() {
     
     return `
       <tr>
-        <td class="dim">${r.rank}</td>
         <td class="sn">${r.netuid}</td>
         <td class="name">${r.name}</td>
         <td>${r.price.toFixed(5)}</td>
