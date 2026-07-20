@@ -25,10 +25,15 @@ jobs:
         env:
           PYTHONUNBUFFERED: '1'
           
+      - name: Compute ranking
+        run: python ranking.py
+        env:
+          PYTHONUNBUFFERED: '1'
+          
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/dashboard-data.json
-          git diff --staged --quiet || git commit -m "Update dashboard data [skip ci]"
+          git add docs/dashboard-data.json docs/rankings-data.json
+          git diff --staged --quiet || git commit -m "Update dashboard + ranking data [skip ci]"
           git push

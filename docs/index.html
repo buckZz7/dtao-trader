@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0a0a0a">
-<title>dTAO Trader — Subnet Dashboard</title>
+<title>dTAO Trader — Subnet Ranking</title>
 <style>
 :root {
   --bg: #0a0a0a;
@@ -39,40 +39,33 @@ h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
   padding: 8px 12px;
   border-radius: 6px;
   font-size: 13px;
-  font-family: var(--font);
 }
 .controls input { flex: 1; min-width: 200px; }
 .controls select { cursor: pointer; }
-.controls label { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--dim); }
-.controls label input { width: auto; min-width: auto; }
 
-.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-bottom: 16px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-bottom: 16px; }
 .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
 .stat-val { font-size: 22px; font-weight: 700; font-family: var(--mono); }
-.stat-label { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-label { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; }
 
 table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 8px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--dim); border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap; }
+th { text-align: left; padding: 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--dim); border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap; }
 th:hover { color: var(--text); }
 td { padding: 8px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 12px; white-space: nowrap; }
 tr:hover { background: var(--card); }
 .sn { color: var(--dim); }
 .name { font-family: var(--font); font-weight: 500; }
-.name a { color: var(--text); text-decoration: none; }
-.name a:hover { color: var(--blue); }
-.price { font-weight: 600; }
+.score-bar { display: inline-block; height: 16px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+.verdict { font-family: var(--font); font-weight: 600; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
+.v-strong { background: #162316; color: var(--green); }
+.v-buy { background: #1a2316; color: #84cc16; }
+.v-fair { background: #231f16; color: var(--yellow); }
+.v-avoid { background: #231616; color: #f97316; }
+.v-risky { background: #231616; color: var(--red); }
+.v-dead { background: #1a1a1a; color: var(--dim); }
 .pos { color: var(--green); }
 .neg { color: var(--red); }
-.zero { color: var(--dim); }
-.disabled { opacity: 0.4; }
-.badge { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px; font-family: var(--font); font-weight: 600; }
-.badge-on { background: #162316; color: var(--green); }
-.badge-off { background: #231616; color: var(--red); }
-.bar { display: inline-block; height: 4px; background: var(--green); border-radius: 2px; vertical-align: middle; margin-right: 4px; }
-.cb-high { color: var(--green); font-weight: 600; }
-.cb-mid { color: var(--yellow); }
-.cb-zero { color: var(--dim); }
-.sort-arrow { font-size: 10px; margin-left: 2px; }
+.dim { color: var(--dim); }
 .footer { margin-top: 16px; color: var(--dim); font-size: 11px; text-align: center; }
 @media (max-width: 768px) {
   body { padding: 8px; font-size: 12px; }
@@ -84,7 +77,7 @@ tr:hover { background: var(--card); }
 </style>
 </head>
 <body>
-<h1>dTAO Trader</h1>
+<h1>dTAO Subnet Ranking</h1>
 <div class="meta" id="meta">Loading...</div>
 
 <div class="stats" id="stats"></div>
@@ -93,48 +86,55 @@ tr:hover { background: var(--card); }
   <input type="text" id="search" placeholder="Search subnets..." oninput="render()">
   <select id="filter" onchange="render()">
     <option value="all">All subnets</option>
-    <option value="enabled">Emission enabled</option>
-    <option value="disabled">Emission disabled</option>
-    <option value="cb">Has chain buys</option>
-    <option value="nocb">Zero chain buys</option>
+    <option value="strong">Strong Buy</option>
+    <option value="buy">Buy</option>
+    <option value="fair">Fair</option>
+    <option value="avoid">Avoid</option>
+    <option value="risky">Risky</option>
+    <option value="dead">Dead (emission off)</option>
   </select>
-  <label><input type="checkbox" id="sortByCb" onchange="render()"> Sort by CB vs Pool</label>
 </div>
 
 <table>
   <thead>
     <tr>
+      <th onclick="sortBy('rank')" style="width:30px">#</th>
       <th onclick="sortBy('netuid')">SN</th>
       <th onclick="sortBy('name')">Name</th>
       <th onclick="sortBy('price')">Price</th>
-      <th onclick="sortBy('daily_cb')" class="hide-mobile">Daily CB</th>
-      <th onclick="sortBy('cb_vs_pool')">CB vs Pool</th>
-      <th onclick="sortBy('tao_pool')" class="hide-mobile">Pool TAO</th>
-      <th onclick="sortBy('root_prop')" class="hide-mobile">RootProp</th>
-      <th onclick="sortBy('equilibrium')" class="hide-mobile">Equilibrium</th>
-      <th onclick="sortBy('distance_pct')" class="hide-mobile">Dist%</th>
-      <th onclick="sortBy('commits_30d')" class="hide-mobile">Commits 30d</th>
-      <th>Status</th>
+      <th onclick="sortBy('distance_pct')">Dist%</th>
+      <th onclick="sortBy('total_score')">SCORE</th>
+      <th class="hide-mobile" onclick="sortBy('scores.valuation')">Val</th>
+      <th class="hide-mobile" onclick="sortBy('scores.code')">Code</th>
+      <th class="hide-mobile" onclick="sortBy('scores.conviction')">Conv</th>
+      <th class="hide-mobile" onclick="sortBy('scores.holders')">Hold</th>
+      <th class="hide-mobile" onclick="sortBy('scores.activity')">Act</th>
+      <th onclick="sortBy('locked_pct')" class="hide-mobile">Locked%</th>
+      <th onclick="sortBy('cb_vs_pool')" class="hide-mobile">CB%</th>
+      <th onclick="sortBy('commits_30d')" class="hide-mobile">C30d</th>
+      <th>Verdict</th>
     </tr>
   </thead>
   <tbody id="tbody"></tbody>
 </table>
 
-<div class="footer">Data from on-chain queries. Auto-refreshes every 5 min. Chain buys = actual SubnetExcessTao from storage.</div>
+<div class="footer">
+  Composite score = Valuation (25) + Code Quality (25) + Conviction (20) + Holders (15) + Activity (15) = 100 max
+</div>
 
 <script>
 let data = null;
-let sortKey = 'price';
+let sortKey = 'total_score';
 let sortDir = -1;
 
 async function loadData() {
   try {
-    const res = await fetch('dashboard-data.json');
+    const res = await fetch('rankings-data.json');
     data = await res.json();
     render();
-    setTimeout(loadData, 300000); // 5 min refresh
+    setTimeout(loadData, 300000);
   } catch (e) {
-    document.getElementById('meta').textContent = 'Error loading data: ' + e.message;
+    document.getElementById('meta').textContent = 'Error: ' + e.message;
   }
 }
 
@@ -144,69 +144,80 @@ function sortBy(key) {
   render();
 }
 
+function getVal(obj, key) {
+  return key.split('.').reduce((o, k) => o?.[k], obj) ?? 0;
+}
+
 function render() {
   if (!data) return;
   
+  const rankings = data.rankings;
   document.getElementById('meta').textContent = 
-    `Block ${data.block.toLocaleString()} · ${new Date(data.timestamp).toISOString().replace('T', ' ').slice(0, 19)} UTC · ${data.subnets.length} subnets`;
+    `${new Date(data.timestamp).toISOString().replace('T',' ').slice(0,19)} UTC · ${rankings.length} subnets ranked`;
 
-  // Stats
-  const enabled = data.subnets.filter(s => s.emission_enabled).length;
-  const disabled = data.subnets.length - enabled;
-  const withCb = data.subnets.filter(s => s.excess_tao > 0).length;
-  const totalCb = data.subnets.reduce((a, s) => a + s.daily_cb, 0);
-  const topCb = data.subnets.filter(s => s.cb_vs_pool > 0.3).length;
-  
+  const strong = rankings.filter(r => r.verdict === 'STRONG BUY').length;
+  const buy = rankings.filter(r => r.verdict === 'BUY').length;
+  const fair = rankings.filter(r => r.verdict === 'FAIR').length;
+  const avoid = rankings.filter(r => r.verdict === 'AVOID').length;
+  const risky = rankings.filter(r => r.verdict === 'RISKY').length;
+  const dead = rankings.filter(r => r.verdict === 'DEAD').length;
+
   document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="stat-val">${data.subnets.length}</div><div class="stat-label">Subnets</div></div>
-    <div class="stat"><div class="stat-val pos">${enabled}</div><div class="stat-label">Emission On</div></div>
-    <div class="stat"><div class="stat-val neg">${disabled}</div><div class="stat-label">Emission Off</div></div>
-    <div class="stat"><div class="stat-val">${withCb}</div><div class="stat-label">Chain Buys</div></div>
-    <div class="stat"><div class="stat-val">${topCb}</div><div class="stat-label">CB >0.3%/d</div></div>
-    <div class="stat"><div class="stat-val">${totalCb.toFixed(0)}</div><div class="stat-label">Total CB TAO/d</div></div>
+    <div class="stat"><div class="stat-val pos">${strong}</div><div class="stat-label">Strong Buy</div></div>
+    <div class="stat"><div class="stat-val" style="color:#84cc16">${buy}</div><div class="stat-label">Buy</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--yellow)">${fair}</div><div class="stat-label">Fair</div></div>
+    <div class="stat"><div class="stat-val" style="color:#f97316">${avoid}</div><div class="stat-label">Avoid</div></div>
+    <div class="stat"><div class="stat-val neg">${risky}</div><div class="stat-label">Risky</div></div>
+    <div class="stat"><div class="stat-val dim">${dead}</div><div class="stat-label">Dead</div></div>
   `;
 
-  // Filter
   const search = document.getElementById('search').value.toLowerCase();
   const filter = document.getElementById('filter').value;
-  const sortByCb = document.getElementById('sortByCb').checked;
   
-  let rows = data.subnets.filter(s => {
-    if (search && !s.name.toLowerCase().includes(search) && !String(s.netuid).includes(search)) return false;
-    if (filter === 'enabled' && !s.emission_enabled) return false;
-    if (filter === 'disabled' && s.emission_enabled) return false;
-    if (filter === 'cb' && s.excess_tao === 0) return false;
-    if (filter === 'nocb' && s.excess_tao > 0) return false;
+  let rows = rankings.filter(r => {
+    if (search && !r.name.toLowerCase().includes(search) && !String(r.netuid).includes(search)) return false;
+    if (filter === 'strong' && r.verdict !== 'STRONG BUY') return false;
+    if (filter === 'buy' && r.verdict !== 'BUY') return false;
+    if (filter === 'fair' && r.verdict !== 'FAIR') return false;
+    if (filter === 'avoid' && r.verdict !== 'AVOID') return false;
+    if (filter === 'risky' && r.verdict !== 'RISKY') return false;
+    if (filter === 'dead' && r.verdict !== 'DEAD') return false;
     return true;
   });
 
-  // Sort
-  const key = sortByCb ? 'cb_vs_pool' : sortKey;
   rows.sort((a, b) => {
-    let va = a[key], vb = b[key];
+    let va = getVal(a, sortKey);
+    let vb = getVal(b, sortKey);
     if (typeof va === 'string') return va.localeCompare(vb) * sortDir;
     return (va - vb) * sortDir;
   });
 
-  // Render
+  const vClass = { 'STRONG BUY': 'v-strong', 'BUY': 'v-buy', 'FAIR': 'v-fair', 'AVOID': 'v-avoid', 'RISKY': 'v-risky', 'DEAD': 'v-dead' };
+  
   const tbody = document.getElementById('tbody');
-  tbody.innerHTML = rows.map(s => {
-    const cbClass = s.cb_vs_pool > 0.3 ? 'cb-high' : s.cb_vs_pool > 0.1 ? 'cb-mid' : 'cb-zero';
-    const cbBar = s.cb_vs_pool > 0 ? `<span class="bar" style="width:${Math.min(s.cb_vs_pool * 60, 60)}px"></span>` : '';
-    const githubLink = s.github ? `<a href="${s.github}" target="_blank" style="color:var(--dim);font-size:10px;text-decoration:none">⌥</a>` : '';
+  tbody.innerHTML = rows.map(r => {
+    const s = r.scores;
+    const scoreColor = r.total_score >= 60 ? 'var(--green)' : r.total_score >= 45 ? '#84cc16' : r.total_score >= 30 ? 'var(--yellow)' : r.total_score >= 15 ? '#f97316' : 'var(--red)';
+    const scoreBar = `<span class="score-bar" style="width:${r.total_score * 1.2}px;background:${scoreColor}"></span>`;
+    const distClass = r.distance_pct < -20 ? 'pos' : r.distance_pct > 50 ? 'neg' : '';
+    
     return `
-      <tr class="${s.emission_enabled ? '' : 'disabled'}">
-        <td class="sn">${s.netuid}</td>
-        <td class="name">${s.name} ${githubLink}</td>
-        <td class="price">${s.price.toFixed(6)}</td>
-        <td class="hide-mobile ${cbClass}">${s.daily_cb > 0 ? s.daily_cb.toFixed(1) : '—'}</td>
-        <td class="${cbClass}">${cbBar}${s.cb_vs_pool > 0 ? s.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
-        <td class="hide-mobile">${s.tao_pool > 0 ? s.tao_pool.toFixed(0) : '—'}</td>
-        <td class="hide-mobile">${(s.root_prop * 100).toFixed(1)}%</td>
-        <td class="hide-mobile">${s.equilibrium ? s.equilibrium.toFixed(6) : '—'}</td>
-        <td class="hide-mobile ${s.distance_pct < -20 ? 'pos' : s.distance_pct > 50 ? 'neg' : ''}">${s.distance_pct ? (s.distance_pct > 0 ? '+' : '') + s.distance_pct.toFixed(1) + '%' : '—'}</td>
-        <td class="hide-mobile">${s.commits_30d > 0 ? s.commits_30d : '—'}</td>
-        <td><span class="badge ${s.emission_enabled ? 'badge-on' : 'badge-off'}">${s.emission_enabled ? 'ON' : 'OFF'}</span></td>
+      <tr>
+        <td class="dim">${r.rank}</td>
+        <td class="sn">${r.netuid}</td>
+        <td class="name">${r.name}</td>
+        <td>${r.price.toFixed(5)}</td>
+        <td class="${distClass}">${r.distance_pct > 0 ? '+' : ''}${r.distance_pct.toFixed(1)}%</td>
+        <td>${scoreBar}<span style="color:${scoreColor}">${r.total_score.toFixed(0)}</span></td>
+        <td class="hide-mobile">${s.valuation.toFixed(0)}</td>
+        <td class="hide-mobile">${s.code.toFixed(0)}</td>
+        <td class="hide-mobile">${s.conviction.toFixed(0)}</td>
+        <td class="hide-mobile">${s.holders.toFixed(0)}</td>
+        <td class="hide-mobile">${s.activity.toFixed(0)}</td>
+        <td class="hide-mobile ${r.locked_pct > 20 ? 'pos' : ''}">${r.locked_pct > 0 ? r.locked_pct.toFixed(1) + '%' : '—'}</td>
+        <td class="hide-mobile">${r.cb_vs_pool > 0 ? r.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
+        <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>
+        <td><span class="verdict ${vClass[r.verdict]}">${r.verdict}</span></td>
       </tr>
     `;
   }).join('');
