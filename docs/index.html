@@ -322,7 +322,7 @@ function showConcept(netuid) {
         <span class="modal-dim-name">Necessity — does this need to be a subnet?</span>
         <span class="modal-dim-score ${sc(r.concept_necessity)}">${r.concept_necessity}/10</span>
       </div>
-      <div class="modal-dim-reason">${r.concept_necessity_reason}</div>
+      ${r.concept_necessity_reason ? `<div class="modal-dim-reason">${r.concept_necessity_reason}</div>` : ''}
     </div>` : ''}
     ${r.concept_tam ? `
     <div class="modal-dim">
@@ -330,7 +330,7 @@ function showConcept(netuid) {
         <span class="modal-dim-name">TAM — total addressable market</span>
         <span class="modal-dim-score ${sc(r.concept_tam)}">${r.concept_tam}/10</span>
       </div>
-      <div class="modal-dim-reason">${r.concept_tam_reason}</div>
+      ${r.concept_tam_reason ? `<div class="modal-dim-reason">${r.concept_tam_reason}</div>` : ''}
     </div>` : ''}
     ${r.concept_moat ? `
     <div class="modal-dim">
@@ -338,7 +338,7 @@ function showConcept(netuid) {
         <span class="modal-dim-name">Moat — defensibility</span>
         <span class="modal-dim-score ${sc(r.concept_moat)}">${r.concept_moat}/10</span>
       </div>
-      <div class="modal-dim-reason">${r.concept_moat_reason}</div>
+      ${r.concept_moat_reason ? `<div class="modal-dim-reason">${r.concept_moat_reason}</div>` : ''}
     </div>` : ''}
     ${r.concept_execution ? `
     <div class="modal-dim">
@@ -346,7 +346,7 @@ function showConcept(netuid) {
         <span class="modal-dim-name">Execution — are they actually doing it?</span>
         <span class="modal-dim-score ${sc(r.concept_execution)}">${r.concept_execution}/10</span>
       </div>
-      <div class="modal-dim-reason">${r.concept_execution_reason}</div>
+      ${r.concept_execution_reason ? `<div class="modal-dim-reason">${r.concept_execution_reason}</div>` : ''}
     </div>` : ''}
   `;
   document.getElementById('conceptModal').classList.add('active');
