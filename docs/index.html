@@ -55,6 +55,17 @@ td { padding: 8px; border-bottom: 1px solid var(--border); font-family: var(--mo
 tr:hover { background: var(--card); }
 .sn { color: var(--dim); }
 .name { font-family: var(--font); font-weight: 500; }
+
+/* Sticky first columns (SN + Name) */
+th:nth-child(1), td:nth-child(1),
+th:nth-child(2), td:nth-child(2) {
+  position: sticky;
+  z-index: 2;
+  background: var(--bg);
+}
+th:nth-child(1), td:nth-child(1) { left: 0; min-width: 40px; }
+th:nth-child(2), td:nth-child(2) { left: 40px; min-width: 120px; }
+tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 .score-bar { display: inline-block; height: 16px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
 .verdict { font-family: var(--font); font-weight: 600; font-size: 11px; padding: 2px 8px; border-radius: 4px; }
 .v-strong { background: #162316; color: var(--green); }
