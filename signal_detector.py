@@ -30,20 +30,25 @@ def collect_snapshot():
         'timestamp': datetime.now(timezone.utc).isoformat(),
         'block': block,
         'subnets': {},
-        'coldkey_swaps': [],
+        'owner_swaps': [],
     }
 
-    # Check for pending coldkey swap announcements
+    # Only check coldkey swaps for subnet owners (not all coldkeys)
     try:
-        result = sub.query_map(module.ColdkeySwapAnnouncements, params=[])
-        for item in result:
-            if hasattr(item, 'key'):
-                coldkey, val = item.key, item.value
-            elif isinstance(item, (tuple, list)) and len(item) == 2:
-                coldkey, val = item
-            else:
+        names = sub.subnets.subnet_names()
+        for netuid_str in list(sub.prices.alpha_prices().keys()):
+            netuid = int(netuid_str)
+            if netuid == 0:
                 continue
-            snapshot['coldkey_swaps'].append(str(coldkey))
+            try:
+                owner = sub.query(module.SubnetOwner, params=[netuid])
+                if owner:
+                    # Check if this owner has a pending swap announcement
+                    announcement = sub.query(module.ColdkeySwapAnnouncements, params=[str(owner)])
+                    if announcement:
+                        snapshot['owner_swaps'].append(str(owner))
+            except:
+                pass
     except:
         pass
 
@@ -201,9 +206,9 @@ def run_detector():
     # Detect signals
     signals = detect_signals(current, previous)
 
-    # Check for new coldkey swap announcements
-    current_swaps = set(current.get('coldkey_swaps', []))
-    prev_swaps = set(previous.get('coldkey_swaps', []))
+    # Check for new subnet owner coldkey swap announcements
+    current_swaps = set(current.get('owner_swaps', []))
+    prev_swaps = set(previous.get('owner_swaps', []))
     new_swaps = current_swaps - prev_swaps
     
     # Get subnet owners to identify which subnets are affected
@@ -218,7 +223,6 @@ def run_detector():
         pass
     
     for coldkey in new_swaps:
-        # Check if this coldkey owns a subnet
         affected_subnets = []
         for owner_key, netuid in subnet_owners.items():
             if owner_key == coldkey:
@@ -233,7 +237,6 @@ def run_detector():
                 'severity': 'HIGH',
                 'message': f"🔑 SUBNET OWNER COLDKEY SWAP: {coldkey[:10]}...{coldkey[-6:]}\n   OWNS: {', '.join(affected_subnets)}\n   Subnet owner rotating keys. Could be security, sale, or ownership transfer.",
             })
-        # Skip non-owner coldkey swaps — not actionable
 
     # Save signals to history
     if signals:
