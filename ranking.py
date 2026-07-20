@@ -279,10 +279,10 @@ def compute_ranking():
             elif distance_pct < 0:
                 # Below equilibrium
                 # Days to eq without flow = distance / protocol_vel
-                if prot_vel > 0.01:
+                if prot_vel > 0.001:
                     eq_days = abs(distance_pct) / prot_vel
                 else:
-                    eq_days = 999  # effectively never without flow
+                    eq_days = 9999  # effectively never without flow
                 
                 if prot_vel > 0.1 and flow_vel >= 0:
                     eq_cat = 'fast'
@@ -305,10 +305,10 @@ def compute_ranking():
                     eq_label = 'Stuck'
             else:
                 # Above equilibrium, no chain buys (prot_vel = 0 effectively)
-                eq_days = 999
+                eq_days = 9999
                 if flow_vel < -0.1:
                     # Days to eq from flow alone
-                    eq_days = distance_pct / abs(flow_vel) if abs(flow_vel) > 0.01 else 999
+                    eq_days = distance_pct / abs(flow_vel) if abs(flow_vel) > 0.01 else 9999
                     eq_cat = 'correcting'
                     eq_label = '↓Corr'
                 elif flow_vel > 0.1:
@@ -318,8 +318,8 @@ def compute_ranking():
                     eq_cat = 'floating'
                     eq_label = 'Float'
             
-            # Cap display at 999
-            eq_days = min(999, round(eq_days))
+            # Cap display at 9999 — above that shows ∞
+            eq_days = min(9999, round(eq_days))
             
             # Compute scores
             miner_burn_pct = health_data.get(netuid, {}).get('miner_burn_pct', 0)

@@ -319,7 +319,7 @@ function render() {
         <td>${r.cb_vs_pool > 0 ? r.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>
         <td>${r.health_score > 0 ? `<span class="concept-link" onclick="showHealth(${r.netuid})">${r.health_score.toFixed(0)}</span>` : '<span class="dim">—</span>'}</td>
-        <td><span class="eqvel-link ${eqVelClass(r.eq_vel_cat)}" onclick="showEqVel(${r.netuid})">${r.eq_vel_label}${r.eq_days > 0 && r.eq_days < 999 ? ' ' + r.eq_days + 'd' : ''}</span></td>
+        <td><span class="eqvel-link ${eqVelClass(r.eq_vel_cat)}" onclick="showEqVel(${r.netuid})">${r.eq_vel_label}${r.eq_days > 0 && r.eq_days < 9999 ? ' ' + r.eq_days + 'd' : ''}</span></td>
         <td><span class="verdict ${vClass[r.verdict]}">${r.verdict}</span></td>
       </tr>
     `;
@@ -475,7 +475,7 @@ function showEqVel(netuid) {
   const cb = r.cb_vs_pool || 0;
   const cat = r.eq_vel_cat;
   const label = r.eq_vel_label;
-  const eqDays = r.eq_days || 999;
+  const eqDays = r.eq_days || 9999;
   const burn = r.miner_burn_pct || 0;
 
   const below = dist < 0;
@@ -519,7 +519,7 @@ function showEqVel(netuid) {
   document.getElementById('modalContent').innerHTML = `
     <span class="modal-close" onclick="closeModal()">&times;</span>
     <div class="modal-title">SN${r.netuid} — ${r.name}</div>
-    <div class="modal-verdict">Equilibrium Velocity: <span class="eqvel-link ${eqVelClass(cat)}">${label}${eqDays > 0 && eqDays < 999 ? ' ' + eqDays + 'd' : ''}</span></div>
+    <div class="modal-verdict">Equilibrium Velocity: <span class="eqvel-link ${eqVelClass(cat)}">${label}${eqDays > 0 && eqDays < 9999 ? ' ' + eqDays + 'd' : ''}</span></div>
     <div class="modal-summary">${explanation}</div>
     ${warning ? `<div class="modal-summary" style="color:var(--yellow)">${warning}</div>` : ''}
     ${burn > 10 && below ? `<div class="modal-summary" style="color:var(--yellow)">Miner burn ${burn.toFixed(1)}%: protocol velocity reduced from ${protVelRaw.toFixed(2)}% to ${protVel.toFixed(2)}%/day. Chain buy support is ${burn > 50 ? 'minimal' : 'reduced'} — convergence depends heavily on flow.</div>` : ''}
@@ -545,9 +545,9 @@ function showEqVel(netuid) {
     <div class="modal-dim">
       <div class="modal-dim-header">
         <span class="modal-dim-name">Days to Equilibrium (no flow)</span>
-        <span class="modal-dim-score ${eqDays < 100 ? 'pos' : eqDays < 500 ? '' : 'neg'}">${eqDays >= 999 ? '∞' : eqDays + 'd'}</span>
+        <span class="modal-dim-score ${eqDays < 100 ? 'pos' : eqDays < 1000 ? '' : 'neg'}">${eqDays >= 9999 ? '∞' : eqDays + 'd'}</span>
       </div>
-      <div class="modal-dim-reason">${eqDays >= 999 ? 'Protocol alone cannot reach equilibrium — needs flow or emissions change.' : `At ${protVel.toFixed(2)}%/day (burn-adjusted), price reaches equilibrium in ~${eqDays} days without any external flow.`}</div>
+      <div class="modal-dim-reason">${eqDays >= 9999 ? 'Protocol alone cannot reach equilibrium — needs flow or emissions change.' : `At ${protVel.toFixed(2)}%/day (burn-adjusted), price reaches equilibrium in ~${eqDays} days without any external flow.`}</div>
     </div>
 
     <div class="modal-dim">
