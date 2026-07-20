@@ -176,6 +176,9 @@ def detect_signals(current, previous):
 def run_detector():
     """Main: collect snapshot, compare to previous, output signals."""
     os.makedirs('data', exist_ok=True)
+    
+    sub = bt.Subtensor(network='finney')
+    module = bt.storage.SubtensorModule
 
     # Collect current
     current = collect_snapshot()
@@ -202,14 +205,43 @@ def run_detector():
     current_swaps = set(current.get('coldkey_swaps', []))
     prev_swaps = set(previous.get('coldkey_swaps', []))
     new_swaps = current_swaps - prev_swaps
+    
+    # Get subnet owners to identify which subnets are affected
+    subnet_owners = {}
+    try:
+        for netuid_str in current['subnets']:
+            netuid = int(netuid_str)
+            owner = sub.query(module.SubnetOwner, params=[netuid])
+            if owner:
+                subnet_owners[str(owner)] = netuid
+    except:
+        pass
+    
     for coldkey in new_swaps:
-        signals.append({
-            'type': 'COLDKEY_SWAP',
-            'netuid': 0,
-            'name': coldkey[:10] + '...' + coldkey[-6:],
-            'severity': 'HIGH',
-            'message': f"🔑 COLDKEY SWAP ANNOUNCED: {coldkey[:10]}...{coldkey[-6:]}\n   A wallet is rotating their coldkey. Could be security, subnet sale, or ownership transfer.",
-        })
+        # Check if this coldkey owns a subnet
+        affected_subnets = []
+        for owner_key, netuid in subnet_owners.items():
+            if owner_key == coldkey:
+                name = current['subnets'].get(str(netuid), {}).get('name', f'SN{netuid}')
+                affected_subnets.append(f"SN{netuid} ({name})")
+        
+        if affected_subnets:
+            signals.append({
+                'type': 'COLDKEY_SWAP',
+                'netuid': 0,
+                'name': coldkey[:10] + '...' + coldkey[-6:],
+                'severity': 'HIGH',
+                'message': f"🔑 SUBNET OWNER COLDKEY SWAP: {coldkey[:10]}...{coldkey[-6:]}\n   OWNS: {', '.join(affected_subnets)}\n   Subnet owner rotating keys. Could be security, sale, or ownership transfer.",
+            })
+        else:
+            # Not a subnet owner — lower priority
+            signals.append({
+                'type': 'COLDKEY_SWAP',
+                'netuid': 0,
+                'name': coldkey[:10] + '...' + coldkey[-6:],
+                'severity': 'LOW',
+                'message': f"🔑 Coldkey swap: {coldkey[:10]}...{coldkey[-6:]}\n   Not a subnet owner. Likely security rotation.",
+            })
 
     # Save signals to history
     if signals:
