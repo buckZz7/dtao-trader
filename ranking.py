@@ -27,19 +27,19 @@ def normalize(value, min_val, max_val):
 
 def score_valuation(distance_pct, emission_enabled, miner_burn_pct=0):
     """Score based on distance from equilibrium price.
-    STRONGEST predictor (r=+0.653 7d). Weight: 35 pts.
+    STRONGEST predictor (r=+0.661 7d). Weight: 35 pts.
     
-    Equilibrium now uses the burn-aware formula (spec 431), so distance_pct
-    already accounts for miner burn. No additional discount needed here.
+    Uses naive equilibrium (no burn weighting) — backtest proved this is
+    more predictive than the burn-aware formula. Miner burn is tracked
+    separately as a standalone signal, not baked into valuation.
     Emission-off subnets still get scored — re-enablement is a catalyst.
     """
     if not emission_enabled:
-        # Still score but at reduced weight — emissions could return
         if distance_pct <= 0:
             score = 8.75 + normalize(-distance_pct, 0, 35) * 8.75
         else:
             score = 8.75 - normalize(distance_pct, 0, 100) * 8.75
-        return max(0, min(17.5, score))  # Half weight if emissions off
+        return max(0, min(17.5, score))
     
     if distance_pct <= 0:
         score = 17.5 + normalize(-distance_pct, 0, 35) * 17.5
@@ -209,24 +209,11 @@ def compute_ranking():
         pass
     
     # Compute sum of prices for equilibrium calculation
-    # Spec 431: share_i = EMA_price_i * (1 - miner_burned_i) / sum(all)
-    # We use spot as proxy for EMA. The burn-weighted sum accounts for
-    # miner burn reducing each subnet's effective emission weight.
-    # Load burn data first (needed for the weighted sum)
-    burn_by_netuid = {}
-    for netuid_str in all_prices:
-        netuid = int(netuid_str)
-        if netuid == 0:
-            continue
-        burn_pct = health_data.get(netuid, {}).get('miner_burn_pct', 0) / 100
-        burn_by_netuid[netuid] = burn_pct
-    
-    # Sum of spot * (1 - burn) across all subnets
-    sum_prices_weighted = sum(
-        float(v) * (1 - burn_by_netuid.get(int(k), 0))
-        for k, v in all_prices.items()
-        if float(v) > 0 and int(k) != 0
-    )
+    # Note: The chain uses burn-weighted sum (spec 431), but backtest showed
+    # the naive sum (no burn) has stronger price prediction (r=+0.661 vs +0.047).
+    # The market trades on naive equilibrium, not burn-adjusted.
+    # Miner burn is tracked separately as a standalone signal.
+    sum_prices = sum(float(v) for v in all_prices.values() if v > 0)
     
     rankings = []
     
@@ -247,13 +234,9 @@ def compute_ranking():
             rp_bits = rp_raw.get('bits', 0) if isinstance(rp_raw, dict) else int(rp_raw)
             root_prop = rp_bits / (2**32)
             
-            # Equilibrium price (spec 431 burn-aware formula)
-            # share_i = price * (1 - burn) / sum(price * (1 - burn))
-            # tao_emission = 0.5 * share_i
-            # equilibrium = tao_emission / root_prop
-            burn = burn_by_netuid.get(netuid, 0)
-            effective_price = spot_price * (1 - burn)
-            emission_rate = effective_price / sum_prices_weighted if sum_prices_weighted > 0 else 0
+            # Equilibrium price (naive — no burn weighting)
+            # Backtest proved naive formula is more predictive (r=+0.661 vs +0.047)
+            emission_rate = spot_price / sum_prices if sum_prices > 0 else 0
             tao_emission = 0.5 * emission_rate
             equilibrium = tao_emission / root_prop if root_prop > 0 else 0
             distance_pct = ((spot_price / equilibrium) - 1) * 100 if equilibrium > 0 else 0

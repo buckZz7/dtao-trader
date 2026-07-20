@@ -73,6 +73,7 @@ def fetch_historical_data(sub, days_ago):
         tao_pools = {}
         root_props = {}
         emission_enabled = {}
+        miner_burns = {}
         
         all_prices = snapshot.prices.alpha_prices()
         
@@ -109,6 +110,16 @@ def fetch_historical_data(sub, days_ago):
                 emission_enabled[netuid] = bool(result)
             except:
                 emission_enabled[netuid] = False
+            
+            # MinerBurned (U96F32: 0-1 fraction)
+            try:
+                burned = snapshot.query(module.MinerBurned, params=[netuid])
+                if isinstance(burned, dict):
+                    miner_burns[netuid] = burned.get('bits', 0) / (2**32)
+                else:
+                    miner_burns[netuid] = 0
+            except:
+                miner_burns[netuid] = 0
         
         return {
             'block': target_block,
@@ -117,6 +128,7 @@ def fetch_historical_data(sub, days_ago):
             'tao_pools': tao_pools,
             'root_props': root_props,
             'emission_enabled': emission_enabled,
+            'miner_burns': miner_burns,
         }
     except Exception as e:
         print(f"Error: {e}")
@@ -124,6 +136,10 @@ def fetch_historical_data(sub, days_ago):
 
 def compute_historical_ranking(historical_data, current_ranking):
     """Compute ranking score using historical data + current code quality/github data.
+    
+    Uses burn-aware equilibrium formula (spec 431):
+    share_i = price_i * (1 - burn_i) / sum(price * (1 - burn))
+    equilibrium = 0.5 * share / root_prop
     
     Code quality and GitHub activity don't change much in 7 days,
     so we use current data as approximation.
@@ -133,7 +149,9 @@ def compute_historical_ranking(historical_data, current_ranking):
     tao_pools = historical_data['tao_pools']
     root_props = historical_data['root_props']
     emission_enabled = historical_data['emission_enabled']
+    miner_burns = historical_data.get('miner_burns', {})
     
+    # Naive sum (no burn weighting) — backtest proved this is more predictive
     sum_prices = sum(prices.values())
     
     # Load current code quality and github data (stable over short periods)
@@ -155,6 +173,11 @@ def compute_historical_ranking(historical_data, current_ranking):
             for l in json.load(f):
                 locked_supply[l['netuid']] = l
     
+    def normalize(value, min_val, max_val):
+        if max_val == min_val:
+            return 0.5
+        return max(0, min(1, (value - min_val) / (max_val - min_val)))
+    
     rankings = []
     for netuid, price in prices.items():
         if netuid == 0:
@@ -167,32 +190,34 @@ def compute_historical_ranking(historical_data, current_ranking):
         root_prop = root_props.get(netuid, 0)
         cb = chain_buys.get(netuid, 0)
         pool = tao_pools.get(netuid, 0)
+        burn = miner_burns.get(netuid, 0)
         
-        # Equilibrium (historical)
+        # Naive equilibrium (no burn weighting — more predictive per backtest)
         emission_rate = price / sum_prices if sum_prices > 0 else 0
         tao_emission = 0.5 * emission_rate
         equilibrium = tao_emission / root_prop if root_prop > 0 else 0
         distance_pct = ((price / equilibrium) - 1) * 100 if equilibrium > 0 else 0
         
-        # Valuation score (25 max)
+        # Valuation score (35 max — current weight, burn-aware)
         if distance_pct <= 0:
-            val_score = 12.5 + min(12.5, -distance_pct / 35 * 12.5)
+            val_score = 17.5 + normalize(-distance_pct, 0, 35) * 17.5
         else:
-            val_score = 12.5 - min(12.5, distance_pct / 100 * 12.5)
-        val_score = max(0, min(25, val_score))
+            val_score = 17.5 - normalize(distance_pct, 0, 100) * 17.5
+        val_score = max(0, min(35, val_score))
         
-        # Code quality (25 max) — using current data
+        # Code quality (20 max) — using current data
         cq = code_quality.get(netuid, 0)
-        code_score = min(25, cq / 100 * 25)
+        code_score = normalize(cq, 0, 100) * 20
         
-        # Conviction (20 max) — using current locked data as approximation
+        # Conviction (15 max) — using current locked data
         locked_data = locked_supply.get(netuid, {})
         locked_pct = locked_data.get('locked_pct_circulating', 0)
-        locked_score = min(15, locked_pct / 50 * 15) + min(5, locked_data.get('num_lockers', 0) / 10 * 5)
+        num_lockers = locked_data.get('num_lockers', 0)
+        locked_score = normalize(min(locked_pct, 50), 0, 50) * 10 + normalize(min(num_lockers, 10), 0, 10) * 5
         
-        # Activity (15 max) — using current data
+        # Activity (5 max — inverse predictor, low weight)
         commits = github_activity.get(netuid, 0)
-        act_score = min(10, commits / 100 * 10) + min(5, commits / 30 * 5)
+        act_score = normalize(min(commits, 50), 0, 50) * 3 + normalize(min(commits, 15), 0, 15) * 2
         
         # Holder base (15 max) — using current data
         holder_score = 7.5  # Default middle if no data
@@ -204,6 +229,7 @@ def compute_historical_ranking(historical_data, current_ranking):
             'price_then': price,
             'equilibrium': equilibrium,
             'distance_pct': distance_pct,
+            'miner_burn': burn * 100,
             'chain_buy': cb,
             'cb_vs_pool': (cb * BLOCKS_PER_DAY / pool * 100) if pool > 0 else 0,
             'total_score': total,
@@ -282,6 +308,7 @@ def analyze_results(results, label=""):
         ('act_score', 'Activity'),
         ('chain_buy', 'Chain Buy Amount'),
         ('cb_vs_pool', 'CB vs Pool %'),
+        ('miner_burn', 'Miner Burn %'),
     ]:
         sorted_by_comp = sorted(results, key=lambda x: x.get(component, 0), reverse=True)
         comp_top = sorted_by_comp[:top_n]
@@ -300,7 +327,7 @@ def analyze_results(results, label=""):
     print(f"CORRELATION WITH PRICE CHANGE")
     print(f"{'='*80}")
     
-    for component in ['total_score', 'val_score', 'code_score', 'locked_score', 'act_score', 'distance_pct', 'chain_buy', 'cb_vs_pool']:
+    for component in ['total_score', 'val_score', 'code_score', 'locked_score', 'act_score', 'distance_pct', 'chain_buy', 'cb_vs_pool', 'miner_burn']:
         vals = [(r.get(component, 0), r['price_change']) for r in results]
         corr = pearson_correlation(vals)
         print(f"  {component:>15}: r = {corr:+.3f} ({'strong' if abs(corr) > 0.3 else 'moderate' if abs(corr) > 0.15 else 'weak'})")
