@@ -42,12 +42,19 @@ def collect_snapshot():
             excess_tao = int(sub.query(module.SubnetExcessTao, params=[netuid])) / 1e9
             tao_pool = int(sub.query(module.SubnetTAO, params=[netuid])) / 1e9
 
+            # Compute equilibrium for context
+            sum_prices_approx = sum(float(v) for v in all_prices.values() if v > 0)
+            emission_rate = float(price) / sum_prices_approx if sum_prices_approx > 0 else 0
+            tao_emission = 0.5 * emission_rate
+            equilibrium = tao_emission / root_prop if root_prop > 0 else 0
+
             snapshot['subnets'][netuid] = {
                 'name': name,
                 'price': float(price),
                 'emission_enabled': emission_enabled,
                 'excess_tao': excess_tao,
                 'tao_pool': tao_pool,
+                'equilibrium': equilibrium,
             }
         except:
             pass
