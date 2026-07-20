@@ -232,7 +232,7 @@ def compute_ranking():
             s_concept = score_concept(concept_scores.get(netuid, {}))
             s_flow = score_flow(flow_cache.get(netuid, {}))
             
-            total_score = s_valuation + s_code + s_conviction + s_holders + s_activity + s_concept + s_flow
+            total_score = (s_valuation + s_code + s_conviction + s_holders + s_activity + s_concept + s_flow) / 110 * 100
             
             # Verdict
             if not emission_enabled:
