@@ -71,9 +71,11 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 .v-strong { background: #162316; color: var(--green); }
 .v-buy { background: #1a2316; color: #84cc16; }
 .v-fair { background: #231f16; color: var(--yellow); }
-.v-avoid { background: #231616; color: #f97316; }
+.v-avoid { background: #231616; color: var(--orange); }
 .v-risky { background: #231616; color: var(--red); }
-.v-dead { background: #1a1a1a; color: var(--dim); }
+.v-watch { background: #161a23; color: var(--blue); }
+.v-pending { background: #1a1a1a; color: var(--dim); }
+.v-inactive { background: #161616; color: var(--dim); }
 .pos { color: var(--green); }
 .neg { color: var(--red); }
 .dim { color: var(--dim); }
@@ -154,13 +156,15 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 <div class="controls">
   <input type="text" id="search" placeholder="Search subnets..." oninput="render()">
   <select id="filter" onchange="render()">
-    <option value="all">All subnets</option>
+    <option value="all">All</option>
     <option value="strong">Strong Buy</option>
     <option value="buy">Buy</option>
     <option value="fair">Fair</option>
     <option value="avoid">Avoid</option>
     <option value="risky">Risky</option>
-    <option value="dead">Dead (emission off)</option>
+    <option value="watch">Watch (emit off)</option>
+    <option value="pending">Pending</option>
+    <option value="inactive">Inactive</option>
   </select>
 </div>
 
@@ -237,15 +241,17 @@ function render() {
   const fair = rankings.filter(r => r.verdict === 'FAIR').length;
   const avoid = rankings.filter(r => r.verdict === 'AVOID').length;
   const risky = rankings.filter(r => r.verdict === 'RISKY').length;
-  const dead = rankings.filter(r => r.verdict === 'DEAD').length;
+  const watch = rankings.filter(r => r.verdict === 'WATCH (emit off)').length;
+  const inactive = rankings.filter(r => r.verdict === 'PENDING' || r.verdict === 'INACTIVE').length;
 
   document.getElementById('stats').innerHTML = `
     <div class="stat"><div class="stat-val pos">${strong}</div><div class="stat-label">Strong Buy</div></div>
-    <div class="stat"><div class="stat-val" style="color:#84cc16">${buy}</div><div class="stat-label">Buy</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--lime)">${buy}</div><div class="stat-label">Buy</div></div>
     <div class="stat"><div class="stat-val" style="color:var(--yellow)">${fair}</div><div class="stat-label">Fair</div></div>
-    <div class="stat"><div class="stat-val" style="color:#f97316">${avoid}</div><div class="stat-label">Avoid</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--orange)">${avoid}</div><div class="stat-label">Avoid</div></div>
     <div class="stat"><div class="stat-val neg">${risky}</div><div class="stat-label">Risky</div></div>
-    <div class="stat"><div class="stat-val dim">${dead}</div><div class="stat-label">Dead</div></div>
+    <div class="stat"><div class="stat-val" style="color:var(--blue)">${watch}</div><div class="stat-label">Watch (off)</div></div>
+    <div class="stat"><div class="stat-val dim">${inactive}</div><div class="stat-label">Inactive</div></div>
   `;
 
   const search = document.getElementById('search').value.toLowerCase();
@@ -258,7 +264,9 @@ function render() {
     if (filter === 'fair' && r.verdict !== 'FAIR') return false;
     if (filter === 'avoid' && r.verdict !== 'AVOID') return false;
     if (filter === 'risky' && r.verdict !== 'RISKY') return false;
-    if (filter === 'dead' && r.verdict !== 'DEAD') return false;
+    if (filter === 'watch' && r.verdict !== 'WATCH (emit off)') return false;
+    if (filter === 'pending' && r.verdict !== 'PENDING') return false;
+    if (filter === 'inactive' && r.verdict !== 'INACTIVE') return false;
     return true;
   });
 
@@ -269,7 +277,7 @@ function render() {
     return (va - vb) * sortDir;
   });
 
-  const vClass = { 'STRONG BUY': 'v-strong', 'BUY': 'v-buy', 'FAIR': 'v-fair', 'AVOID': 'v-avoid', 'RISKY': 'v-risky', 'DEAD': 'v-dead' };
+  const vClass = { 'STRONG BUY': 'v-strong', 'BUY': 'v-buy', 'FAIR': 'v-fair', 'AVOID': 'v-avoid', 'RISKY': 'v-risky', 'WATCH (emit off)': 'v-watch', 'PENDING': 'v-pending', 'INACTIVE': 'v-inactive' };
   
   const tbody = document.getElementById('tbody');
   tbody.innerHTML = rows.map(r => {

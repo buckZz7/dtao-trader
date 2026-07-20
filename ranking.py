@@ -28,9 +28,15 @@ def normalize(value, min_val, max_val):
 def score_valuation(distance_pct, emission_enabled):
     """Score based on distance from equilibrium price.
     STRONGEST predictor (r=0.525). Weight increased from 25 to 35.
+    Emission-off subnets still get scored — re-enablement is a catalyst.
     """
     if not emission_enabled:
-        return 0
+        # Still score but at reduced weight — emissions could return
+        if distance_pct <= 0:
+            score = 8.75 + normalize(-distance_pct, 0, 35) * 8.75
+        else:
+            score = 8.75 - normalize(distance_pct, 0, 100) * 8.75
+        return max(0, min(17.5, score))  # Half weight if emissions off
     
     if distance_pct <= 0:
         score = 17.5 + normalize(-distance_pct, 0, 35) * 17.5
@@ -250,7 +256,12 @@ def compute_ranking():
             
             # Verdict
             if not emission_enabled:
-                verdict = "DEAD"
+                if total_score >= 50:
+                    verdict = "WATCH (emit off)"
+                elif total_score >= 35:
+                    verdict = "PENDING"
+                else:
+                    verdict = "INACTIVE"
             elif total_score >= 65:
                 verdict = "STRONG BUY"
             elif total_score >= 50:
