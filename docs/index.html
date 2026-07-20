@@ -111,6 +111,9 @@ tr:hover { background: var(--card); }
       <th onclick="sortBy('cb_vs_pool')">CB vs Pool</th>
       <th onclick="sortBy('tao_pool')" class="hide-mobile">Pool TAO</th>
       <th onclick="sortBy('root_prop')" class="hide-mobile">RootProp</th>
+      <th onclick="sortBy('equilibrium')" class="hide-mobile">Equilibrium</th>
+      <th onclick="sortBy('distance_pct')" class="hide-mobile">Dist%</th>
+      <th onclick="sortBy('commits_30d')" class="hide-mobile">Commits 30d</th>
       <th>Status</th>
     </tr>
   </thead>
@@ -200,6 +203,9 @@ function render() {
         <td class="${cbClass}">${cbBar}${s.cb_vs_pool > 0 ? s.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
         <td class="hide-mobile">${s.tao_pool > 0 ? s.tao_pool.toFixed(0) : '—'}</td>
         <td class="hide-mobile">${(s.root_prop * 100).toFixed(1)}%</td>
+        <td class="hide-mobile">${s.equilibrium ? s.equilibrium.toFixed(6) : '—'}</td>
+        <td class="hide-mobile ${s.distance_pct < -20 ? 'pos' : s.distance_pct > 50 ? 'neg' : ''}">${s.distance_pct ? (s.distance_pct > 0 ? '+' : '') + s.distance_pct.toFixed(1) + '%' : '—'}</td>
+        <td class="hide-mobile">${s.commits_30d > 0 ? s.commits_30d : '—'}</td>
         <td><span class="badge ${s.emission_enabled ? 'badge-on' : 'badge-off'}">${s.emission_enabled ? 'ON' : 'OFF'}</span></td>
       </tr>
     `;

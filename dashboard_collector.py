@@ -45,6 +45,30 @@ def collect():
                 github = ''
                 description = ''
 
+            # Equilibrium price: tao_emission / root_prop
+            # (where chain buy stops)
+            sum_prices_approx = sum(float(v) for v in all_prices.values() if v > 0)
+            emission_rate = spot_price / sum_prices_approx if sum_prices_approx > 0 else 0
+            tao_emission = 0.5 * emission_rate
+            equilibrium = tao_emission / root_prop if root_prop > 0 else 0
+            distance_pct = ((spot_price / equilibrium) - 1) * 100 if equilibrium > 0 else 0
+
+            # Load GitHub activity if available
+            commits_30d = 0
+            commits_7d = 0
+            try:
+                import os as _os
+                if _os.path.exists('data/github_activity.json'):
+                    with open('data/github_activity.json') as f:
+                        gh = json.load(f)
+                    for g in gh:
+                        if g.get('netuid') == netuid:
+                            commits_30d = g.get('commits_30d', 0) or 0
+                            commits_7d = g.get('commits_7d', 0) or 0
+                            break
+            except:
+                pass
+
             cb_vs_pool = (daily_cb / tao_pool * 100) if tao_pool > 0 else 0
 
             data['subnets'].append({
@@ -60,6 +84,10 @@ def collect():
                 'cb_vs_pool': cb_vs_pool,
                 'github': github,
                 'description': description,
+                'equilibrium': equilibrium,
+                'distance_pct': distance_pct,
+                'commits_30d': commits_30d,
+                'commits_7d': commits_7d,
             })
         except:
             pass
