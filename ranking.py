@@ -249,6 +249,51 @@ def compute_ranking():
             locked_pct = locked_data.get('locked_pct_circulating', 0)
             num_lockers = locks_by_subnet.get(netuid, 0)
             
+            # Equilibrium velocity: how fast price moves toward equilibrium
+            # Protocol velocity = chain buys / pool * 2 (AMM) * float amplification
+            # Flow velocity = 7d net stake flow as % of pool (from flow_cache)
+            flow_vs_pool_raw = flow_cache.get(netuid, {}).get('flow_vs_pool', 0)
+            flow_vs_pool_capped = max(-50, min(50, flow_vs_pool_raw))
+            
+            float_ratio = max(0.1, 1 - locked_pct / 100)
+            amp = min(5, 1 / float_ratio)
+            prot_vel = cb_vs_pool * 2 * amp  # %/day upward (only when below eq)
+            flow_vel = flow_vs_pool_capped  # %/day (7d avg, capped)
+            
+            # Categorize
+            if abs(distance_pct) < 2:
+                eq_cat = 'at_eq'
+                eq_label = 'At Eq'
+            elif distance_pct < 0:
+                # Below equilibrium
+                if prot_vel > 0 and flow_vel >= 0:
+                    eq_cat = 'fast'
+                    eq_label = '↑Fast'
+                elif prot_vel > 0 and flow_vel < 0:
+                    if prot_vel > abs(flow_vel):
+                        eq_cat = 'slow'
+                        eq_label = '↑Slow'
+                    else:
+                        eq_cat = 'div'
+                        eq_label = '↓Div'
+                elif prot_vel == 0 and flow_vel > 0:
+                    eq_cat = 'flow_up'
+                    eq_label = '↑Flow'
+                else:
+                    eq_cat = 'stuck'
+                    eq_label = 'Stuck'
+            else:
+                # Above equilibrium, no chain buys
+                if flow_vel < -0.1:
+                    eq_cat = 'correcting'
+                    eq_label = '↓Corr'
+                elif flow_vel > 0.1:
+                    eq_cat = 'bubble'
+                    eq_label = 'Bubble'
+                else:
+                    eq_cat = 'floating'
+                    eq_label = 'Float'
+            
             # Compute scores
             s_valuation = score_valuation(distance_pct, emission_enabled)
             s_code = score_code_quality(code_quality.get(netuid, {}))
@@ -324,6 +369,11 @@ def compute_ranking():
                 'health_freshness_pts': health_data.get(netuid, {}).get('freshness_pts', 0),
                 'health_validator_pts': health_data.get(netuid, {}).get('validator_pts', 0),
                 'health_burn_pts': health_data.get(netuid, {}).get('burn_pts', 0),
+                'eq_vel_cat': eq_cat,
+                'eq_vel_label': eq_label,
+                'eq_prot_vel': round(prot_vel, 2),
+                'eq_flow_vel': round(flow_vel, 1),
+                'eq_amp': round(amp, 2),
                 'scores': {
                     'valuation': round(s_valuation, 1),
                     'code': round(s_code, 1),

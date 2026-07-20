@@ -124,6 +124,16 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 .modal-dim-score { font-family: var(--mono); font-size: 14px; font-weight: 700; }
 .modal-dim-reason { font-size: 12px; color: var(--dim); line-height: 1.4; }
 .concept-link { cursor: pointer; text-decoration: underline; }
+.eqvel-link { cursor: pointer; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; font-family: var(--font); }
+.ev-fast { background: #162316; color: var(--green); }
+.ev-slow { background: #1a2316; color: #84cc16; }
+.ev-div { background: #231616; color: var(--red); }
+.ev-stuck { background: #1a1a1a; color: var(--dim); }
+.ev-flow_up { background: #162316; color: var(--green); }
+.ev-bubble { background: #231616; color: var(--red); }
+.ev-correcting { background: #231f16; color: var(--yellow); }
+.ev-floating { background: #1a1a1a; color: var(--dim); }
+.ev-at_eq { background: #1a1a1a; color: var(--dim); }
 @media (max-width: 768px) {
   body { padding: 8px; font-size: 12px; }
   .stats { grid-template-columns: repeat(2, 1fr); }
@@ -189,6 +199,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
       <th onclick="sortBy('cb_vs_pool')">CB%</th>
       <th class="hide-mobile" onclick="sortBy('commits_30d')">C30d</th>
       <th onclick="sortBy('health_score')">Health</th>
+      <th onclick="sortBy('eq_vel_cat')">EqVel</th>
       <th>Verdict</th>
     </tr>
   </thead>
@@ -198,7 +209,8 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 
 <div class="footer">
   Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) → normalized to 100<br>
-  Health = Active Miners(40) + Freshness(30) + Validators(20) + Reg Demand(10)
+  Health = Active Miners(40) + Freshness(30) + Validators(20) + Reg Demand(10)<br>
+  EqVel = Protocol velocity (chain buys × AMM × float amp) vs flow velocity (7d net stake flow vs pool)
 </div>
 
 <div class="modal-overlay" id="conceptModal" onclick="if(event.target===this)closeModal()">
@@ -307,6 +319,7 @@ function render() {
         <td>${r.cb_vs_pool > 0 ? r.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>
         <td>${r.health_score > 0 ? `<span class="concept-link" onclick="showHealth(${r.netuid})">${r.health_score.toFixed(0)}</span>` : '<span class="dim">—</span>'}</td>
+        <td><span class="eqvel-link ${eqVelClass(r.eq_vel_cat)}" onclick="showEqVel(${r.netuid})">${r.eq_vel_label}</span></td>
         <td><span class="verdict ${vClass[r.verdict]}">${r.verdict}</span></td>
       </tr>
     `;
@@ -436,6 +449,110 @@ function showHealth(netuid) {
       </div>
       <div class="modal-dim-reason">${burn.toFixed(3)} TAO registration burn. ${burn > 10 ? 'Frenzied demand, miners paying heavily to register.' : burn > 3 ? 'Active registration demand, miners want in.' : burn > 0.5 ? 'Moderate interest, some miners registering.' : burn > 0 ? 'Low demand, registrations are cheap.' : 'No recent registrations, registration is free or disabled.'}</div>
       ${bar(burnPts, 10, '#f97316')}
+    </div>
+  `;
+  document.getElementById('conceptModal').classList.add('active');
+}
+
+function eqVelClass(cat) {
+  return { 'fast': 'ev-fast', 'slow': 'ev-slow', 'div': 'ev-div', 'stuck': 'ev-stuck',
+    'flow_up': 'ev-flow_up', 'bubble': 'ev-bubble', 'correcting': 'ev-correcting',
+    'floating': 'ev-floating', 'at_eq': 'ev-at_eq' }[cat] || 'ev-floating';
+}
+
+function showEqVel(netuid) {
+  if (!data) return;
+  const r = data.rankings.find(x => x.netuid === netuid);
+  if (!r) return;
+
+  const dist = r.distance_pct || 0;
+  const protVel = r.eq_prot_vel || 0;
+  const flowVel = r.eq_flow_vel || 0;
+  const amp = r.eq_amp || 1;
+  const locked = r.locked_pct || 0;
+  const pool = r.tao_pool || 0;
+  const cb = r.cb_vs_pool || 0;
+  const cat = r.eq_vel_cat;
+  const label = r.eq_vel_label;
+
+  const below = dist < 0;
+
+  // Build explanation based on category
+  let explanation = '';
+  let warning = '';
+  if (cat === 'fast') {
+    explanation = `Below equilibrium by ${Math.abs(dist).toFixed(1)}%. Chain buys (${protVel.toFixed(2)}%/day) and net inflow (${flowVel.toFixed(1)}%/day) both pushing price up.`;
+  } else if (cat === 'slow') {
+    explanation = `Below equilibrium by ${Math.abs(dist).toFixed(1)}%. Chain buys (${protVel.toFixed(2)}%/day) are stronger than outflow (${Math.abs(flowVel).toFixed(1)}%/day), so price is slowly converging.`;
+    warning = 'Net outflow is dragging against protocol pressure. If outflow accelerates, convergence stalls.';
+  } else if (cat === 'div') {
+    explanation = `Below equilibrium by ${Math.abs(dist).toFixed(1)}%, but net outflow (${Math.abs(flowVel).toFixed(1)}%/day) exceeds chain buy pressure (${protVel.toFixed(2)}%/day). Price is falling despite looking undervalued.`;
+    warning = 'Capital is leaving. Valuation score says cheap, but money is voting with its feet. Wait for flow to stabilize before entering.';
+  } else if (cat === 'stuck') {
+    explanation = `Below equilibrium by ${Math.abs(dist).toFixed(1)}%. No chain buys (excess TAO = 0) and no net inflow. Nothing is forcing price toward equilibrium.`;
+    warning = 'Undervalued on paper but no mechanism to close the gap. Could stay cheap indefinitely.';
+  } else if (cat === 'flow_up') {
+    explanation = `Below equilibrium by ${Math.abs(dist).toFixed(1)}%. No chain buys, but net inflow (${flowVel.toFixed(1)}%/day) is pushing price up on its own.`;
+    warning = 'Convergence depends entirely on continued inflow. If flow reverses, no protocol floor to catch the price.';
+  } else if (cat === 'bubble') {
+    explanation = `Above equilibrium by ${dist.toFixed(1)}%. No chain buys (price already too high), and net inflow (${flowVel.toFixed(1)}%/day) is pushing price further up.`;
+    warning = 'Overvalued AND money is still flowing in. This is a bubble. The higher it goes, the harder it falls when flow reverses.';
+  } else if (cat === 'correcting') {
+    explanation = `Above equilibrium by ${dist.toFixed(1)}%. No chain buys. Net outflow (${Math.abs(flowVel).toFixed(1)}%/day) is pulling price back toward equilibrium.`;
+    warning = 'Correction in progress but no protocol force — it can reverse if inflow returns.';
+  } else if (cat === 'floating') {
+    explanation = `Above equilibrium by ${dist.toFixed(1)}%. No chain buys, no significant flow in either direction. Price is floating with no pressure.`;
+    warning = 'Overvalued but stuck. No natural force to bring it back down.';
+  } else {
+    explanation = `Price is near equilibrium (${dist.toFixed(1)}%). Little directional pressure.`;
+  }
+
+  const bar = (v, max, color) => `<div style="background:var(--border);height:4px;border-radius:2px;margin-top:4px;overflow:hidden"><div style="width:${Math.min(100, Math.abs(v)/max*100)}%;height:100%;background:${color}"></div></div>`;
+
+  // Direction arrows
+  const protDir = below && protVel > 0 ? '↑' : '—';
+  const flowDir = flowVel > 0.1 ? '↑' : flowVel < -0.1 ? '↓' : '—';
+
+  document.getElementById('modalContent').innerHTML = `
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-title">SN${r.netuid} — ${r.name}</div>
+    <div class="modal-verdict">Equilibrium Velocity: <span class="eqvel-link ${eqVelClass(cat)}">${label}</span></div>
+    <div class="modal-summary">${explanation}</div>
+    ${warning ? `<div class="modal-summary" style="color:var(--yellow)">${warning}</div>` : ''}
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Distance from Equilibrium</span>
+        <span class="modal-dim-score ${dist < -20 ? 'pos' : dist > 50 ? 'neg' : ''}">${dist > 0 ? '+' : ''}${dist.toFixed(1)}%</span>
+      </div>
+      <div class="modal-dim-reason">Spot price ${r.price.toFixed(5)} vs equilibrium ${r.equilibrium.toFixed(5)}. ${below ? 'Undervalued by chain measure.' : 'Overvalued by chain measure.'}</div>
+      ${bar(Math.abs(dist), 100, dist < 0 ? 'var(--green)' : 'var(--red)')}
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Protocol Velocity ${protDir}</span>
+        <span class="modal-dim-score ${protVel > 0.3 ? 'pos' : ''}">${protVel.toFixed(2)}%/day</span>
+      </div>
+      <div class="modal-dim-reason">Chain buys: ${cb.toFixed(2)}% of pool/day. AMM impact (2x) with locked float amplification (${amp.toFixed(1)}x from ${locked.toFixed(1)}% locked). Only active when price is below equilibrium.</div>
+      ${bar(protVel, 5, 'var(--blue)')}
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Flow Velocity ${flowDir}</span>
+        <span class="modal-dim-score ${flowVel > 1 ? 'pos' : flowVel < -1 ? 'neg' : ''}">${flowVel > 0 ? '+' : ''}${flowVel.toFixed(1)}%/day</span>
+      </div>
+      <div class="modal-dim-reason">7-day net stake flow as % of pool (capped at ±50%). External capital movement. ${flowVel > 1 ? 'Net inflow — capital entering.' : flowVel < -1 ? 'Net outflow — capital leaving.' : 'Minimal flow.'}</div>
+      ${bar(Math.abs(flowVel), 50, flowVel >= 0 ? 'var(--green)' : 'var(--red)')}
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Float Amplification</span>
+        <span class="modal-dim-score">${amp.toFixed(2)}x</span>
+      </div>
+      <div class="modal-dim-reason">${locked.toFixed(1)}% of circulating supply locked in conviction. Less float = same buy pressure moves price further. Pool: ${pool.toFixed(0)} TAO.</div>
     </div>
   `;
   document.getElementById('conceptModal').classList.add('active');
