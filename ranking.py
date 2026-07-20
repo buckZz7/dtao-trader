@@ -180,6 +180,14 @@ def compute_ranking():
             for l in json.load(f):
                 locked_supply[l['netuid']] = l
     
+    # Load subnet health data (from health_scanner.py)
+    health_data = {}
+    if os.path.exists('data/subnet_health.json'):
+        with open('data/subnet_health.json') as f:
+            health_raw = json.load(f)
+            for h in health_raw.get('results', []):
+                health_data[h['netuid']] = h
+
     # Get all conviction locks for locker count
     locks_by_subnet = defaultdict(int)
     try:
@@ -303,6 +311,15 @@ def compute_ranking():
                 'concept_execution_reason': concept_scores.get(netuid, {}).get('execution_reasoning', ''),
                 'flow_vs_pool': flow_cache.get(netuid, {}).get('flow_vs_pool', 0),
                 'net_flow': flow_cache.get(netuid, {}).get('net_flow', 0),
+                'health_score': round(health_data.get(netuid, {}).get('health_score', 0), 1),
+                'health_active': health_data.get(netuid, {}).get('active_neurons', 0),
+                'health_total_neurons': health_data.get(netuid, {}).get('total_neurons', 0),
+                'health_validators': health_data.get(netuid, {}).get('validators', 0),
+                'health_staked': health_data.get(netuid, {}).get('staked_neurons', 0),
+                'health_freshness': health_data.get(netuid, {}).get('freshness_rate', 0),
+                'health_activity_rate': health_data.get(netuid, {}).get('activity_rate', 0),
+                'health_stale': health_data.get(netuid, {}).get('stale_neurons', 0),
+                'health_burn': health_data.get(netuid, {}).get('miner_burn_pct', 0),
                 'scores': {
                     'valuation': round(s_valuation, 1),
                     'code': round(s_code, 1),

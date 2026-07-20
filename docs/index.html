@@ -187,7 +187,8 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
       <th onclick="sortBy('flow_vs_pool')">Flow%</th>
       <th onclick="sortBy('locked_pct')">Locked%</th>
       <th onclick="sortBy('cb_vs_pool')">CB%</th>
-      <th onclick="sortBy('commits_30d')" class="hide-mobile">C30d</th>
+      <th class="hide-mobile" onclick="sortBy('commits_30d')">C30d</th>
+      <th onclick="sortBy('health_score')">Health</th>
       <th>Verdict</th>
     </tr>
   </thead>
@@ -196,7 +197,8 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 </div>
 
 <div class="footer">
-  Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) → normalized to 100
+  Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) → normalized to 100<br>
+  Health = Active Miners(40) + Freshness(30) + Validators(20) + Miner Burn(10)
 </div>
 
 <div class="modal-overlay" id="conceptModal" onclick="if(event.target===this)closeModal()">
@@ -304,6 +306,7 @@ function render() {
         <td class="${r.locked_pct > 20 ? 'pos' : ''}">${r.locked_pct > 0 ? r.locked_pct.toFixed(1) + '%' : '—'}</td>
         <td>${r.cb_vs_pool > 0 ? r.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>
+        <td>${r.health_score > 0 ? `<span class="concept-link" onclick="showHealth(${r.netuid})">${r.health_score.toFixed(0)}</span>` : '<span class="dim">—</span>'}</td>
         <td><span class="verdict ${vClass[r.verdict]}">${r.verdict}</span></td>
       </tr>
     `;
@@ -364,6 +367,77 @@ function showConcept(netuid) {
 
 function closeModal() {
   document.getElementById('conceptModal').classList.remove('active');
+}
+
+function showHealth(netuid) {
+  if (!data) return;
+  const r = data.rankings.find(x => x.netuid === netuid);
+  if (!r) return;
+
+  const hs = r.health_score || 0;
+  const active = r.health_active || 0;
+  const total = r.health_total_neurons || 0;
+  const vals = r.health_validators || 0;
+  const staked = r.health_staked || 0;
+  const fresh = r.health_freshness || 0;
+  const stale = r.health_stale || 0;
+  const burn = r.health_burn || 0;
+  const actRate = r.health_activity_rate || 0;
+
+  // Score components (max: activity 40 + freshness 30 + validators 20 + burn 10)
+  const actPts = Math.min(40, (actRate / 100) * 40);
+  const freshPts = Math.min(30, (fresh / 100) * 30);
+  const valPts = Math.min(20, (vals / 10) * 20);
+  const burnPts = Math.min(10, burn * 10);
+
+  const hc = hs >= 50 ? 'pos' : hs >= 30 ? '' : 'neg';
+  const sc = (v, max) => v >= max * 0.7 ? 'pos' : v <= max * 0.3 ? 'neg' : '';
+
+  const bar = (v, max, color) => `<div style="background:var(--border);height:4px;border-radius:2px;margin-top:4px;overflow:hidden"><div style="width:${Math.min(100, v/max*100)}%;height:100%;background:${color}"></div></div>`;
+
+  document.getElementById('modalContent').innerHTML = `
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-title">SN${r.netuid} — ${r.name}</div>
+    <div class="modal-verdict">On-Chain Health: <span class="modal-dim-score ${hc}">${hs.toFixed(1)}/100</span></div>
+    <div class="modal-summary">Measures whether the subnet is actually alive on-chain: active miners, validator participation, freshness of updates, and miner burn commitment.</div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Active Miners</span>
+        <span class="modal-dim-score ${sc(actPts, 40)}">${actPts.toFixed(0)}/40</span>
+      </div>
+      <div class="modal-dim-reason">${active} of ${total} registered neurons are actively serving (${actRate.toFixed(0)}% activity rate). ${actRate > 50 ? 'Healthy participation.' : actRate > 20 ? 'Moderate participation.' : 'Low participation, many slots unused.'}</div>
+      ${bar(actPts, 40, 'var(--green)')}
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Freshness</span>
+        <span class="modal-dim-score ${sc(freshPts, 30)}">${freshPts.toFixed(0)}/30</span>
+      </div>
+      <div class="modal-dim-reason">${fresh.toFixed(0)}% of neurons updated within the last ~2 hours. ${stale} stale neurons (>1000 blocks since last update). ${fresh > 50 ? 'Network is responsive.' : fresh > 20 ? 'Some staleness.' : 'Many neurons are stale or dead weight.'}</div>
+      ${bar(freshPts, 30, 'var(--blue)')}
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Validators</span>
+        <span class="modal-dim-score ${sc(valPts, 20)}">${valPts.toFixed(0)}/20</span>
+      </div>
+      <div class="modal-dim-reason">${vals} validators with permits. ${staked} neurons have stake. ${vals >= 5 ? 'Decent validator set.' : vals >= 2 ? 'Thin validator set.' : 'Minimal or no validation.'}</div>
+      ${bar(valPts, 20, 'var(--yellow)')}
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Miner Burn</span>
+        <span class="modal-dim-score ${sc(burnPts, 10)}">${burnPts.toFixed(0)}/10</span>
+      </div>
+      <div class="modal-dim-reason">${burn.toFixed(3)}% burn rate. ${burn > 1 ? 'Miners are paying to participate (commitment signal).' : burn > 0 ? 'Low burn, minimal commitment cost.' : 'No burn required, free to participate.'}</div>
+      ${bar(burnPts, 10, '#f97316')}
+    </div>
+  `;
+  document.getElementById('conceptModal').classList.add('active');
 }
 </script>
 </body>
