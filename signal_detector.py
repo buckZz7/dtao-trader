@@ -233,15 +233,7 @@ def run_detector():
                 'severity': 'HIGH',
                 'message': f"🔑 SUBNET OWNER COLDKEY SWAP: {coldkey[:10]}...{coldkey[-6:]}\n   OWNS: {', '.join(affected_subnets)}\n   Subnet owner rotating keys. Could be security, sale, or ownership transfer.",
             })
-        else:
-            # Not a subnet owner — lower priority
-            signals.append({
-                'type': 'COLDKEY_SWAP',
-                'netuid': 0,
-                'name': coldkey[:10] + '...' + coldkey[-6:],
-                'severity': 'LOW',
-                'message': f"🔑 Coldkey swap: {coldkey[:10]}...{coldkey[-6:]}\n   Not a subnet owner. Likely security rotation.",
-            })
+        # Skip non-owner coldkey swaps — not actionable
 
     # Save signals to history
     if signals:
