@@ -85,12 +85,21 @@ def scan_health():
             
             # Health score (0-100)
             # Active miners matter most (40 pts)
-            # Freshness second (30 pts)  
+            # Freshness second (30 pts)
             # Validators with stake (20 pts)
             # Registration demand — log scale (10 pts)
+            #
+            # Emission-off subnets: active miners are mostly super-delegators
+            # parked for optionality, not real participation. Discount activity
+            # and freshness to 50% weight. Reg demand becomes the key signal
+            # (is anyone willing to pay NEW TAO to join?).
 
-            activity_score = min(40, (activity_rate / 100) * 40)
-            freshness_score = min(30, (freshness_rate / 100) * 30)
+            if not emission_enabled:
+                activity_score = min(40, (activity_rate / 100) * 40) * 0.5
+                freshness_score = min(30, (freshness_rate / 100) * 30) * 0.5
+            else:
+                activity_score = min(40, (activity_rate / 100) * 40)
+                freshness_score = min(30, (freshness_rate / 100) * 30)
             validator_score = min(20, (validators / 10) * 20)
             # Registration burn price = miner demand proxy
             # 0 = no registrations (no demand), 5+ TAO = active demand, 50+ = frenzy
@@ -99,14 +108,18 @@ def scan_health():
             else:
                 burn_score = 0
             burn_score = max(0, burn_score)
-            
+
             health_score = activity_score + freshness_score + validator_score + burn_score
-            
+
             results.append({
                 'netuid': netuid,
                 'name': name,
                 'price': float(price),
                 'emission_enabled': emission_enabled,
+                'activity_pts': round(activity_score, 1),
+                'freshness_pts': round(freshness_score, 1),
+                'validator_pts': round(validator_score, 1),
+                'burn_pts': round(burn_score, 1),
                 'total_neurons': total_neurons,
                 'active_neurons': active_neurons,
                 'validators': validators,

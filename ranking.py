@@ -320,6 +320,10 @@ def compute_ranking():
                 'health_activity_rate': health_data.get(netuid, {}).get('activity_rate', 0),
                 'health_stale': health_data.get(netuid, {}).get('stale_neurons', 0),
                 'health_burn': health_data.get(netuid, {}).get('reg_burn_tao', 0),
+                'health_activity_pts': health_data.get(netuid, {}).get('activity_pts', 0),
+                'health_freshness_pts': health_data.get(netuid, {}).get('freshness_pts', 0),
+                'health_validator_pts': health_data.get(netuid, {}).get('validator_pts', 0),
+                'health_burn_pts': health_data.get(netuid, {}).get('burn_pts', 0),
                 'scores': {
                     'valuation': round(s_valuation, 1),
                     'code': round(s_code, 1),

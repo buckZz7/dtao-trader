@@ -383,13 +383,13 @@ function showHealth(netuid) {
   const stale = r.health_stale || 0;
   const burn = r.health_burn || 0;  // registration burn price in TAO
   const actRate = r.health_activity_rate || 0;
+  const emitOff = !r.emission_enabled;
 
-  // Score components (max: activity 40 + freshness 30 + validators 20 + reg demand 10)
-  const actPts = Math.min(40, (actRate / 100) * 40);
-  const freshPts = Math.min(30, (fresh / 100) * 30);
-  const valPts = Math.min(20, (vals / 10) * 20);
-  // Log scale: 0 TAO = 0, 0.5 = ~5.7, 5 = ~9, 10+ = 10
-  const burnPts = burn > 0 ? Math.min(10, Math.log10(burn * 100) / Math.log10(1000) * 10) : 0;
+  // Pre-computed pts from health_scanner (already includes emission-off discount)
+  const actPts = r.health_activity_pts || 0;
+  const freshPts = r.health_freshness_pts || 0;
+  const valPts = r.health_validator_pts || 0;
+  const burnPts = r.health_burn_pts || 0;
 
   const hc = hs >= 50 ? 'pos' : hs >= 30 ? '' : 'neg';
   const sc = (v, max) => v >= max * 0.7 ? 'pos' : v <= max * 0.3 ? 'neg' : '';
@@ -400,20 +400,20 @@ function showHealth(netuid) {
     <span class="modal-close" onclick="closeModal()">&times;</span>
     <div class="modal-title">SN${r.netuid} — ${r.name}</div>
     <div class="modal-verdict">On-Chain Health: <span class="modal-dim-score ${hc}">${hs.toFixed(1)}/100</span></div>
-    <div class="modal-summary">Measures whether the subnet is actually alive on-chain: active miners, validator participation, freshness of updates, and registration demand (miners willing to pay to join).</div>
+    <div class="modal-summary">Measures whether the subnet is actually alive on-chain: active miners, validator participation, freshness of updates, and registration demand (miners willing to pay to join).${emitOff ? '<br><span style="color:var(--yellow)">Emissions OFF: active miners are likely super-delegators parked for optionality, not real participation. Activity and freshness scores discounted 50%.</span>' : ''}</div>
 
     <div class="modal-dim">
       <div class="modal-dim-header">
-        <span class="modal-dim-name">Active Miners</span>
+        <span class="modal-dim-name">Active Miners${emitOff ? ' <span style="color:var(--dim);font-size:10px">(discounted)</span>' : ''}</span>
         <span class="modal-dim-score ${sc(actPts, 40)}">${actPts.toFixed(0)}/40</span>
       </div>
-      <div class="modal-dim-reason">${active} of ${total} registered neurons are actively serving (${actRate.toFixed(0)}% activity rate). ${actRate > 50 ? 'Healthy participation.' : actRate > 20 ? 'Moderate participation.' : 'Low participation, many slots unused.'}</div>
+      <div class="modal-dim-reason">${active} of ${total} registered neurons are actively serving (${actRate.toFixed(0)}% activity rate). ${emitOff ? 'Emission-off: most are super-delegators parked for re-enablement optionality, not committed participants. ' : ''}${actRate > 50 ? 'Healthy participation.' : actRate > 20 ? 'Moderate participation.' : 'Low participation, many slots unused.'}</div>
       ${bar(actPts, 40, 'var(--green)')}
     </div>
 
     <div class="modal-dim">
       <div class="modal-dim-header">
-        <span class="modal-dim-name">Freshness</span>
+        <span class="modal-dim-name">Freshness${emitOff ? ' <span style="color:var(--dim);font-size:10px">(discounted)</span>' : ''}</span>
         <span class="modal-dim-score ${sc(freshPts, 30)}">${freshPts.toFixed(0)}/30</span>
       </div>
       <div class="modal-dim-reason">${fresh.toFixed(0)}% of neurons updated within the last ~2 hours. ${stale} stale neurons (>1000 blocks since last update). ${fresh > 50 ? 'Network is responsive.' : fresh > 20 ? 'Some staleness.' : 'Many neurons are stale or dead weight.'}</div>
