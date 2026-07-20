@@ -61,13 +61,16 @@ def scan_health():
                     else:
                         stale_neurons += 1
             
-            # Miner burn %
+            # Miner burn fraction (U96F32: 0-1, percentage of emission burned)
+            # This is NOT registration burn price — it's the emission burn rate
+            # High burn = less emission reaching pool = slower price convergence
+            # Spec 431: share_i = EMA_price_i * (1 - miner_burned_i) / sum(...)
             try:
                 burned = sub.query(module.MinerBurned, params=[netuid])
                 if isinstance(burned, dict):
-                    miner_burn_pct = float(burned.get('bits', 0)) / 1e9
+                    miner_burn_pct = float(burned.get('bits', 0)) / (2**32) * 100  # U96F32 -> percentage
                 else:
-                    miner_burn_pct = float(burned) / 1e9 if burned else 0
+                    miner_burn_pct = 0
             except:
                 miner_burn_pct = 0
             
@@ -101,13 +104,12 @@ def scan_health():
                 activity_score = min(40, (activity_rate / 100) * 40)
                 freshness_score = min(30, (freshness_rate / 100) * 30)
             validator_score = min(20, (validators / 10) * 20)
-            # Registration burn price = miner demand proxy
-            # 0 = no registrations (no demand), 5+ TAO = active demand, 50+ = frenzy
-            if miner_burn_pct > 0:
-                burn_score = min(10, math.log10(miner_burn_pct * 100) / math.log10(1000) * 10)
-            else:
-                burn_score = 0
-            burn_score = max(0, burn_score)
+            # Miner burn % — emission burn rate (0-100%)
+            # High burn = less emission reaching pool = slower price convergence
+            # But also = some commitment signal (owner burning emissions)
+            # Score inversely: low burn = healthier for price (more chain buy pressure)
+            # 0% burn = 10/10, 50% burn = 5/10, 100% burn = 0/10
+            burn_score = max(0, 10 - miner_burn_pct / 10)
 
             health_score = activity_score + freshness_score + validator_score + burn_score
 
@@ -128,7 +130,7 @@ def scan_health():
                 'stale_neurons': stale_neurons,
                 'activity_rate': round(activity_rate, 1),
                 'freshness_rate': round(freshness_rate, 1),
-                'miner_burn_pct': round(miner_burn_pct, 3),
+                'miner_burn_pct': round(miner_burn_pct, 1),  # emission burn % (U96F32 decoded)
                 'reg_burn_tao': round(miner_burn_pct, 3),  # renamed: registration burn price in TAO (demand proxy)
                 'total_stake': round(total_stake, 0),
                 'health_score': round(health_score, 1),
@@ -139,10 +141,10 @@ def scan_health():
     # Sort by health score
     results.sort(key=lambda x: x['health_score'], reverse=True)
     
-    print(f"\n{'SN':>4} {'Name':>15} {'Health':>7} {'Active':>7} {'Total':>6} {'Valid':>6} {'Fresh':>6} {'RegBurn':>8} {'Emit':>5}")
+    print(f"\n{'SN':>4} {'Name':>15} {'Health':>7} {'Active':>7} {'Total':>6} {'Valid':>6} {'Fresh':>6} {'Burn%':>6} {'Emit':>5}")
     print("-" * 80)
     for r in results[:30]:
-        print(f"  SN{r['netuid']:3d} {r['name']:>15} {r['health_score']:>6.1f} {r['active_neurons']:>3}/{r['total_neurons']:<3} {r['validators']:>5} {r['freshness_rate']:>5.0f}% {r['reg_burn_tao']:>7.3f} {'ON' if r['emission_enabled'] else 'OFF':>4}")
+        print(f"  SN{r['netuid']:3d} {r['name']:>15} {r['health_score']:>6.1f} {r['active_neurons']:>3}/{r['total_neurons']:<3} {r['validators']:>5} {r['freshness_rate']:>5.0f}% {r['miner_burn_pct']:>5.1f}% {'ON' if r['emission_enabled'] else 'OFF':>4}")
     
     # Save
     with open('data/subnet_health.json', 'w') as f:

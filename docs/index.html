@@ -209,8 +209,9 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 
 <div class="footer">
   Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) → normalized to 100<br>
-  Health = Active Miners(40) + Freshness(30) + Validators(20) + Reg Demand(10)<br>
-  EqVel = Protocol velocity (chain buys × AMM × float amp) vs flow velocity (7d net stake flow vs pool)
+  Health = Active Miners(40) + Freshness(30) + Validators(20) + Miner Burn(10)<br>
+  EqVel = Protocol velocity (chain buys × AMM × float amp) vs flow velocity (7d net stake flow vs pool)<br>
+  Valuation discounted by miner burn: effective distance = distance × (1 - burn/100)
 </div>
 
 <div class="modal-overlay" id="conceptModal" onclick="if(event.target===this)closeModal()">
@@ -413,7 +414,7 @@ function showHealth(netuid) {
     <span class="modal-close" onclick="closeModal()">&times;</span>
     <div class="modal-title">SN${r.netuid} — ${r.name}</div>
     <div class="modal-verdict">On-Chain Health: <span class="modal-dim-score ${hc}">${hs.toFixed(1)}/100</span></div>
-    <div class="modal-summary">Measures whether the subnet is actually alive on-chain: active miners, validator participation, freshness of updates, and registration demand (miners willing to pay to join).${emitOff ? '<br><span style="color:var(--yellow)">Emissions OFF: active miners are likely super-delegators parked for optionality, not real participation. Activity and freshness scores discounted 50%.</span>' : ''}</div>
+    <div class="modal-summary">Measures whether the subnet is actually alive on-chain: active miners, validator participation, freshness of updates, and miner burn rate (emissions diverted from pool).${emitOff ? '<br><span style="color:var(--yellow)">Emissions OFF: active miners are likely super-delegators parked for optionality, not real participation. Activity and freshness scores discounted 50%.</span>' : ''}</div>
 
     <div class="modal-dim">
       <div class="modal-dim-header">
@@ -444,10 +445,10 @@ function showHealth(netuid) {
 
     <div class="modal-dim">
       <div class="modal-dim-header">
-        <span class="modal-dim-name">Reg Demand</span>
+        <span class="modal-dim-name">Miner Burn</span>
         <span class="modal-dim-score ${sc(burnPts, 10)}">${burnPts.toFixed(0)}/10</span>
       </div>
-      <div class="modal-dim-reason">${burn.toFixed(3)} TAO registration burn. ${burn > 10 ? 'Frenzied demand, miners paying heavily to register.' : burn > 3 ? 'Active registration demand, miners want in.' : burn > 0.5 ? 'Moderate interest, some miners registering.' : burn > 0 ? 'Low demand, registrations are cheap.' : 'No recent registrations, registration is free or disabled.'}</div>
+      <div class="modal-dim-reason">${burn.toFixed(1)}% of emissions burned. ${burn > 50 ? 'High burn — most emissions diverted from pool, significantly reducing chain buy pressure and price convergence.' : burn > 20 ? 'Moderate burn — some emission diverted, slower convergence.' : burn > 0 ? 'Low burn — most emissions reach the pool, healthy chain buy pressure.' : 'No burn — all emissions flow to the pool, maximum chain buy pressure.'}</div>
       ${bar(burnPts, 10, '#f97316')}
     </div>
   `;

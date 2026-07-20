@@ -25,9 +25,12 @@ def normalize(value, min_val, max_val):
         return 0.5
     return max(0, min(1, (value - min_val) / (max_val - min_val)))
 
-def score_valuation(distance_pct, emission_enabled):
+def score_valuation(distance_pct, emission_enabled, miner_burn_pct=0):
     """Score based on distance from equilibrium price.
-    STRONGEST predictor (r=0.525). Weight increased from 25 to 35.
+    STRONGEST predictor (r=+0.653 7d). Weight: 35 pts.
+    
+    Equilibrium now uses the burn-aware formula (spec 431), so distance_pct
+    already accounts for miner burn. No additional discount needed here.
     Emission-off subnets still get scored — re-enablement is a catalyst.
     """
     if not emission_enabled:
@@ -205,8 +208,25 @@ def compute_ranking():
     except:
         pass
     
-    # Compute sum of EMA prices for equilibrium calculation
-    sum_prices = sum(float(v) for v in all_prices.values() if v > 0)
+    # Compute sum of prices for equilibrium calculation
+    # Spec 431: share_i = EMA_price_i * (1 - miner_burned_i) / sum(all)
+    # We use spot as proxy for EMA. The burn-weighted sum accounts for
+    # miner burn reducing each subnet's effective emission weight.
+    # Load burn data first (needed for the weighted sum)
+    burn_by_netuid = {}
+    for netuid_str in all_prices:
+        netuid = int(netuid_str)
+        if netuid == 0:
+            continue
+        burn_pct = health_data.get(netuid, {}).get('miner_burn_pct', 0) / 100
+        burn_by_netuid[netuid] = burn_pct
+    
+    # Sum of spot * (1 - burn) across all subnets
+    sum_prices_weighted = sum(
+        float(v) * (1 - burn_by_netuid.get(int(k), 0))
+        for k, v in all_prices.items()
+        if float(v) > 0 and int(k) != 0
+    )
     
     rankings = []
     
@@ -227,8 +247,13 @@ def compute_ranking():
             rp_bits = rp_raw.get('bits', 0) if isinstance(rp_raw, dict) else int(rp_raw)
             root_prop = rp_bits / (2**32)
             
-            # Equilibrium price
-            emission_rate = spot_price / sum_prices if sum_prices > 0 else 0
+            # Equilibrium price (spec 431 burn-aware formula)
+            # share_i = price * (1 - burn) / sum(price * (1 - burn))
+            # tao_emission = 0.5 * share_i
+            # equilibrium = tao_emission / root_prop
+            burn = burn_by_netuid.get(netuid, 0)
+            effective_price = spot_price * (1 - burn)
+            emission_rate = effective_price / sum_prices_weighted if sum_prices_weighted > 0 else 0
             tao_emission = 0.5 * emission_rate
             equilibrium = tao_emission / root_prop if root_prop > 0 else 0
             distance_pct = ((spot_price / equilibrium) - 1) * 100 if equilibrium > 0 else 0
@@ -295,7 +320,8 @@ def compute_ranking():
                     eq_label = 'Float'
             
             # Compute scores
-            s_valuation = score_valuation(distance_pct, emission_enabled)
+            miner_burn_pct = health_data.get(netuid, {}).get('miner_burn_pct', 0)
+            s_valuation = score_valuation(distance_pct, emission_enabled, miner_burn_pct)
             s_code = score_code_quality(code_quality.get(netuid, {}))
             s_conviction = score_conviction(locked_pct, num_lockers)
             s_holders = score_holder_base(holder_base.get(netuid, {}))
@@ -364,7 +390,8 @@ def compute_ranking():
                 'health_freshness': health_data.get(netuid, {}).get('freshness_rate', 0),
                 'health_activity_rate': health_data.get(netuid, {}).get('activity_rate', 0),
                 'health_stale': health_data.get(netuid, {}).get('stale_neurons', 0),
-                'health_burn': health_data.get(netuid, {}).get('reg_burn_tao', 0),
+                'health_burn': health_data.get(netuid, {}).get('miner_burn_pct', 0),  # now correctly U96F32 percentage
+                'miner_burn_pct': round(health_data.get(netuid, {}).get('miner_burn_pct', 0), 1),  # emission burn %
                 'health_activity_pts': health_data.get(netuid, {}).get('activity_pts', 0),
                 'health_freshness_pts': health_data.get(netuid, {}).get('freshness_pts', 0),
                 'health_validator_pts': health_data.get(netuid, {}).get('validator_pts', 0),
