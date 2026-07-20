@@ -30,7 +30,22 @@ def collect_snapshot():
         'timestamp': datetime.now(timezone.utc).isoformat(),
         'block': block,
         'subnets': {},
+        'coldkey_swaps': [],
     }
+
+    # Check for pending coldkey swap announcements
+    try:
+        result = sub.query_map(module.ColdkeySwapAnnouncements, params=[])
+        for item in result:
+            if hasattr(item, 'key'):
+                coldkey, val = item.key, item.value
+            elif isinstance(item, (tuple, list)) and len(item) == 2:
+                coldkey, val = item
+            else:
+                continue
+            snapshot['coldkey_swaps'].append(str(coldkey))
+    except:
+        pass
 
     for netuid_str, price in all_prices.items():
         netuid = int(netuid_str)
@@ -178,6 +193,19 @@ def run_detector():
 
     # Detect signals
     signals = detect_signals(current, previous)
+
+    # Check for new coldkey swap announcements
+    current_swaps = set(current.get('coldkey_swaps', []))
+    prev_swaps = set(previous.get('coldkey_swaps', []))
+    new_swaps = current_swaps - prev_swaps
+    for coldkey in new_swaps:
+        signals.append({
+            'type': 'COLDKEY_SWAP',
+            'netuid': 0,
+            'name': coldkey[:10] + '...' + coldkey[-6:],
+            'severity': 'HIGH',
+            'message': f"🔑 COLDKEY SWAP ANNOUNCED: {coldkey[:10]}...{coldkey[-6:]}\n   A wallet is rotating their coldkey. Could be security, subnet sale, or ownership transfer.",
+        })
 
     # Save signals to history
     if signals:

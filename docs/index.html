@@ -124,6 +124,7 @@ tr:hover { background: var(--card); }
       <th class="hide-mobile" onclick="sortBy('scores.conviction')">Conv</th>
       <th class="hide-mobile" onclick="sortBy('scores.holders')">Hold</th>
       <th class="hide-mobile" onclick="sortBy('scores.activity')">Act</th>
+      <th onclick="sortBy('scores.concept')">Concept</th>
       <th onclick="sortBy('locked_pct')">Locked%</th>
       <th onclick="sortBy('cb_vs_pool')">CB%</th>
       <th onclick="sortBy('commits_30d')" class="hide-mobile">C30d</th>
@@ -135,7 +136,7 @@ tr:hover { background: var(--card); }
 </div>
 
 <div class="footer">
-  Composite score = Valuation (35) + Code (20) + Conviction (15) + Holders (15) + Activity (5) = 90 max
+  Score = Valuation (35) + Code (20) + Conviction (15) + Holders (15) + Concept (10) + Activity (5) = 100 max
 </div>
 
 <script>
@@ -230,6 +231,7 @@ function render() {
         <td class="hide-mobile">${s.conviction.toFixed(0)}</td>
         <td class="hide-mobile">${s.holders.toFixed(0)}</td>
         <td class="hide-mobile">${s.activity.toFixed(0)}</td>
+        <td>${s.concept ? s.concept.toFixed(0) : '—'}</td>
         <td class="${r.locked_pct > 20 ? 'pos' : ''}">${r.locked_pct > 0 ? r.locked_pct.toFixed(1) + '%' : '—'}</td>
         <td>${r.cb_vs_pool > 0 ? r.cb_vs_pool.toFixed(2) + '%' : '—'}</td>
         <td class="hide-mobile">${r.commits_30d > 0 ? r.commits_30d : '—'}</td>

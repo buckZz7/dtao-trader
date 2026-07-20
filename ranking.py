@@ -83,6 +83,15 @@ def score_activity(commits_30d, commits_7d):
     recent_score = normalize(min(commits_7d, 15), 0, 15) * 2
     return commit_score + recent_score
 
+def score_concept(concept_data):
+    """Score from concept assessment (necessity, TAM, moat, execution).
+    New component: is this a real network or a business with a token?
+    """
+    if not concept_data:
+        return 10  # Default middle if not assessed yet
+    score = concept_data.get('concept_score', 50)
+    return normalize(score, 0, 100) * 10
+
 def compute_ranking():
     """Compute composite ranking for all emission-enabled subnets."""
     sub = bt.Subtensor(network='finney')
@@ -92,6 +101,12 @@ def compute_ranking():
     names = sub.subnets.subnet_names()
     
     # Load data files
+    concept_scores = {}
+    if os.path.exists('data/concept_scores.json'):
+        with open('data/concept_scores.json') as f:
+            for c in json.load(f):
+                concept_scores[c['netuid']] = c
+    
     code_quality = {}
     if os.path.exists('data/code_quality.json'):
         with open('data/code_quality.json') as f:
@@ -189,8 +204,9 @@ def compute_ranking():
             
             gh = github_activity.get(netuid, {})
             s_activity = score_activity(gh.get('commits_30d', 0) or 0, gh.get('commits_7d', 0) or 0)
+            s_concept = score_concept(concept_scores.get(netuid, {}))
             
-            total_score = s_valuation + s_code + s_conviction + s_holders + s_activity
+            total_score = s_valuation + s_code + s_conviction + s_holders + s_activity + s_concept
             
             # Verdict
             if not emission_enabled:
@@ -229,6 +245,7 @@ def compute_ranking():
                     'conviction': round(s_conviction, 1),
                     'holders': round(s_holders, 1),
                     'activity': round(s_activity, 1),
+                    'concept': round(s_concept, 1),
                 },
                 'total_score': round(total_score, 1),
                 'verdict': verdict,
