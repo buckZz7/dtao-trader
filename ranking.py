@@ -27,48 +27,38 @@ def normalize(value, min_val, max_val):
 
 def score_valuation(distance_pct, emission_enabled):
     """Score based on distance from equilibrium price.
-    Negative distance = undervalued = good.
-    Positive distance = overvalued = bad.
+    STRONGEST predictor (r=0.525). Weight increased from 25 to 35.
     """
     if not emission_enabled:
-        return 0  # No emissions = dead
+        return 0
     
-    # -35% distance = max score (25)
-    # 0% = neutral (12.5)
-    # +100% = min score (0)
     if distance_pct <= 0:
-        # Undervalued: score increases as distance goes more negative
-        score = 12.5 + normalize(-distance_pct, 0, 35) * 12.5
+        score = 17.5 + normalize(-distance_pct, 0, 35) * 17.5
     else:
-        # Overvalued: score decreases as distance goes more positive
-        score = 12.5 - normalize(distance_pct, 0, 100) * 12.5
-    return max(0, min(25, score))
+        score = 17.5 - normalize(distance_pct, 0, 100) * 17.5
+    return max(0, min(35, score))
 
 def score_code_quality(quality_data):
-    """Score from code quality assessment (0-100 scale input)."""
+    """Score from code quality assessment.
+    Moderate predictor (r=0.205). Weight kept at 20.
+    """
     if not quality_data or 'error' in quality_data:
-        return 5  # Default low score if no data
+        return 3
     q = quality_data.get('quality_score', 0)
-    # Normalize 0-100 quality score to 0-25 points
-    return normalize(q, 0, 100) * 25
+    return normalize(q, 0, 100) * 20
 
 def score_conviction(locked_pct_circulating, num_lockers):
     """Score from conviction locks.
-    High locked % = diamond hands = safer = higher score.
-    More lockers = more distributed conviction = higher score.
+    Weak short-term predictor (r=0.103) but matters for risk/safety.
+    Weight reduced from 20 to 15.
     """
-    # Locked % of circulating supply (0-50% range)
-    locked_score = normalize(min(locked_pct_circulating, 50), 0, 50) * 15
-    
-    # Number of lockers (0-10 range for full score)
+    locked_score = normalize(min(locked_pct_circulating, 50), 0, 50) * 10
     locker_score = normalize(min(num_lockers, 10), 0, 10) * 5
-    
     return locked_score + locker_score
 
 def score_holder_base(holder_data):
     """Score from holder base quality.
-    Low Gini = distributed = good.
-    More holders = good.
+    Not directly tested but proxy for safety. Weight kept at 15.
     """
     if not holder_data or 'error' in holder_data:
         return 5
@@ -77,25 +67,20 @@ def score_holder_base(holder_data):
     gini = holder_data.get('gini', 1.0)
     top1_pct = holder_data.get('top1_pct', 100)
     
-    # Gini (lower is better): 0.5 = distributed, 0.98 = concentrated
     gini_score = (1 - normalize(gini, 0.5, 0.98)) * 7
-    
-    # Holder count (more is better): 5-100 range
     holder_score = normalize(min(num_holders, 100), 5, 100) * 4
-    
-    # Top1 concentration (lower is better): 20-100% range
     conc_score = (1 - normalize(top1_pct, 20, 100)) * 4
     
     return gini_score + holder_score + conc_score
 
 def score_activity(commits_30d, commits_7d):
-    """Score from GitHub activity."""
-    # 30d commits (0-100 range for full score)
-    commit_score = normalize(min(commits_30d, 100), 0, 100) * 10
-    
-    # 7d commits (shows recent activity, 0-30 range)
-    recent_score = normalize(min(commits_7d, 30), 0, 30) * 5
-    
+    """Score from GitHub activity.
+    INVERSE predictor (r=-0.231). Subnets with lots of commits performed WORSE.
+    Weight reduced from 15 to 5. Activity is not a buy signal.
+    """
+    # Very low weight — activity is inverse predictive
+    commit_score = normalize(min(commits_30d, 50), 0, 50) * 3
+    recent_score = normalize(min(commits_7d, 15), 0, 15) * 2
     return commit_score + recent_score
 
 def compute_ranking():
