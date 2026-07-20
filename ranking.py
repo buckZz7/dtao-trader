@@ -85,11 +85,11 @@ def score_activity(commits_30d, commits_7d):
 
 def score_concept(concept_data):
     """Score from concept assessment (necessity, TAM, moat, execution).
-    New component: is this a real network or a business with a token?
+    Returns 0 if not assessed. Dashboard shows '—' for unscored.
     """
-    if not concept_data:
-        return 10  # Default middle if not assessed yet
-    score = concept_data.get('concept_score', 50)
+    if not concept_data or not concept_data.get('concept_score'):
+        return 0
+    score = concept_data.get('concept_score', 0)
     return normalize(score, 0, 100) * 10
 
 def compute_ranking():
