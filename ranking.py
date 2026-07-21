@@ -2,11 +2,14 @@
 
 Combines all data layers into a composite undervaluation score (0-100):
 
-1. Price vs equilibrium (25 pts) — chain's own valuation
-2. Code quality (25 pts) — real LOC, tests, docs, architecture
-3. Conviction locks (20 pts) — % of supply locked by diamond hands
-4. Holder base (15 pts) — distribution, diversification, dump risk
-5. Development activity (15 pts) — GitHub commits, recency
+1. Price vs equilibrium (35 pts) — chain's own valuation (naive equilibrium)
+2. Conviction locks (15 pts) — % of supply locked by diamond hands
+3. Development activity (5 pts) — GitHub commits, recency (inverse predictor, low weight)
+4. Concept (10 pts) — long-term quality filter (not predictive short-term)
+5. Net stake flow (10 pts) — 7d net flow vs pool size
+
+(Removed July 2026: code quality (20) and holder base (15) — partial-coverage
+stale datasets Buck decided not to build out. Max score is now 75, not 110.)
 
 Higher score = more undervalued (better buy opportunity).
 Lower score = overvalued or risky.
@@ -47,15 +50,6 @@ def score_valuation(distance_pct, emission_enabled, miner_burn_pct=0):
         score = 17.5 - normalize(distance_pct, 0, 100) * 17.5
     return max(0, min(35, score))
 
-def score_code_quality(quality_data):
-    """Score from code quality assessment.
-    Moderate predictor (r=0.205). Weight kept at 20.
-    """
-    if not quality_data or 'error' in quality_data:
-        return 3
-    q = quality_data.get('quality_score', 0)
-    return normalize(q, 0, 100) * 20
-
 def score_conviction(locked_pct_circulating, num_lockers):
     """Score from conviction locks.
     Weak short-term predictor (r=0.103) but matters for risk/safety.
@@ -64,23 +58,6 @@ def score_conviction(locked_pct_circulating, num_lockers):
     locked_score = normalize(min(locked_pct_circulating, 50), 0, 50) * 10
     locker_score = normalize(min(num_lockers, 10), 0, 10) * 5
     return locked_score + locker_score
-
-def score_holder_base(holder_data):
-    """Score from holder base quality.
-    Not directly tested but proxy for safety. Weight kept at 15.
-    """
-    if not holder_data or 'error' in holder_data:
-        return 5
-    
-    num_holders = holder_data.get('num_holders', 0)
-    gini = holder_data.get('gini', 1.0)
-    top1_pct = holder_data.get('top1_pct', 100)
-    
-    gini_score = (1 - normalize(gini, 0.5, 0.98)) * 7
-    holder_score = normalize(min(num_holders, 100), 5, 100) * 4
-    conc_score = (1 - normalize(top1_pct, 20, 100)) * 4
-    
-    return gini_score + holder_score + conc_score
 
 def score_activity(commits_30d, commits_7d):
     """Score from GitHub activity.
@@ -110,7 +87,7 @@ def score_flow(flow_data):
     or pool is tiny (< 500 TAO), the flow data is unreliable.
     """
     if not flow_data:
-        return 5  # Default neutral if no data
+        return 0  # No data = 0, not a phantom neutral score. Dashboard shows "—".
     
     stake_now = flow_data.get('stake_now', 0)
     stake_7d = flow_data.get('stake_7d_ago', 0)
@@ -155,11 +132,8 @@ def compute_ranking():
             for r in flow_data.get('results', []):
                 flow_cache[r['netuid']] = r
     
-    code_quality = {}
-    if os.path.exists('data/code_quality.json'):
-        with open('data/code_quality.json') as f:
-            for c in json.load(f):
-                code_quality[c['netuid']] = c
+    # NOTE: code_quality and holder_base data files are no longer loaded —
+    # both were partial-coverage stale datasets removed from the composite (July 2026).
     
     github_activity = {}
     if os.path.exists('data/github_activity.json'):
@@ -167,16 +141,8 @@ def compute_ranking():
             for g in json.load(f):
                 github_activity[g['netuid']] = g
     
-    holder_base = {}
-    if os.path.exists('data/holder_base_full.json'):
-        with open('data/holder_base_full.json') as f:
-            for h in json.load(f):
-                holder_base[h['netuid']] = h
-    elif os.path.exists('data/holder_base.json'):
-        with open('data/holder_base.json') as f:
-            for h in json.load(f):
-                holder_base[h['netuid']] = h
-    
+    # holder_base removed from composite (partial-coverage stale data, July 2026).
+
     locked_supply = {}
     if os.path.exists('data/locked_supply.json'):
         with open('data/locked_supply.json') as f:
@@ -350,19 +316,20 @@ def compute_ranking():
             # Cap display at 9999 — above that shows ∞
             eq_days = min(9999, round(eq_days))
             
-            # Compute scores
+            # Compute scores. Code quality and holder base REMOVED from the
+            # composite (July 2026): both were partial-coverage stale datasets
+            # (43/128 and 23/128 subnets) that Buck decided not to build out.
+            # Composite max is now 75: val 35 + conviction 15 + activity 5 + concept 10 + flow 10.
             miner_burn_pct = health_data.get(netuid, {}).get('miner_burn_pct', 0)
             s_valuation = score_valuation(distance_pct, emission_enabled, miner_burn_pct)
-            s_code = score_code_quality(code_quality.get(netuid, {}))
             s_conviction = score_conviction(locked_pct, num_lockers)
-            s_holders = score_holder_base(holder_base.get(netuid, {}))
             
             gh = github_activity.get(netuid, {})
             s_activity = score_activity(gh.get('commits_30d', 0) or 0, gh.get('commits_7d', 0) or 0)
             s_concept = score_concept(concept_scores.get(netuid, {}))
             s_flow = score_flow(flow_cache.get(netuid, {}))
             
-            total_score = (s_valuation + s_code + s_conviction + s_holders + s_activity + s_concept + s_flow) / 110 * 100
+            total_score = (s_valuation + s_conviction + s_activity + s_concept + s_flow) / 75 * 100
             
             # Verdict
             if not emission_enabled:
@@ -397,9 +364,6 @@ def compute_ranking():
                 'num_lockers': num_lockers,
                 'proto_pct': round((proto_alpha / (alpha_out + int(sub.query(module.SubnetAlphaIn, params=[netuid])) / 1e9) * 100) if alpha_out > 0 else 0, 1),
                 'commits_30d': gh.get('commits_30d', 0) or 0,
-                'quality_score': code_quality.get(netuid, {}).get('quality_score', 0),
-                'num_holders': holder_base.get(netuid, {}).get('num_holders', 0),
-                'gini': holder_base.get(netuid, {}).get('gini', 0),
                 'concept_score': concept_scores.get(netuid, {}).get('concept_score', 0),
                 'concept_verdict': concept_scores.get(netuid, {}).get('verdict', ''),
                 'concept_summary': concept_scores.get(netuid, {}).get('summary', ''),
@@ -448,9 +412,7 @@ def compute_ranking():
                 ),
                 'scores': {
                     'valuation': round(s_valuation, 1),
-                    'code': round(s_code, 1),
                     'conviction': round(s_conviction, 1),
-                    'holders': round(s_holders, 1),
                     'activity': round(s_activity, 1),
                     'concept': round(s_concept, 1),
                     'flow': round(s_flow, 1),
@@ -477,12 +439,12 @@ def main():
     print(f"\n{'='*120}")
     print(f"SCIENTIFIC SUBNET RANKING — Most Undervalued to Most Overvalued")
     print(f"{'='*120}")
-    print(f"\n{'Rk':>3} {'SN':>4} {'Name':>15} {'Price':>9} {'Dist%':>7} {'Val':>5} {'Code':>5} {'Conv':>5} {'Hold':>5} {'Act':>5} {'TOTAL':>6} {'Verdict':>12}")
+    print(f"\n{'Rk':>3} {'SN':>4} {'Name':>15} {'Price':>9} {'Dist%':>7} {'Val':>5} {'Conv':>5} {'Act':>5} {'Cnpt':>5} {'Flow':>5} {'TOTAL':>6} {'Verdict':>12}")
     print("-" * 100)
-    
+
     for r in rankings:
         s = r['scores']
-        print(f"  {r['rank']:>2} SN{r['netuid']:3d} {r['name']:>15} {r['price']:>9.5f} {r['distance_pct']:>+6.1f}% {s['valuation']:>5.1f} {s['code']:>5.1f} {s['conviction']:>5.1f} {s['holders']:>5.1f} {s['activity']:>5.1f} {r['total_score']:>6.1f} {r['verdict']:>12}")
+        print(f"  {r['rank']:>2} SN{r['netuid']:3d} {r['name']:>15} {r['price']:>9.5f} {r['distance_pct']:>+6.1f}% {s['valuation']:>5.1f} {s['conviction']:>5.1f} {s['activity']:>5.1f} {s['concept']:>5.1f} {s['flow']:>5.1f} {r['total_score']:>6.1f} {r['verdict']:>12}")
     
     # Save
     os.makedirs('data', exist_ok=True)
