@@ -223,6 +223,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 
 <script>
 let data = null;
+let livePrices = null;
 let sortKey = 'price';
 let sortDir = -1;
 
@@ -231,10 +232,75 @@ async function loadData() {
     const res = await fetch('rankings-data.json');
     data = await res.json();
     render();
-    setTimeout(loadData, 300000);
+    // Load live prices immediately, then every 2 min
+    loadLivePrices();
+    setTimeout(loadData, 300000);  // full ranking refresh every 5 min
   } catch (e) {
     document.getElementById('meta').textContent = 'Error: ' + e.message;
   }
+}
+
+async function loadLivePrices() {
+  try {
+    const res = await fetch('prices-live.json', {cache: 'no-store'});
+    livePrices = await res.json();
+    updateLiveCells();
+  } catch (e) {
+    // Live prices not available yet — silently skip
+  }
+  setTimeout(loadLivePrices, 120000);  // refresh prices every 2 min
+}
+
+function updateLiveCells() {
+  if (!livePrices || !data) return;
+  
+  const tbody = document.getElementById('tbody');
+  const rows = tbody.querySelectorAll('tr');
+  
+  // Update meta with live timestamp
+  const liveTime = new Date(livePrices.timestamp).toISOString().replace('T',' ').slice(0,19);
+  const rankTime = new Date(data.timestamp).toISOString().replace('T',' ').slice(0,19);
+  document.getElementById('meta').innerHTML = 
+    `${rankTime} UTC (scores) · <span style="color:var(--green)">${liveTime} UTC (live)</span> · ${data.rankings.length} subnets`;
+  
+  // Update each row's price cells
+  data.rankings.forEach(r => {
+    const live = livePrices.subnets[String(r.netuid)];
+    if (!live) return;
+    
+    // Update data in memory
+    r.price = live.price;
+    r.equilibrium = live.equilibrium;
+    r.distance_pct = live.distance_pct;
+    r.cb_vs_pool = live.cb_vs_pool;
+    
+    // Find the row in DOM
+    const row = tbody.querySelector(`tr[data-netuid="${r.netuid}"]`);
+    if (!row) return;
+    
+    // Update cells: Price (col 3), Equilibrium (col 4), Diff% (col 5), CB% (col 14)
+    const cells = row.querySelectorAll('td');
+    if (cells.length >= 5) {
+      // Price
+      cells[2].textContent = live.price.toFixed(5);
+      cells[2].classList.remove('pos', 'neg');
+      
+      // Equilibrium
+      const eqClass = live.equilibrium > live.price ? 'pos' : live.equilibrium < live.price * 0.5 ? 'neg' : '';
+      cells[3].className = eqClass;
+      cells[3].textContent = live.equilibrium > 0 ? live.equilibrium.toFixed(5) : '—';
+      
+      // Diff%
+      const distClass = live.distance_pct < -20 ? 'pos' : live.distance_pct > 50 ? 'neg' : '';
+      cells[4].className = distClass;
+      cells[4].textContent = (live.distance_pct > 0 ? '+' : '') + live.distance_pct.toFixed(1) + '%';
+    }
+    
+    // CB% is column 15 (index 14) — only if visible
+    if (cells.length >= 15) {
+      cells[14].textContent = live.cb_vs_pool > 0 ? live.cb_vs_pool.toFixed(2) + '%' : '—';
+    }
+  });
 }
 
 function sortBy(key) {
@@ -305,7 +371,7 @@ function render() {
     const distClass = r.distance_pct < -20 ? 'pos' : r.distance_pct > 50 ? 'neg' : '';
     
     return `
-      <tr>
+      <tr data-netuid="${r.netuid}">
         <td class="sn">${r.netuid}</td>
         <td class="name">${r.name}</td>
         <td>${r.price.toFixed(5)}</td>
