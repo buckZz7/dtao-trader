@@ -189,6 +189,8 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
       <th onclick="sortBy('price')">Price</th>
       <th onclick="sortBy('equilibrium')">Equilibrium</th>
       <th onclick="sortBy('distance_pct')">Diff%</th>
+      <th onclick="sortBy('mom_7d')">7d%</th>
+      <th class="hide-mobile" onclick="sortBy('mom_30d')">30d%</th>
       <th onclick="sortBy('total_score')">SCORE</th>
       <th class="hide-mobile" onclick="sortBy('scores.valuation')">Val</th>
       <th class="hide-mobile" onclick="sortBy('scores.code')">Code</th>
@@ -296,9 +298,9 @@ function updateLiveCells() {
       cells[4].textContent = (live.distance_pct > 0 ? '+' : '') + live.distance_pct.toFixed(1) + '%';
     }
     
-    // CB% is column 15 (index 14) — only if visible
-    if (cells.length >= 15) {
-      cells[14].textContent = live.cb_vs_pool > 0 ? live.cb_vs_pool.toFixed(2) + '%' : '—';
+    // CB% is column 17 (index 16) — only if visible
+    if (cells.length >= 17) {
+      cells[16].textContent = live.cb_vs_pool > 0 ? live.cb_vs_pool.toFixed(2) + '%' : '—';
     }
   });
 }
@@ -377,6 +379,8 @@ function render() {
         <td>${r.price.toFixed(5)}</td>
         <td class="${r.equilibrium > r.price ? 'pos' : r.equilibrium < r.price * 0.5 ? 'neg' : ''}">${r.equilibrium > 0 ? r.equilibrium.toFixed(5) : '—'}</td>
         <td class="${r.distance_pct < -20 ? 'pos' : r.distance_pct > 50 ? 'neg' : ''}">${r.distance_pct > 0 ? '+' : ''}${r.distance_pct.toFixed(1)}%</td>
+        <td class="${r.mom_7d > 3 ? 'pos' : r.mom_7d < -3 ? 'neg' : ''}">${r.mom_7d > 0 ? '+' : ''}${r.mom_7d.toFixed(1)}%</td>
+        <td class="hide-mobile ${r.mom_30d > 10 ? 'pos' : r.mom_30d < -10 ? 'neg' : ''}">${r.mom_30d > 0 ? '+' : ''}${r.mom_30d.toFixed(1)}%</td>
         <td>${scoreBar}<span style="color:${scoreColor}">${r.total_score.toFixed(0)}</span></td>
         <td class="hide-mobile">${s.valuation.toFixed(0)}</td>
         <td class="hide-mobile">${s.code.toFixed(0)}</td>

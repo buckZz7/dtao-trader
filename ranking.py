@@ -223,6 +223,17 @@ def compute_ranking():
     # Miner burn is tracked separately as a standalone signal.
     sum_prices = sum(float(v) for v in all_prices.values() if v > 0)
     
+    # Fetch historical prices for momentum (1d, 7d, 30d)
+    current_block = sub.block()
+    historical_prices = {}
+    for days, label in [(1, '1d'), (7, '7d'), (30, '30d')]:
+        target_block = current_block - (days * BLOCKS_PER_DAY)
+        try:
+            snap = sub.at(block=target_block)
+            historical_prices[label] = {int(k): float(v) for k, v in snap.prices.alpha_prices().items()}
+        except:
+            historical_prices[label] = {}
+    
     rankings = []
     
     for netuid_str, price in all_prices.items():
@@ -233,6 +244,16 @@ def compute_ranking():
         try:
             name = names.get(netuid_str, f"SN{netuid}")
             spot_price = float(price)
+            
+            # Price momentum (1d, 7d, 30d)
+            mom_1d = mom_7d = mom_30d = 0
+            for label in ['1d', '7d', '30d']:
+                hist = historical_prices.get(label, {}).get(netuid, 0)
+                if hist > 0:
+                    pct = (spot_price / hist - 1) * 100
+                    if label == '1d': mom_1d = round(pct, 1)
+                    elif label == '7d': mom_7d = round(pct, 1)
+                    elif label == '30d': mom_30d = round(pct, 1)
             
             # Emission status
             emission_enabled = bool(sub.query(module.SubnetEmissionEnabled, params=[netuid]))
@@ -418,6 +439,9 @@ def compute_ranking():
                 'conv_can_takeover': conviction_data.get(netuid, {}).get('can_takeover', False),
                 'conv_lockers': conviction_data.get(netuid, {}).get('num_lockers', 0),
                 'conv_top_external': next((l for l in conviction_data.get(netuid, {}).get('top_lockers', []) if not l.get('is_owner')), None),
+                'mom_1d': mom_1d,
+                'mom_7d': mom_7d,
+                'mom_30d': mom_30d,
                 'conv_takeover': bool(
                     conviction_data.get(netuid, {}).get('can_takeover', False) and
                     next((l for l in conviction_data.get(netuid, {}).get('top_lockers', []) if not l.get('is_owner')), {}).get('pct_of_threshold', 0) > 10
