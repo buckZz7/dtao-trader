@@ -30,24 +30,20 @@ def normalize(value, min_val, max_val):
 
 def score_valuation(distance_pct, emission_enabled, miner_burn_pct=0):
     """Score based on distance from equilibrium price.
-    STRONGEST predictor (r=+0.661 7d). Weight: 35 pts.
-    
-    Uses naive equilibrium (no burn weighting) — backtest proved this is
-    more predictive than the burn-aware formula. Miner burn is tracked
-    separately as a standalone signal, not baked into valuation.
-    Emission-off subnets still get scored — re-enablement is a catalyst.
+    STRONGEST predictor. Weight: 35 pts.
+
+    LINEAR map of raw distance (no piecewise kink) — weight review backtest
+    (July 22, 2026) showed raw distance beats the old piecewise transform at
+    every window (7d: r=+0.746 vs +0.655). Scoring curves can destroy signal.
+
+    Map: -35% distance (or better) -> 35 pts, +100% (or worse) -> 0 pts.
+    Emission-off subnets get half weight (re-enablement is a catalyst).
     """
+    # Linear: distance -35..+100 maps to 35..0
+    t = normalize(distance_pct, -35, 100)  # 0 at -35%, 1 at +100%
+    score = 35 * (1 - t)
     if not emission_enabled:
-        if distance_pct <= 0:
-            score = 8.75 + normalize(-distance_pct, 0, 35) * 8.75
-        else:
-            score = 8.75 - normalize(distance_pct, 0, 100) * 8.75
-        return max(0, min(17.5, score))
-    
-    if distance_pct <= 0:
-        score = 17.5 + normalize(-distance_pct, 0, 35) * 17.5
-    else:
-        score = 17.5 - normalize(distance_pct, 0, 100) * 17.5
+        score *= 0.5
     return max(0, min(35, score))
 
 def score_conviction(locked_pct_circulating, num_lockers):
