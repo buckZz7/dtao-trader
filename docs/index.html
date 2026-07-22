@@ -571,14 +571,14 @@ function showEqVel(netuid) {
     explanation = `Below equilibrium by ${Math.abs(dist).toFixed(1)}%. No chain buys, but net inflow (${flowVel.toFixed(1)}%/day) is pushing price up on its own.`;
     warning = 'Convergence depends entirely on continued inflow. If flow reverses, no protocol floor to catch the price.';
   } else if (cat === 'bubble') {
-    explanation = `Above equilibrium by ${dist.toFixed(1)}%. No chain buys (price already too high), and net inflow (${flowVel.toFixed(1)}%/day) is pushing price further up.`;
-    warning = 'Overvalued AND money is still flowing in. This is a bubble. The higher it goes, the harder it falls when flow reverses.';
+    explanation = `Above equilibrium by ${dist.toFixed(1)}%. Chain buys are active (${protVel.toFixed(2)}%/day) but buying at a premium, and net inflow (${flowVel.toFixed(1)}%/day) is pushing price further up.`;
+    warning = 'Overvalued AND money is still flowing in. This is a bubble. Protocol buys add fuel on the way up but vanish if emission share drops. The higher it goes, the harder it falls when flow reverses.';
   } else if (cat === 'correcting') {
-    explanation = `Above equilibrium by ${dist.toFixed(1)}%. No chain buys. Net outflow (${Math.abs(flowVel).toFixed(1)}%/day) is pulling price back toward equilibrium.`;
-    warning = 'Correction in progress but no protocol force — it can reverse if inflow returns.';
+    explanation = `Above equilibrium by ${dist.toFixed(1)}%. Chain buys active (${protVel.toFixed(2)}%/day) but buying at a premium, while net outflow (${Math.abs(flowVel).toFixed(1)}%/day) is pulling price back toward equilibrium.`;
+    warning = 'Correction in progress. Protocol buys are cushioning the fall but not stopping it.';
   } else if (cat === 'floating') {
-    explanation = `Above equilibrium by ${dist.toFixed(1)}%. No chain buys, no significant flow in either direction. Price is floating with no pressure.`;
-    warning = 'Overvalued but stuck. No natural force to bring it back down.';
+    explanation = `Above equilibrium by ${dist.toFixed(1)}%. Chain buys active (${protVel.toFixed(2)}%/day) at a premium, no significant external flow. Price is drifting on protocol pressure alone.`;
+    warning = 'Overvalued with no organic demand — price is held up by protocol buys. Vulnerable if emission share drops.';
   } else {
     explanation = `Price is near equilibrium (${dist.toFixed(1)}%). Little directional pressure.`;
   }
@@ -586,7 +586,7 @@ function showEqVel(netuid) {
   const bar = (v, max, color) => `<div style="background:var(--border);height:4px;border-radius:2px;margin-top:4px;overflow:hidden"><div style="width:${Math.min(100, Math.abs(v)/max*100)}%;height:100%;background:${color}"></div></div>`;
 
   // Direction arrows
-  const protDir = below && protVel > 0 ? '↑' : '—';
+  const protDir = protVel > 0 ? '↑' : '—';
   const flowDir = flowVel > 0.1 ? '↑' : flowVel < -0.1 ? '↓' : '—';
 
   document.getElementById('modalContent').innerHTML = `
@@ -611,7 +611,7 @@ function showEqVel(netuid) {
         <span class="modal-dim-name">Protocol Velocity ${protDir}</span>
         <span class="modal-dim-score ${protVel > 0.3 ? 'pos' : ''}">${protVel.toFixed(2)}%/day</span>
       </div>
-      <div class="modal-dim-reason">Chain buys: ${cb.toFixed(2)}% of pool/day. AMM impact (2x) with float amplification (${amp.toFixed(1)}x from ${locked.toFixed(1)}% locked).${burn > 0 ? ` Burn-adjusted from ${protVelRaw.toFixed(2)}%/day (${burn.toFixed(1)}% miner burn reduces effective chain buy pressure).` : ''} Only active when price is below equilibrium.</div>
+      <div class="modal-dim-reason">Chain buys: ${cb.toFixed(2)}% of pool/day. AMM impact (2x) with float amplification (${amp.toFixed(1)}x from ${locked.toFixed(1)}% locked).${burn > 0 ? ` Burn-adjusted from ${protVelRaw.toFixed(2)}%/day (${burn.toFixed(1)}% miner burn reduces effective chain buy pressure).` : ''} Protocol buys whenever excess TAO accrues — below equilibrium it pushes price toward fair value, above equilibrium it buys at a premium.</div>
       ${bar(protVel, 5, 'var(--blue)')}
     </div>
 
