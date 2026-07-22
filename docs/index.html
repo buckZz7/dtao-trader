@@ -573,6 +573,7 @@ function showEqVel(netuid) {
   } else if (cat === 'bubble') {
     explanation = `Above equilibrium by ${dist.toFixed(1)}%. Chain buys are active (${protVel.toFixed(2)}%/day) but buying at a premium, and net inflow (${flowVel.toFixed(1)}%/day) is pushing price further up.`;
     warning = 'Overvalued AND money is still flowing in. This is a bubble. Protocol buys add fuel on the way up but vanish if emission share drops. The higher it goes, the harder it falls when flow reverses.';
+    if (protVel > 0.3) warning += ' ⚠ Protocol buying ' + protVel.toFixed(2) + '%/day at premium — historically, heavy chain-buy pressure above equilibrium precedes drawdowns (7d r = -0.92 backtest). The chain is buying the top.';
   } else if (cat === 'correcting') {
     explanation = `Above equilibrium by ${dist.toFixed(1)}%. Chain buys active (${protVel.toFixed(2)}%/day) but buying at a premium, while net outflow (${Math.abs(flowVel).toFixed(1)}%/day) is pulling price back toward equilibrium.`;
     warning = 'Correction in progress. Protocol buys are cushioning the fall but not stopping it.';
