@@ -80,3 +80,31 @@ Tests whether protocol chain-buy pressure (cb_vs_pool, burn-adjusted prot_vel) p
 
 ### Weight review backtest (`backtest_weights.py`)
 Compares composite-score candidates on fully historical chain data (no current-snapshot leakage). Use this before changing score_valuation or adding any new composite component. Key design: only chain-state data is historically reconstructible — conviction/concept/activity are current-snapshot-only, so they can't be fairly backtested this way.
+
+=== 7. FLOW METRIC REPLACED (July 22, 2026, second change same day) ===
+
+The old neuron-stake flow metric was BROKEN: sum(neurons.total_stake.rao) is
+consensus weight, which inflates from emission accrual without any buying.
+SN28/66 showed +396%/+612% "flow" while price fell -22%/-25% — pure emission
+inflation on high-burn subnets masquerading as inflow. Backtest confirmed:
+r=+0.010, quintile delta -2.3% (noise pointing backwards).
+
+flow_scanner.py now uses M3: pool TAO delta over 7d MINUS protocol chain-buy
+contribution (excess*7200*7), as % of pool. This isolates actual USER
+buys/sells hitting the AMM. Backtest (backtest_flow_pool.py, n=128,
+non-overlapping): r=+0.090, quintile delta +9.3%. Value is at the BOTTOM:
+user-driven outflow = -8.4% avg fwd return. Avoidance signal, not entry signal.
+
+score_flow() is now ASYMMETRIC: +20%=10, 0%=5, -10%=2.5, -20%=0. Outflow is
+punished 2x faster than inflow is rewarded (matches the avoidance-signal
+profile). Side effect: flow_scanner is ~10x faster (3 storage queries per
+subnet vs 256-neuron scans at two block heights).
+
+flow_cache.json field note: stake_7d_ago/stake_now now hold POOL TAO values
+(kept names for compatibility). New fields: pool_delta, protocol_buy.
+
+Pitfall to add: neurons.total_stake.rao is consensus WEIGHT, not position
+value. Any metric built on it measures emission inflation, not capital flow.
+This is the third time stake-weight vs actual-holdings confusion caused a bug
+(see SN79 holder concentration, flow metric). ALWAYS use pool deltas or
+stake_for_coldkey positions for capital-flow questions.
