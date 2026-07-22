@@ -230,7 +230,7 @@ let sortDir = -1;
 
 async function loadData() {
   try {
-    const res = await fetch('rankings-data.json');
+    const res = await fetch('rankings-data.json?t=' + Date.now(), {cache: 'no-store'});
     data = await res.json();
     render();
     // Load live prices immediately, then every 2 min
