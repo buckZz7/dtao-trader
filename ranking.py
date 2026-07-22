@@ -98,11 +98,14 @@ def score_flow(flow_data):
     # Cap extreme values (dereg artifacts, tiny pools)
     flow_pct = max(-100, min(100, flow_pct))
     
-    # Map flow to score:
-    # +20% flow vs pool = max score (10)
-    # 0% = neutral (5)
-    # -20% = min score (0)
-    score = 5 + normalize(flow_pct, -20, 20) * 5
+    # Map flow to score (ASYMMETRIC — backtest July 22, 2026, M3 metric):
+    # the signal's value is avoiding user-driven OUTFLOW (bottom quartile
+    # averaged -8.4% fwd), not chasing inflow. Outflow is punished 2x faster.
+    # +20% = 10, 0% = 5, -10% = 2.5, -20% or worse = 0
+    if flow_pct >= 0:
+        score = 5 + normalize(flow_pct, 0, 20) * 5
+    else:
+        score = 5 - normalize(-flow_pct, 0, 20) * 5 * 2
     return max(0, min(10, score))
 
 def compute_ranking():
