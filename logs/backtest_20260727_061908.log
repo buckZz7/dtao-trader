@@ -1,0 +1,24 @@
+dTAO RANKING BACKTEST - Mon Jul 27 2026
+Block: 8711337
+
+SUMMARY:
+   Horizon    Top avg Bottom avg      Delta     Predictive?
+------------------------------------------------------------
+        7d     -3.37%    -10.76%     +7.38%           YES
+        3d     -1.53%     -1.22%     -0.31%         WEAK
+        1d     +0.97%     -1.52%     +2.49%           YES
+
+CORRELATIONS (total_score):
+  7d: r = +0.392 (strong)
+  3d: r = +0.119 (weak)
+  1d: r = +0.303 (strong)
+
+COMPONENT CORRELATIONS (7d):
+  val_score:      r = +0.469 (strong)  PREDICTIVE
+  code_score:    r = +0.213 (moderate) PREDICTIVE
+  locked_score:  r = +0.222 (moderate) PREDICTIVE
+  act_score:     r = -0.139 (weak)     INVERSE
+  distance_pct:  r = -0.480 (strong)    INVERSE
+  chain_buy:     r = +0.190 (moderate)  PREDICTIVE
+  cb_vs_pool:    r = -0.163 (moderate)  INVERSE
+  miner_burn:    r = -0.054 (weak)      weak

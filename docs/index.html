@@ -189,6 +189,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
       <th onclick="sortBy('price')">Price</th>
       <th onclick="sortBy('equilibrium')">Equilibrium</th>
       <th onclick="sortBy('distance_pct')">Diff%</th>
+      <th onclick="sortBy('gate_value')">Gate</th>
       <th class="hide-mobile" onclick="sortBy('mom_1d')">24h%</th>
       <th onclick="sortBy('mom_7d')">7d%</th>
       <th class="hide-mobile" onclick="sortBy('mom_30d')">30d%</th>
@@ -214,6 +215,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 <div class="footer">
   Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) → normalized to 100<br>
   Health = Active Miners(40) + Freshness(30) + Validators(20) + Miner Burn(10)<br>
+  Gate = V440 Emission Gate (Hill function h=3, q=0.61). Below rank ~31, emission is progressively cut.<br>
   EqVel = Protocol velocity (chain buys × AMM × float amp) vs flow velocity (7d net stake flow vs pool)<br>
   Conv% = Conviction as % of takeover threshold (10% of circulating alpha)
 </div>
@@ -279,7 +281,7 @@ function updateLiveCells() {
     const row = tbody.querySelector(`tr[data-netuid="${r.netuid}"]`);
     if (!row) return;
     
-    // Update cells: Price (col 3), Equilibrium (col 4), Diff% (col 5), CB% (col 14)
+    // Update cells: Price (col 3), Equilibrium (col 4), Diff% (col 5), Gate (col 6), CB% (col 15)
     const cells = row.querySelectorAll('td');
     if (cells.length >= 5) {
       // Price
@@ -295,6 +297,14 @@ function updateLiveCells() {
       const distClass = live.distance_pct < -20 ? 'pos' : live.distance_pct > 50 ? 'neg' : '';
       cells[4].className = distClass;
       cells[4].textContent = (live.distance_pct > 0 ? '+' : '') + live.distance_pct.toFixed(1) + '%';
+      
+      // Gate (col 6, index 5)
+      if (live.gate_value !== undefined && cells.length >= 6) {
+        const gv = live.gate_value;
+        const gvPct = (gv * 100).toFixed(0);
+        const gvCls = gv > 0.8 ? 'pos' : gv < 0.3 ? 'neg' : '';
+        cells[5].innerHTML = `<span class="concept-link ${gvCls}" onclick="showGate(${r.netuid})">${gvPct}%</span>`;
+      }
     }
     
     // CB% is column 18 (index 17) — only if visible
@@ -378,6 +388,7 @@ function render() {
         <td>${r.price.toFixed(5)}</td>
         <td class="${r.equilibrium > r.price ? 'pos' : r.equilibrium < r.price * 0.5 ? 'neg' : ''}">${r.equilibrium > 0 ? r.equilibrium.toFixed(5) : '—'}</td>
         <td class="${r.distance_pct < -20 ? 'pos' : r.distance_pct > 50 ? 'neg' : ''}">${r.distance_pct > 0 ? '+' : ''}${r.distance_pct.toFixed(1)}%</td>
+        <td>${gateCell(r)}</td>
         <td class="hide-mobile ${r.mom_1d > 2 ? 'pos' : r.mom_1d < -2 ? 'neg' : ''}">${r.mom_1d > 0 ? '+' : ''}${r.mom_1d.toFixed(1)}%</td>
         <td class="${r.mom_7d > 3 ? 'pos' : r.mom_7d < -3 ? 'neg' : ''}">${r.mom_7d > 0 ? '+' : ''}${r.mom_7d.toFixed(1)}%</td>
         <td class="hide-mobile ${r.mom_30d > 10 ? 'pos' : r.mom_30d < -10 ? 'neg' : ''}">${r.mom_30d > 0 ? '+' : ''}${r.mom_30d.toFixed(1)}%</td>
@@ -400,6 +411,87 @@ function render() {
 }
 
 loadData();
+
+function gateCell(r) {
+  const gv = r.gate_value;
+  if (gv === undefined || gv === null) return '<span class="dim">—</span>';
+  const pct = (gv * 100).toFixed(0);
+  const cls = gv > 0.8 ? 'pos' : gv < 0.3 ? 'neg' : '';
+  return `<span class="concept-link ${cls}" onclick="showGate(${r.netuid})">${pct}%</span>`;
+}
+
+function showGate(netuid) {
+  if (!data) return;
+  const r = data.rankings.find(x => x.netuid === netuid);
+  if (!r) return;
+
+  const gv = r.gate_value || 0;
+  const gvPct = (gv * 100).toFixed(1);
+  const aboveBar = r.above_bar;
+  const emitRank = r.emission_rank || 0;
+  const barRank = r.gate_bar_rank || 0;
+  const theta = r.gate_theta || 0;
+  const oldShare = r.old_share_pct || 0;
+  const newShare = r.gated_share_pct || 0;
+  const ratio = oldShare > 0 ? (newShare / oldShare * 100) : 0;
+
+  const cls = gv > 0.8 ? 'pos' : gv < 0.3 ? 'neg' : '';
+  const statusText = aboveBar ? 'Above bar — full emission' : 'Below bar — emission reduced';
+  const statusColor = aboveBar ? 'var(--green)' : 'var(--red)';
+
+  const bar = (v, max, color) => `<div style="background:var(--border);height:4px;border-radius:2px;margin-top:4px;overflow:hidden"><div style="width:${Math.min(100, v/max*100)}%;height:100%;background:${color}"></div></div>`;
+
+  document.getElementById('modalContent').innerHTML = `
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-title">SN${r.netuid} — ${r.name}</div>
+    <div class="modal-verdict">V440 Emission Gate: <span class="modal-dim-score ${cls}">${gvPct}%</span></div>
+    <div class="modal-summary">Emissions pass through a Hill gate function (h=3). Subnets ranked by price share; the bar sits where cumulative share reaches 61%. Below the bar, emission is progressively cut.</div>
+    <div class="modal-summary" style="color:${statusColor}">${statusText}</div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Gate Value</span>
+        <span class="modal-dim-score ${cls}">${gvPct}%</span>
+      </div>
+      <div class="modal-dim-reason">gate(s) = s³ / (s³ + θ³). Above 80% = full emission. At 50% = bar (half cut). Below 30% = emission collapsing.</div>
+      ${bar(gv * 100, 100, gv > 0.8 ? 'var(--green)' : gv < 0.3 ? 'var(--red)' : 'var(--yellow)')}
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Emission Rank</span>
+        <span class="modal-dim-score">${emitRank}</span>
+      </div>
+      <div class="modal-dim-reason">Ranked by price (excluding SN0). The bar is at rank ${barRank}. ${aboveBar ? 'This subnet is above the bar.' : 'This subnet is below the bar — emission is reduced.'}</div>
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Emission Share (old vs new)</span>
+        <span class="modal-dim-score">${oldShare.toFixed(2)}% → ${newShare.toFixed(2)}%</span>
+      </div>
+      <div class="modal-dim-reason">Old (flat proportional): ${oldShare.toFixed(2)}%. New (gated): ${newShare.toFixed(2)}%. Ratio: ${ratio.toFixed(0)}% of original emission retained.</div>
+      ${bar(newShare, oldShare > 0 ? oldShare : 1, 'var(--blue)')}
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Theta (bar share)</span>
+        <span class="modal-dim-score">${(theta * 100).toFixed(3)}%</span>
+      </div>
+      <div class="modal-dim-reason">The price share at the bar (rank ${barRank}). Gate function uses θ=${theta.toFixed(6)}. At this share, gate = 0.5 (50% emission cut).</div>
+    </div>
+
+    <div class="modal-dim">
+      <div class="modal-dim-header">
+        <span class="modal-dim-name">Equilibrium Impact</span>
+        <span class="modal-dim-score">${r.equilibrium > 0 ? r.equilibrium.toFixed(5) : '—'}</span>
+      </div>
+      <div class="modal-dim-reason">V440 gated equilibrium = 0.5 × gated_share / root_prop. Below-bar subnets have lower equilibrium, widening the distance gap. Price: ${r.price.toFixed(5)}.</div>
+    </div>
+  `;
+  document.getElementById('conceptModal').classList.add('active');
+}
 
 function showConcept(netuid) {
   if (!data) return;

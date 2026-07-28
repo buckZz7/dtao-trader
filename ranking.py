@@ -22,6 +22,78 @@ from datetime import datetime, timezone
 module = bt.storage.SubtensorModule
 BLOCKS_PER_DAY = 7200
 
+# ── V440 Emission Gate (July 2026) ─────────────────────────────────────────
+# Emissions now pass through a Hill gate function instead of being flat
+# proportional to price share. Subnets below rank ~31 get dramatically less
+# emission.
+#
+#   share = price / sum(prices)            (excluding SN0 root)
+#   Walk sorted shares until cumulative >= q=0.61 → that rank is "the bar"
+#   theta = share at the bar
+#   gate(s) = s^h / (s^h + theta^h)       h=3
+#   gated_share = share * gate(share)
+#
+# Above bar: gate ≈ 1 (emission unchanged)
+# At bar:    gate = 0.5 (50% cut)
+# Below bar: gate → 0 (emission collapses)
+GATE_Q = 0.61       # cumulative-share threshold defining the bar
+GATE_H = 3          # Hill coefficient (steepness)
+
+def compute_emission_gate(prices_excl_root):
+    """Compute V440 emission gate parameters from live prices.
+
+    Args:
+        prices_excl_root: dict {netuid: price} excluding SN0 root.
+    Returns:
+        dict with: theta (float), bar_rank (int), and per-netuid
+        {netuid: {gate_value, above_bar, emission_rank, share, gated_share, old_share_pct, new_share_pct}}
+    """
+    # Sort by price descending
+    sorted_items = sorted(
+        ((netuid, price) for netuid, price in prices_excl_root.items() if price > 0),
+        key=lambda x: x[1],
+        reverse=True,
+    )
+    if not sorted_items:
+        return {'theta': 0, 'bar_rank': 0, 'subnets': {}}
+
+    total = sum(p for _, p in sorted_items)
+    shares = [(netuid, price / total) for netuid, price in sorted_items]
+
+    # Walk down sorted shares until cumulative >= q
+    cumulative = 0.0
+    bar_rank = len(shares)  # fallback: all below
+    theta = 0.0
+    for rank, (netuid, share) in enumerate(shares, start=1):
+        cumulative += share
+        if cumulative >= GATE_Q:
+            bar_rank = rank
+            theta = share
+            break
+
+    # If we never reach q (shouldn't happen with valid data), use the last share
+    if theta == 0 and shares:
+        theta = shares[-1][1]
+
+    theta_h = theta ** GATE_H
+
+    subnets = {}
+    for rank, (netuid, share) in enumerate(shares, start=1):
+        s_h = share ** GATE_H
+        gate_value = s_h / (s_h + theta_h) if theta_h > 0 else 1.0
+        gated_share = share * gate_value
+        subnets[netuid] = {
+            'gate_value': gate_value,
+            'above_bar': rank <= bar_rank,
+            'emission_rank': rank,
+            'share': share,
+            'gated_share': gated_share,
+            'old_share_pct': share * 100,
+            'new_share_pct': gated_share * 100,
+        }
+
+    return {'theta': theta, 'bar_rank': bar_rank, 'subnets': subnets}
+
 def normalize(value, min_val, max_val):
     """Normalize to 0-1 range."""
     if max_val == min_val:
@@ -187,7 +259,16 @@ def compute_ranking():
     # The market trades on naive equilibrium, not burn-adjusted.
     # Miner burn is tracked separately as a standalone signal.
     sum_prices = sum(float(v) for v in all_prices.values() if v > 0)
-    
+
+    # ── V440 Emission Gate ───────────────────────────────────────────────
+    # Emissions now pass through a Hill gate function. The gated share
+    # replaces the flat price/sum price ratio in the equilibrium formula.
+    prices_excl_root = {int(k): float(v) for k, v in all_prices.items() if int(k) != 0 and float(v) > 0}
+    gate_data = compute_emission_gate(prices_excl_root)
+    gate_subnets = gate_data['subnets']
+    gate_theta = gate_data['theta']
+    gate_bar_rank = gate_data['bar_rank']
+
     # Fetch historical prices for momentum (1d, 7d, 30d)
     current_block = sub.block()
     historical_prices = {}
@@ -228,10 +309,15 @@ def compute_ranking():
             rp_bits = rp_raw.get('bits', 0) if isinstance(rp_raw, dict) else int(rp_raw)
             root_prop = rp_bits / (2**32)
             
-            # Equilibrium price (naive — no burn weighting)
+            # Equilibrium price (V440 gated — no burn weighting)
             # Backtest proved naive formula is more predictive (r=+0.661 vs +0.047)
-            emission_rate = spot_price / sum_prices if sum_prices > 0 else 0
-            tao_emission = 0.5 * emission_rate
+            # V440: emission share now passes through a Hill gate function.
+            # gated_share = (price/sum_prices) * gate(price/sum_prices)
+            # equilibrium = 0.5 * gated_share / root_prop
+            gs = gate_subnets.get(netuid, {})
+            gate_value = gs.get('gate_value', 1.0)
+            gated_share = gs.get('gated_share', spot_price / sum_prices if sum_prices > 0 else 0)
+            tao_emission = 0.5 * gated_share
             equilibrium = tao_emission / root_prop if root_prop > 0 else 0
             distance_pct = ((spot_price / equilibrium) - 1) * 100 if equilibrium > 0 else 0
             
@@ -356,6 +442,14 @@ def compute_ranking():
                 'emission_enabled': emission_enabled,
                 'equilibrium': equilibrium,
                 'distance_pct': round(distance_pct, 1),
+                # V440 Emission Gate fields
+                'gate_value': round(gs.get('gate_value', 1.0), 4),
+                'above_bar': gs.get('above_bar', True),
+                'emission_rank': gs.get('emission_rank', 0),
+                'gated_share_pct': round(gs.get('new_share_pct', 0), 2),
+                'old_share_pct': round(gs.get('old_share_pct', 0), 2),
+                'gate_theta': round(gate_theta, 6),
+                'gate_bar_rank': gate_bar_rank,
                 'cb_vs_pool': round(cb_vs_pool, 2),
                 'daily_cb': round(daily_cb, 1),
                 'tao_pool': round(tao_pool, 0),
