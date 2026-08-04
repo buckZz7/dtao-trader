@@ -215,7 +215,7 @@ tr:hover td:nth-child(1), tr:hover td:nth-child(2) { background: var(--card); }
 <div class="footer">
   Score = Val(35) + Code(20) + Conv(15) + Hold(15) + Concept(10) + Flow(10) + Act(5) → normalized to 100<br>
   Health = Active Miners(40) + Freshness(30) + Validators(20) + Miner Burn(10)<br>
-  Gate = V440 Emission Gate (Hill function h=3, q=0.61). Below rank ~31, emission is progressively cut.<br>
+  Gate = V440/V441 Emission Gate (Hill h=3, rank-pinned bar N=32). Below rank 32, emission is progressively cut.<br>
   EqVel = Protocol velocity (chain buys × AMM × float amp) vs flow velocity (7d net stake flow vs pool)<br>
   Conv% = Conviction as % of takeover threshold (10% of circulating alpha)
 </div>
@@ -444,8 +444,8 @@ function showGate(netuid) {
   document.getElementById('modalContent').innerHTML = `
     <span class="modal-close" onclick="closeModal()">&times;</span>
     <div class="modal-title">SN${r.netuid} — ${r.name}</div>
-    <div class="modal-verdict">V440 Emission Gate: <span class="modal-dim-score ${cls}">${gvPct}%</span></div>
-    <div class="modal-summary">Emissions pass through a Hill gate function (h=3). Subnets ranked by price share; the bar sits where cumulative share reaches 61%. Below the bar, emission is progressively cut.</div>
+    <div class="modal-verdict">V440/V441 Emission Gate: <span class="modal-dim-score ${cls}">${gvPct}%</span></div>
+    <div class="modal-summary">Emissions pass through a Hill gate function (h=3). The bar is rank-pinned: theta = the 32nd-largest demand share (EmissionBarRank, v441). Subnets ranked by price share; rank ≤ 32 = above bar (full emission), below = progressively cut.</div>
     <div class="modal-summary" style="color:${statusColor}">${statusText}</div>
 
     <div class="modal-dim">

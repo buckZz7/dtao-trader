@@ -22,25 +22,31 @@ from datetime import datetime, timezone
 module = bt.storage.SubtensorModule
 BLOCKS_PER_DAY = 7200
 
-# ── V440 Emission Gate (July 2026) ─────────────────────────────────────────
+# ── V440/V441 Emission Gate (July 2026) ────────────────────────────────────
 # Emissions now pass through a Hill gate function instead of being flat
-# proportional to price share. Subnets below rank ~31 get dramatically less
-# emission.
+# proportional to price share. The bar is RANK-PINNED since v441: theta is the
+# Nth-largest demand share with EmissionBarRank default N=32
+# (source: pallets/subtensor/src/lib.rs DefaultEmissionBarRank → 32).
+# q-mass (q=0.61) is only the fallback when rank mode is disabled (N=0).
 #
 #   share = price / sum(prices)            (excluding SN0 root)
-#   Walk sorted shares until cumulative >= q=0.61 → that rank is "the bar"
-#   theta = share at the bar
+#   theta = Nth-largest share (rank mode, N=32)  [or q-mass walk if N=0]
 #   gate(s) = s^h / (s^h + theta^h)       h=3
 #   gated_share = share * gate(share)
 #
 # Above bar: gate ≈ 1 (emission unchanged)
 # At bar:    gate = 0.5 (50% cut)
 # Below bar: gate → 0 (emission collapses)
-GATE_Q = 0.61       # cumulative-share threshold defining the bar
-GATE_H = 3          # Hill coefficient (steepness)
+GATE_RANK = 32       # EmissionBarRank default (rank-pinned mode, v441)
+GATE_Q = 0.61        # cumulative-share threshold (q-mass fallback, N=0 only)
+GATE_H = 3           # Hill coefficient (steepness)
 
 def compute_emission_gate(prices_excl_root):
-    """Compute V440 emission gate parameters from live prices.
+    """Compute V440/V441 emission gate parameters from live prices.
+
+    Rank-pinned mode (chain default): theta = EmissionBarRank-th largest demand
+    share (N=32). Falls back to q-mass walk only when rank mode is disabled
+    (GATE_RANK=0), mirroring the chain's maybe_update_emission_gate_bar.
 
     Args:
         prices_excl_root: dict {netuid: price} excluding SN0 root.
@@ -60,20 +66,30 @@ def compute_emission_gate(prices_excl_root):
     total = sum(p for _, p in sorted_items)
     shares = [(netuid, price / total) for netuid, price in sorted_items]
 
-    # Walk down sorted shares until cumulative >= q
-    cumulative = 0.0
-    bar_rank = len(shares)  # fallback: all below
-    theta = 0.0
-    for rank, (netuid, share) in enumerate(shares, start=1):
-        cumulative += share
-        if cumulative >= GATE_Q:
-            bar_rank = rank
-            theta = share
-            break
-
-    # If we never reach q (shouldn't happen with valid data), use the last share
-    if theta == 0 and shares:
-        theta = shares[-1][1]
+    if GATE_RANK > 0:
+        # Rank-pinned: theta = Nth-largest demand share (chain default N=32).
+        # Mirrors the chain: if fewer than N positive shares, use the smallest
+        # positive share so everyone passes.
+        if len(shares) >= GATE_RANK:
+            bar_rank = GATE_RANK
+            theta = shares[GATE_RANK - 1][1]
+        else:
+            bar_rank = len(shares)
+            theta = shares[-1][1]
+    else:
+        # q-mass fallback: walk down sorted shares until cumulative >= q
+        cumulative = 0.0
+        bar_rank = len(shares)  # fallback: all below
+        theta = 0.0
+        for rank, (netuid, share) in enumerate(shares, start=1):
+            cumulative += share
+            if cumulative >= GATE_Q:
+                bar_rank = rank
+                theta = share
+                break
+        # If we never reach q (shouldn't happen with valid data), use the last share
+        if theta == 0 and shares:
+            theta = shares[-1][1]
 
     theta_h = theta ** GATE_H
 
