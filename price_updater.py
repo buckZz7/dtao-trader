@@ -11,7 +11,7 @@ The full ranking (hourly) reads this file for fresh prices.
 Output: docs/prices-live.json
 """
 import bittensor as bt
-import json, os, subprocess
+import json, os, subprocess, sys
 from datetime import datetime, timezone
 
 module = bt.storage.SubtensorModule
@@ -87,17 +87,33 @@ def update_prices():
     print(f"Block {block} | {len(data['subnets'])} subnets | {datetime.now(timezone.utc).strftime('%H:%M:%S')} UTC")
     
     # Git push
+    repo = os.path.dirname(os.path.abspath(__file__))
+    def run(args):
+        r = subprocess.run(['git'] + args, cwd=repo, capture_output=True, text=True)
+        if r.returncode != 0:
+            print(f"git {' '.join(args)} failed: {(r.stderr or r.stdout).strip()[:300]}")
+        return r.returncode == 0
+
     try:
-        subprocess.run(['git', 'add', 'docs/prices-live.json'], check=True, cwd=os.path.dirname(os.path.abspath(__file__)))
-        result = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=os.path.dirname(os.path.abspath(__file__)))
-        if result.returncode != 0:
-            subprocess.run(['git', 'commit', '-m', 'Update live prices [skip ci]'], check=True, cwd=os.path.dirname(os.path.abspath(__file__)))
-            subprocess.run(['git', 'push', 'origin', 'main'], check=True, cwd=os.path.dirname(os.path.abspath(__file__)))
-            print("Pushed to GitHub")
-        else:
+        run(['add', 'docs/prices-live.json'])
+        changed = subprocess.run(['git', 'diff', '--staged', '--quiet'], cwd=repo).returncode != 0
+        if not changed:
             print("No changes")
+            sys.exit(0)
+        if not run(['commit', '-m', 'Update live prices [skip ci]']):
+            sys.exit(1)
+        # Discard stale local copies of Action-owned files (dashboard/health/conviction/rankings)
+        # that would otherwise block the rebase. Our file is already committed above.
+        run(['checkout', '--', '.'])
+        # Action commits land at unpredictable times; rebase onto them first.
+        # -X ours keeps our fresher local prices on conflict (file is fully regenerated each run).
+        run(['pull', '--rebase', '-X', 'ours', 'origin', 'main'])
+        if not run(['push', 'origin', 'main']):
+            sys.exit(1)
+        print("Pushed to GitHub")
     except Exception as e:
         print(f"Git error: {e}")
+        sys.exit(1)
 
 if __name__ == '__main__':
     update_prices()
