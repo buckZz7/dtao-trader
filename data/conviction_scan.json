@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-10-10T03:32:53.353937+00:00",
-  "block": 9250041,
+  "timestamp": "2026-10-10T10:21:39.159104+00:00",
+  "block": 9252084,
   "results": [
     {
       "netuid": 79,
       "name": "MVTRX",
-      "alpha_out": 3042969.0,
+      "alpha_out": 3044911.0,
       "locked_alpha": 1355086.0,
       "conviction_alpha": 1355086.0,
-      "threshold_alpha": 304297.0,
-      "pct_of_threshold": 445.3,
+      "threshold_alpha": 304491.0,
+      "pct_of_threshold": 445.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -24,7 +24,7 @@
           "is_owner": true,
           "locked_alpha": 1355085.827207694,
           "conviction_alpha": 1355085.827207694,
-          "pct_of_threshold": 445.31706639125713,
+          "pct_of_threshold": 445.0329894415849,
           "blocks_to_threshold": 0
         }
       ]
@@ -32,11 +32,11 @@
     {
       "netuid": 88,
       "name": "Investing",
-      "alpha_out": 3317241.0,
-      "locked_alpha": 1260504.0,
-      "conviction_alpha": 1260504.0,
-      "threshold_alpha": 331724.0,
-      "pct_of_threshold": 380.0,
+      "alpha_out": 3321103.0,
+      "locked_alpha": 1260501.0,
+      "conviction_alpha": 1260501.0,
+      "threshold_alpha": 332110.0,
+      "pct_of_threshold": 379.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -49,9 +49,36 @@
         {
           "hotkey": "5HK4vbGgLQdFKarN3hLVqNRbgQtQR5w3WTZ2tTnFHHLPgXpY",
           "is_owner": true,
-          "locked_alpha": 1260504.131288248,
-          "conviction_alpha": 1260504.131288248,
-          "pct_of_threshold": 379.985689865084,
+          "locked_alpha": 1260501.056219476,
+          "conviction_alpha": 1260501.056219476,
+          "pct_of_threshold": 379.5428424876798,
+          "blocks_to_threshold": 0
+        }
+      ]
+    },
+    {
+      "netuid": 36,
+      "name": "Epago",
+      "alpha_out": 144229.0,
+      "locked_alpha": 50875.0,
+      "conviction_alpha": 50875.0,
+      "threshold_alpha": 14423.0,
+      "pct_of_threshold": 352.7,
+      "blocks_to_threshold": 0,
+      "days_to_threshold": 0,
+      "can_takeover": false,
+      "registered_at": 8884359,
+      "changeable_at": 11514159,
+      "age_days": 51.0,
+      "owner_hotkey": "5EFY7fKVPCNcc89CdnSV4v6QxySoGR5Ad2R2AGaEwVbMkAZR",
+      "num_lockers": 1,
+      "top_lockers": [
+        {
+          "hotkey": "5EFY7fKVPCNcc89CdnSV4v6QxySoGR5Ad2R2AGaEwVbMkAZR",
+          "is_owner": true,
+          "locked_alpha": 50875.405897692,
+          "conviction_alpha": 50875.405897692,
+          "pct_of_threshold": 352.7412222353158,
           "blocks_to_threshold": 0
         }
       ]
@@ -59,11 +86,11 @@
     {
       "netuid": 2,
       "name": "DSperse",
-      "alpha_out": 3362484.0,
+      "alpha_out": 3364080.0,
       "locked_alpha": 1144508.0,
       "conviction_alpha": 1144508.0,
-      "threshold_alpha": 336248.0,
-      "pct_of_threshold": 340.4,
+      "threshold_alpha": 336408.0,
+      "pct_of_threshold": 340.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -78,34 +105,7 @@
           "is_owner": true,
           "locked_alpha": 1144508.261830867,
           "conviction_alpha": 1144508.261830867,
-          "pct_of_threshold": 340.3758281762004,
-          "blocks_to_threshold": 0
-        }
-      ]
-    },
-    {
-      "netuid": 36,
-      "name": "Epago",
-      "alpha_out": 149898.0,
-      "locked_alpha": 50987.0,
-      "conviction_alpha": 50987.0,
-      "threshold_alpha": 14990.0,
-      "pct_of_threshold": 340.1,
-      "blocks_to_threshold": 0,
-      "days_to_threshold": 0,
-      "can_takeover": false,
-      "registered_at": 8884359,
-      "changeable_at": 11514159,
-      "age_days": 51.0,
-      "owner_hotkey": "5EFY7fKVPCNcc89CdnSV4v6QxySoGR5Ad2R2AGaEwVbMkAZR",
-      "num_lockers": 1,
-      "top_lockers": [
-        {
-          "hotkey": "5EFY7fKVPCNcc89CdnSV4v6QxySoGR5Ad2R2AGaEwVbMkAZR",
-          "is_owner": true,
-          "locked_alpha": 50986.70752536,
-          "conviction_alpha": 50986.70752536,
-          "pct_of_threshold": 340.14218902004905,
+          "pct_of_threshold": 340.21431859404674,
           "blocks_to_threshold": 0
         }
       ]
@@ -113,11 +113,11 @@
     {
       "netuid": 58,
       "name": "Attune",
-      "alpha_out": 716541.0,
+      "alpha_out": 723694.0,
       "locked_alpha": 213418.0,
       "conviction_alpha": 213418.0,
-      "threshold_alpha": 71654.0,
-      "pct_of_threshold": 297.8,
+      "threshold_alpha": 72369.0,
+      "pct_of_threshold": 294.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -132,7 +132,7 @@
           "is_owner": true,
           "locked_alpha": 213417.539421567,
           "conviction_alpha": 213417.539421567,
-          "pct_of_threshold": 297.8441308944376,
+          "pct_of_threshold": 294.9004243480647,
           "blocks_to_threshold": 0
         }
       ]
@@ -140,26 +140,26 @@
     {
       "netuid": 31,
       "name": "rec4ll",
-      "alpha_out": 1962600.0,
-      "locked_alpha": 549709.0,
-      "conviction_alpha": 549709.0,
-      "threshold_alpha": 196260.0,
+      "alpha_out": 1964221.0,
+      "locked_alpha": 550098.0,
+      "conviction_alpha": 550098.0,
+      "threshold_alpha": 196422.0,
       "pct_of_threshold": 280.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 7173591,
       "changeable_at": 9803391,
-      "age_days": 288.0,
+      "age_days": 289.0,
       "owner_hotkey": "5CDZ527X1CiStK1ViGkbC4EjVoouwiGW4ijRKRFfrLpQfftn",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5CDZ527X1CiStK1ViGkbC4EjVoouwiGW4ijRKRFfrLpQfftn",
           "is_owner": true,
-          "locked_alpha": 549709.201850624,
-          "conviction_alpha": 549709.201850624,
-          "pct_of_threshold": 280.0922869261824,
+          "locked_alpha": 550097.991962144,
+          "conviction_alpha": 550097.991962144,
+          "pct_of_threshold": 280.05907693941543,
           "blocks_to_threshold": 0
         }
       ]
@@ -167,11 +167,11 @@
     {
       "netuid": 73,
       "name": "Parked",
-      "alpha_out": 3634710.0,
-      "locked_alpha": 1006552.0,
-      "conviction_alpha": 1001140.0,
-      "threshold_alpha": 363471.0,
-      "pct_of_threshold": 275.4,
+      "alpha_out": 3636749.0,
+      "locked_alpha": 1006708.0,
+      "conviction_alpha": 1001331.0,
+      "threshold_alpha": 363675.0,
+      "pct_of_threshold": 275.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -184,35 +184,62 @@
         {
           "hotkey": "5Dnkprjf9fUrvWq3ZfFP8WrUNSjQws6UoHkbDfR1bQK8pFhW",
           "is_owner": true,
-          "locked_alpha": 938500.365208871,
-          "conviction_alpha": 938500.365208871,
-          "pct_of_threshold": 258.2050031432085,
+          "locked_alpha": 938656.506693313,
+          "conviction_alpha": 938656.506693313,
+          "pct_of_threshold": 258.1031814023453,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5DyQkk4x6CwDtjtxe1NG2aMgQVXe9ZpZdT14SdYYwEVd3XUk",
           "is_owner": false,
           "locked_alpha": 68051.170035738,
-          "conviction_alpha": 62639.53882321,
-          "pct_of_threshold": 17.23370913674238,
+          "conviction_alpha": 62674.901538561,
+          "pct_of_threshold": 17.23377121005428,
           "blocks_to_threshold": null
+        }
+      ]
+    },
+    {
+      "netuid": 25,
+      "name": "UR",
+      "alpha_out": 4091613.0,
+      "locked_alpha": 1125787.0,
+      "conviction_alpha": 1125787.0,
+      "threshold_alpha": 409161.0,
+      "pct_of_threshold": 275.1,
+      "blocks_to_threshold": 0,
+      "days_to_threshold": 0,
+      "can_takeover": true,
+      "registered_at": 2998801,
+      "changeable_at": 5628601,
+      "age_days": 869.0,
+      "owner_hotkey": "5CyQFykVpfa9xgZVGgBsiNUpjbo1EihBTSkPvDC1FZbL1wxG",
+      "num_lockers": 1,
+      "top_lockers": [
+        {
+          "hotkey": "5CyQFykVpfa9xgZVGgBsiNUpjbo1EihBTSkPvDC1FZbL1wxG",
+          "is_owner": true,
+          "locked_alpha": 1125787.358826382,
+          "conviction_alpha": 1125787.358826382,
+          "pct_of_threshold": 275.14515443175816,
+          "blocks_to_threshold": 0
         }
       ]
     },
     {
       "netuid": 124,
       "name": "Swarm",
-      "alpha_out": 3651301.0,
+      "alpha_out": 3647731.0,
       "locked_alpha": 1000000.0,
       "conviction_alpha": 1000000.0,
-      "threshold_alpha": 365130.0,
-      "pct_of_threshold": 273.9,
+      "threshold_alpha": 364773.0,
+      "pct_of_threshold": 274.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5813454,
       "changeable_at": 8443254,
-      "age_days": 477.0,
+      "age_days": 478.0,
       "owner_hotkey": "5GZPtUjyp5d4j7aWWV9774caQAxxbsxNNM3nuaJYDPAEDjmt",
       "num_lockers": 1,
       "top_lockers": [
@@ -221,34 +248,7 @@
           "is_owner": true,
           "locked_alpha": 1000000.110795789,
           "conviction_alpha": 1000000.110795789,
-          "pct_of_threshold": 273.8750117498553,
-          "blocks_to_threshold": 0
-        }
-      ]
-    },
-    {
-      "netuid": 25,
-      "name": "UR",
-      "alpha_out": 4116577.0,
-      "locked_alpha": 1126161.0,
-      "conviction_alpha": 1126161.0,
-      "threshold_alpha": 411658.0,
-      "pct_of_threshold": 273.6,
-      "blocks_to_threshold": 0,
-      "days_to_threshold": 0,
-      "can_takeover": true,
-      "registered_at": 2998801,
-      "changeable_at": 5628601,
-      "age_days": 868.0,
-      "owner_hotkey": "5CyQFykVpfa9xgZVGgBsiNUpjbo1EihBTSkPvDC1FZbL1wxG",
-      "num_lockers": 1,
-      "top_lockers": [
-        {
-          "hotkey": "5CyQFykVpfa9xgZVGgBsiNUpjbo1EihBTSkPvDC1FZbL1wxG",
-          "is_owner": true,
-          "locked_alpha": 1126160.691009999,
-          "conviction_alpha": 1126160.691009999,
-          "pct_of_threshold": 273.5672269069006,
+          "pct_of_threshold": 274.1430493112433,
           "blocks_to_threshold": 0
         }
       ]
@@ -256,26 +256,26 @@
     {
       "netuid": 60,
       "name": "Bitsec.ai",
-      "alpha_out": 4126522.0,
-      "locked_alpha": 1049376.0,
-      "conviction_alpha": 1049376.0,
-      "threshold_alpha": 412652.0,
-      "pct_of_threshold": 254.3,
+      "alpha_out": 4124882.0,
+      "locked_alpha": 1049283.0,
+      "conviction_alpha": 1049283.0,
+      "threshold_alpha": 412488.0,
+      "pct_of_threshold": 254.4,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 4796992,
       "changeable_at": 7426792,
-      "age_days": 618.0,
+      "age_days": 619.0,
       "owner_hotkey": "5CXLwkK1Scd1uiMUrXYjJUTTPxqqyH2FTJQNLp9uXQhA9rhR",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5CXLwkK1Scd1uiMUrXYjJUTTPxqqyH2FTJQNLp9uXQhA9rhR",
           "is_owner": true,
-          "locked_alpha": 1049375.508549245,
-          "conviction_alpha": 1049375.508549245,
-          "pct_of_threshold": 254.30021894375733,
+          "locked_alpha": 1049283.062364449,
+          "conviction_alpha": 1049283.062364449,
+          "pct_of_threshold": 254.3789566162848,
           "blocks_to_threshold": 0
         }
       ]
@@ -283,11 +283,11 @@
     {
       "netuid": 6,
       "name": "Numinous",
-      "alpha_out": 2722451.0,
+      "alpha_out": 2724347.0,
       "locked_alpha": 662466.0,
       "conviction_alpha": 662466.0,
-      "threshold_alpha": 272245.0,
-      "pct_of_threshold": 243.3,
+      "threshold_alpha": 272435.0,
+      "pct_of_threshold": 243.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -302,7 +302,7 @@
           "is_owner": true,
           "locked_alpha": 662466.459537209,
           "conviction_alpha": 662466.459537209,
-          "pct_of_threshold": 243.3345944173833,
+          "pct_of_threshold": 243.165258997817,
           "blocks_to_threshold": 0
         }
       ]
@@ -310,26 +310,26 @@
     {
       "netuid": 96,
       "name": "Verathos",
-      "alpha_out": 910215.0,
-      "locked_alpha": 219486.0,
-      "conviction_alpha": 219486.0,
-      "threshold_alpha": 91022.0,
+      "alpha_out": 911980.0,
+      "locked_alpha": 219843.0,
+      "conviction_alpha": 219843.0,
+      "threshold_alpha": 91198.0,
       "pct_of_threshold": 241.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 7692872,
       "changeable_at": 10322672,
-      "age_days": 216.0,
+      "age_days": 217.0,
       "owner_hotkey": "5GpKXttD7h1spLMvFADW6pnpftakhiWy8iUAipq1najWMz8c",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5GpKXttD7h1spLMvFADW6pnpftakhiWy8iUAipq1najWMz8c",
           "is_owner": true,
-          "locked_alpha": 219485.727592031,
-          "conviction_alpha": 219485.727592031,
-          "pct_of_threshold": 241.1360121241037,
+          "locked_alpha": 219842.765137599,
+          "conviction_alpha": 219842.765137599,
+          "pct_of_threshold": 241.06084123473138,
           "blocks_to_threshold": 0
         }
       ]
@@ -337,34 +337,34 @@
     {
       "netuid": 64,
       "name": "Chutes",
-      "alpha_out": 3499879.0,
-      "locked_alpha": 800240.0,
-      "conviction_alpha": 800241.0,
-      "threshold_alpha": 349988.0,
-      "pct_of_threshold": 228.6,
+      "alpha_out": 3500432.0,
+      "locked_alpha": 800627.0,
+      "conviction_alpha": 800627.0,
+      "threshold_alpha": 350043.0,
+      "pct_of_threshold": 228.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 4531295,
       "changeable_at": 7161095,
-      "age_days": 655.0,
+      "age_days": 656.0,
       "owner_hotkey": "5CS3g6nVJM6ouns8n9buN9CzFf2C1YDHVcVGRcxoirKs2xbV",
       "num_lockers": 2,
       "top_lockers": [
         {
           "hotkey": "5CS3g6nVJM6ouns8n9buN9CzFf2C1YDHVcVGRcxoirKs2xbV",
           "is_owner": true,
-          "locked_alpha": 800240.076272118,
-          "conviction_alpha": 800240.076272118,
-          "pct_of_threshold": 228.64795761333824,
+          "locked_alpha": 800626.663402679,
+          "conviction_alpha": 800626.663402679,
+          "pct_of_threshold": 228.7222204349525,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5FTzsDqHH9QZVnirTodscPxQep4f98gda9RmZdKJ6jdGvweU",
           "is_owner": false,
-          "locked_alpha": 0.358749126,
-          "conviction_alpha": 0.43430088,
-          "pct_of_threshold": 0.000124090272673171,
+          "locked_alpha": 0.357965611,
+          "conviction_alpha": 0.433804375,
+          "pct_of_threshold": 0.00012392879803261285,
           "blocks_to_threshold": null
         }
       ]
@@ -372,11 +372,11 @@
     {
       "netuid": 90,
       "name": "KubeTEE",
-      "alpha_out": 454619.0,
-      "locked_alpha": 99520.0,
-      "conviction_alpha": 99520.0,
-      "threshold_alpha": 45462.0,
-      "pct_of_threshold": 218.9,
+      "alpha_out": 457023.0,
+      "locked_alpha": 99844.0,
+      "conviction_alpha": 99844.0,
+      "threshold_alpha": 45702.0,
+      "pct_of_threshold": 218.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -389,9 +389,9 @@
         {
           "hotkey": "5EKtGWqskt8qBqdAZ78pSWRCYRuYmDc5XbwJPDqH1EpiSTEE",
           "is_owner": true,
-          "locked_alpha": 99520.216818577,
-          "conviction_alpha": 99520.216818577,
-          "pct_of_threshold": 218.90886829739483,
+          "locked_alpha": 99844.208578177,
+          "conviction_alpha": 99844.208578177,
+          "pct_of_threshold": 218.4665726295392,
           "blocks_to_threshold": 0
         }
       ]
@@ -399,11 +399,11 @@
     {
       "netuid": 49,
       "name": "Nepher Robotics",
-      "alpha_out": 2483297.0,
-      "locked_alpha": 506742.0,
-      "conviction_alpha": 506742.0,
-      "threshold_alpha": 248330.0,
-      "pct_of_threshold": 204.1,
+      "alpha_out": 2486180.0,
+      "locked_alpha": 505814.0,
+      "conviction_alpha": 505814.0,
+      "threshold_alpha": 248618.0,
+      "pct_of_threshold": 203.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -416,9 +416,9 @@
         {
           "hotkey": "5DLYBBCdYwBgjJi76dHJuAU7tUb7rNHJmNtpYRmBesBnrAgn",
           "is_owner": true,
-          "locked_alpha": 506742.377443256,
-          "conviction_alpha": 506742.377443256,
-          "pct_of_threshold": 204.0603010359538,
+          "locked_alpha": 505813.831587311,
+          "conviction_alpha": 505813.831587311,
+          "pct_of_threshold": 203.45020293551968,
           "blocks_to_threshold": 0
         }
       ]
@@ -426,11 +426,11 @@
     {
       "netuid": 22,
       "name": "Desearch",
-      "alpha_out": 3783307.0,
+      "alpha_out": 3785636.0,
       "locked_alpha": 763678.0,
       "conviction_alpha": 763678.0,
-      "threshold_alpha": 378331.0,
-      "pct_of_threshold": 201.9,
+      "threshold_alpha": 378564.0,
+      "pct_of_threshold": 201.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -445,7 +445,7 @@
           "is_owner": true,
           "locked_alpha": 763677.586285475,
           "conviction_alpha": 763677.586285475,
-          "pct_of_threshold": 201.85450517391814,
+          "pct_of_threshold": 201.73031145872648,
           "blocks_to_threshold": 0
         }
       ]
@@ -453,11 +453,11 @@
     {
       "netuid": 61,
       "name": "RedTeam",
-      "alpha_out": 5075806.0,
+      "alpha_out": 5067273.0,
       "locked_alpha": 1021288.0,
       "conviction_alpha": 1021288.0,
-      "threshold_alpha": 507581.0,
-      "pct_of_threshold": 201.2,
+      "threshold_alpha": 506727.0,
+      "pct_of_threshold": 201.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -472,7 +472,7 @@
           "is_owner": true,
           "locked_alpha": 1021287.884224886,
           "conviction_alpha": 1021287.884224886,
-          "pct_of_threshold": 201.20701993783845,
+          "pct_of_threshold": 201.5458382589962,
           "blocks_to_threshold": 0
         }
       ]
@@ -480,11 +480,11 @@
     {
       "netuid": 23,
       "name": "Trishool",
-      "alpha_out": 4570339.0,
-      "locked_alpha": 819823.0,
-      "conviction_alpha": 819823.0,
-      "threshold_alpha": 457034.0,
-      "pct_of_threshold": 179.4,
+      "alpha_out": 4576625.0,
+      "locked_alpha": 819011.0,
+      "conviction_alpha": 819011.0,
+      "threshold_alpha": 457662.0,
+      "pct_of_threshold": 179.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -497,9 +497,9 @@
         {
           "hotkey": "5HKsvivbcTKKTJEWQpsQD5Fur8CdyibHwZb8xQzrJw5rM28H",
           "is_owner": true,
-          "locked_alpha": 819823.229540518,
-          "conviction_alpha": 819823.229540518,
-          "pct_of_threshold": 179.3790724285835,
+          "locked_alpha": 819010.572608397,
+          "conviction_alpha": 819010.572608397,
+          "pct_of_threshold": 178.95515079216378,
           "blocks_to_threshold": 0
         }
       ]
@@ -507,10 +507,10 @@
     {
       "netuid": 17,
       "name": "404\u2014GEN",
-      "alpha_out": 3194742.0,
-      "locked_alpha": 567542.0,
-      "conviction_alpha": 564909.0,
-      "threshold_alpha": 319474.0,
+      "alpha_out": 3197233.0,
+      "locked_alpha": 567856.0,
+      "conviction_alpha": 565246.0,
+      "threshold_alpha": 319723.0,
       "pct_of_threshold": 176.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -524,41 +524,41 @@
         {
           "hotkey": "5E7eSeRr2aHzCV7SkY4a2Pi5NXHrU4anZz3phEQgn4HCen2B",
           "is_owner": true,
-          "locked_alpha": 559811.836739329,
-          "conviction_alpha": 559811.836739329,
-          "pct_of_threshold": 175.22914951614825,
+          "locked_alpha": 560131.440673182,
+          "conviction_alpha": 560131.440673182,
+          "pct_of_threshold": 175.1925658687059,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5EhrAFV5Jv5BBNX8fuybxeUiUu9NaRN2U84xb88yZxhGgsWL",
           "is_owner": false,
           "locked_alpha": 4208.082992891,
-          "conviction_alpha": 3066.192495114,
-          "pct_of_threshold": 0.9597623128177394,
+          "conviction_alpha": 3073.654265336,
+          "pct_of_threshold": 0.9613482447805721,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5DDEt92nY1F19iaz6HFPFGU2FtTU3m2QhfDmdyhJJLHuRFPC",
           "is_owner": false,
-          "locked_alpha": 357.336406659,
-          "conviction_alpha": 392.01924494,
-          "pct_of_threshold": 0.12270765706744738,
+          "locked_alpha": 356.556357787,
+          "conviction_alpha": 391.790054941,
+          "pct_of_threshold": 0.12254035396493744,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5GgEDzkWvGyQQSpXJ3Yxbdi981iK9CHyjqs1vzvLuPJMx7rk",
           "is_owner": false,
-          "locked_alpha": 357.225298345,
-          "conviction_alpha": 391.603429245,
-          "pct_of_threshold": 0.12257750077957166,
+          "locked_alpha": 356.445492018,
+          "conviction_alpha": 391.376231173,
+          "pct_of_threshold": 0.12241092211656916,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5Ckkr8PhEHnJjfTkD4wHMA5rXWG4QK8KR9BAiNiWpb3P5WSv",
           "is_owner": false,
           "locked_alpha": 200.0,
-          "conviction_alpha": 184.724293977,
-          "pct_of_threshold": 0.05782135854288087,
+          "conviction_alpha": 184.824114239,
+          "pct_of_threshold": 0.057807522407715944,
           "blocks_to_threshold": null
         }
       ]
@@ -566,11 +566,11 @@
     {
       "netuid": 8,
       "name": "Vanta",
-      "alpha_out": 3465681.0,
+      "alpha_out": 3467437.0,
       "locked_alpha": 607572.0,
       "conviction_alpha": 607572.0,
-      "threshold_alpha": 346568.0,
-      "pct_of_threshold": 175.3,
+      "threshold_alpha": 346744.0,
+      "pct_of_threshold": 175.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -585,15 +585,15 @@
           "is_owner": true,
           "locked_alpha": 607571.159893335,
           "conviction_alpha": 607571.159893335,
-          "pct_of_threshold": 175.310735048839,
+          "pct_of_threshold": 175.2219710627942,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5DkFEQdEwE5ZcJbv2efF4F5nRTxuEdYhLHqd2EfdR3aLM7Fn",
           "is_owner": false,
-          "locked_alpha": 1.074612927,
-          "conviction_alpha": 1.280320719,
-          "pct_of_threshold": 0.00036942827634773326,
+          "locked_alpha": 1.072267097,
+          "conviction_alpha": 1.27896883,
+          "pct_of_threshold": 0.00036885134474786893,
           "blocks_to_threshold": null
         }
       ]
@@ -601,11 +601,11 @@
     {
       "netuid": 81,
       "name": "Reliquary",
-      "alpha_out": 2552239.0,
-      "locked_alpha": 446868.0,
-      "conviction_alpha": 446932.0,
-      "threshold_alpha": 255224.0,
-      "pct_of_threshold": 175.1,
+      "alpha_out": 2553066.0,
+      "locked_alpha": 446337.0,
+      "conviction_alpha": 446408.0,
+      "threshold_alpha": 255307.0,
+      "pct_of_threshold": 174.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -618,17 +618,17 @@
         {
           "hotkey": "5H47sFL6bGi3xPLzKpHxFqjBnmRZkQh4gk5jzkCeNXn4wdDa",
           "is_owner": true,
-          "locked_alpha": 443231.113797563,
-          "conviction_alpha": 443231.113797563,
-          "pct_of_threshold": 173.66362724071024,
+          "locked_alpha": 442707.62531575,
+          "conviction_alpha": 442707.62531575,
+          "pct_of_threshold": 173.40235348528245,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5E2LP6EnZ54m3wS8s1yPvD5c3xo71kQroBw7aUVK32TKeZ5u",
           "is_owner": false,
-          "locked_alpha": 3637.274863516,
-          "conviction_alpha": 3701.28022619,
-          "pct_of_threshold": 1.450208998207126,
+          "locked_alpha": 3629.334860479,
+          "conviction_alpha": 3700.835998213,
+          "pct_of_threshold": 1.4495654360946264,
           "blocks_to_threshold": null
         }
       ]
@@ -636,17 +636,17 @@
     {
       "netuid": 32,
       "name": "ItsAI",
-      "alpha_out": 3635053.0,
+      "alpha_out": 3634861.0,
       "locked_alpha": 634410.0,
       "conviction_alpha": 634410.0,
-      "threshold_alpha": 363505.0,
+      "threshold_alpha": 363486.0,
       "pct_of_threshold": 174.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 2515294,
       "changeable_at": 5145094,
-      "age_days": 935.0,
+      "age_days": 936.0,
       "owner_hotkey": "5DWgkCSvq4brWSNLDU9FBgTk1ZpAQ2y6t3ky97CvEVuS9Qad",
       "num_lockers": 1,
       "top_lockers": [
@@ -655,7 +655,7 @@
           "is_owner": true,
           "locked_alpha": 634410.218859858,
           "conviction_alpha": 634410.218859858,
-          "pct_of_threshold": 174.52572458365938,
+          "pct_of_threshold": 174.5349257964909,
           "blocks_to_threshold": 0
         }
       ]
@@ -663,11 +663,11 @@
     {
       "netuid": 123,
       "name": "MANTIS",
-      "alpha_out": 2079106.0,
+      "alpha_out": 2079575.0,
       "locked_alpha": 350657.0,
       "conviction_alpha": 350657.0,
-      "threshold_alpha": 207911.0,
-      "pct_of_threshold": 168.7,
+      "threshold_alpha": 207957.0,
+      "pct_of_threshold": 168.6,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -682,7 +682,7 @@
           "is_owner": true,
           "locked_alpha": 350656.879907587,
           "conviction_alpha": 350656.879907587,
-          "pct_of_threshold": 168.6575117110032,
+          "pct_of_threshold": 168.61950699822296,
           "blocks_to_threshold": 0
         }
       ]
@@ -690,10 +690,10 @@
     {
       "netuid": 122,
       "name": "CookingTAO",
-      "alpha_out": 910168.0,
-      "locked_alpha": 135927.0,
-      "conviction_alpha": 135927.0,
-      "threshold_alpha": 91017.0,
+      "alpha_out": 911809.0,
+      "locked_alpha": 136132.0,
+      "conviction_alpha": 136132.0,
+      "threshold_alpha": 91181.0,
       "pct_of_threshold": 149.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -707,9 +707,9 @@
         {
           "hotkey": "5CfPqfaz6L11nu7yX7LKXFwg3KZkuKCiyvYFDW9N34dnJyYB",
           "is_owner": true,
-          "locked_alpha": 135927.168505327,
-          "conviction_alpha": 135927.168505327,
-          "pct_of_threshold": 149.3429074365447,
+          "locked_alpha": 136131.763978362,
+          "conviction_alpha": 136131.763978362,
+          "pct_of_threshold": 149.29856967450158,
           "blocks_to_threshold": 0
         }
       ]
@@ -717,11 +717,11 @@
     {
       "netuid": 106,
       "name": "Nodexo",
-      "alpha_out": 2394405.0,
-      "locked_alpha": 350115.0,
-      "conviction_alpha": 350115.0,
-      "threshold_alpha": 239440.0,
-      "pct_of_threshold": 146.2,
+      "alpha_out": 2395236.0,
+      "locked_alpha": 350501.0,
+      "conviction_alpha": 350501.0,
+      "threshold_alpha": 239524.0,
+      "pct_of_threshold": 146.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -734,64 +734,21 @@
         {
           "hotkey": "5D7FVSM1fJM56zHJuMBuQ5LH32mkLni52JonoeppFrezvyHy",
           "is_owner": true,
-          "locked_alpha": 350114.858224418,
-          "conviction_alpha": 350114.858224418,
-          "pct_of_threshold": 146.22208064441796,
+          "locked_alpha": 350500.520614653,
+          "conviction_alpha": 350500.520614653,
+          "pct_of_threshold": 146.33236562682913,
           "blocks_to_threshold": 0
-        }
-      ]
-    },
-    {
-      "netuid": 75,
-      "name": "Hippius",
-      "alpha_out": 3808200.0,
-      "locked_alpha": 553100.0,
-      "conviction_alpha": 552717.0,
-      "threshold_alpha": 380820.0,
-      "pct_of_threshold": 145.1,
-      "blocks_to_threshold": 0,
-      "days_to_threshold": 0,
-      "can_takeover": true,
-      "registered_at": 5102795,
-      "changeable_at": 7732595,
-      "age_days": 576.0,
-      "owner_hotkey": "5G1Qj93Fy22grpiGKq6BEvqqmS2HVRs3jaEdMhq9absQzs6g",
-      "num_lockers": 3,
-      "top_lockers": [
-        {
-          "hotkey": "5G1Qj93Fy22grpiGKq6BEvqqmS2HVRs3jaEdMhq9absQzs6g",
-          "is_owner": true,
-          "locked_alpha": 552609.767120331,
-          "conviction_alpha": 552609.767120331,
-          "pct_of_threshold": 145.11050071407658,
-          "blocks_to_threshold": 0
-        },
-        {
-          "hotkey": "5FGtAW4hpfGMnFt9yUmyQsHcKt7H3tHKk4sRArRFEDVwqQsV",
-          "is_owner": false,
-          "locked_alpha": 489.949786093,
-          "conviction_alpha": 107.267532473,
-          "pct_of_threshold": 0.028167517611335843,
-          "blocks_to_threshold": null
-        },
-        {
-          "hotkey": "5D4VLwZemRAiQHzbd1ApTUwCApC9JNwbMHUedQUWqYcg58bx",
-          "is_owner": false,
-          "locked_alpha": 0.3519415,
-          "conviction_alpha": 0.428656508,
-          "pct_of_threshold": 0.00011256145717068226,
-          "blocks_to_threshold": null
         }
       ]
     },
     {
       "netuid": 54,
       "name": "Yanez",
-      "alpha_out": 4446361.0,
+      "alpha_out": 4440022.0,
       "locked_alpha": 644081.0,
       "conviction_alpha": 644081.0,
-      "threshold_alpha": 444636.0,
-      "pct_of_threshold": 144.9,
+      "threshold_alpha": 444002.0,
+      "pct_of_threshold": 145.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -806,42 +763,50 @@
           "is_owner": true,
           "locked_alpha": 644081.425659809,
           "conviction_alpha": 644081.425659809,
-          "pct_of_threshold": 144.85584009433884,
+          "pct_of_threshold": 145.0626682527939,
           "blocks_to_threshold": 0
         }
       ]
     },
     {
-      "netuid": 20,
-      "name": "Witness",
-      "alpha_out": 3284209.0,
-      "locked_alpha": 472909.0,
-      "conviction_alpha": 472909.0,
-      "threshold_alpha": 328421.0,
-      "pct_of_threshold": 144.0,
+      "netuid": 75,
+      "name": "Hippius",
+      "alpha_out": 3819724.0,
+      "locked_alpha": 553099.0,
+      "conviction_alpha": 552720.0,
+      "threshold_alpha": 381972.0,
+      "pct_of_threshold": 144.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
-      "registered_at": 1970929,
-      "changeable_at": 4600729,
-      "age_days": 1011.0,
-      "owner_hotkey": "5ED4s3B3syimeARcw2gEDZVErvQeLz26jd9XCk9KczqpwW2Q",
-      "num_lockers": 2,
+      "registered_at": 5102795,
+      "changeable_at": 7732595,
+      "age_days": 576.0,
+      "owner_hotkey": "5G1Qj93Fy22grpiGKq6BEvqqmS2HVRs3jaEdMhq9absQzs6g",
+      "num_lockers": 3,
       "top_lockers": [
         {
-          "hotkey": "5ED4s3B3syimeARcw2gEDZVErvQeLz26jd9XCk9KczqpwW2Q",
+          "hotkey": "5G1Qj93Fy22grpiGKq6BEvqqmS2HVRs3jaEdMhq9absQzs6g",
           "is_owner": true,
-          "locked_alpha": 466866.806417738,
-          "conviction_alpha": 466866.806417738,
-          "pct_of_threshold": 142.15501367205306,
+          "locked_alpha": 552609.767120331,
+          "conviction_alpha": 552609.767120331,
+          "pct_of_threshold": 144.67269328185694,
           "blocks_to_threshold": 0
         },
         {
-          "hotkey": "5EALa14jRfwHf69ZbNyFLxsPrZgZ47T2qhYxGjXxRM1qriNk",
+          "hotkey": "5FGtAW4hpfGMnFt9yUmyQsHcKt7H3tHKk4sRArRFEDVwqQsV",
           "is_owner": false,
-          "locked_alpha": 6041.804942846,
-          "conviction_alpha": 6041.804942846,
-          "pct_of_threshold": 1.839652878396452,
+          "locked_alpha": 488.880248339,
+          "conviction_alpha": 109.764699157,
+          "pct_of_threshold": 0.028736290234616994,
+          "blocks_to_threshold": null
+        },
+        {
+          "hotkey": "5D4VLwZemRAiQHzbd1ApTUwCApC9JNwbMHUedQUWqYcg58bx",
+          "is_owner": false,
+          "locked_alpha": 0.351173228,
+          "conviction_alpha": 0.428152694,
+          "pct_of_threshold": 0.00011208995425641762,
           "blocks_to_threshold": null
         }
       ]
@@ -849,11 +814,11 @@
     {
       "netuid": 18,
       "name": "Zeus",
-      "alpha_out": 3291838.0,
+      "alpha_out": 3283471.0,
       "locked_alpha": 472286.0,
       "conviction_alpha": 472286.0,
-      "threshold_alpha": 329184.0,
-      "pct_of_threshold": 143.5,
+      "threshold_alpha": 328347.0,
+      "pct_of_threshold": 143.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -868,7 +833,7 @@
           "is_owner": true,
           "locked_alpha": 375000.0,
           "conviction_alpha": 375000.0,
-          "pct_of_threshold": 113.91811477991773,
+          "pct_of_threshold": 114.20840997301491,
           "blocks_to_threshold": 0
         },
         {
@@ -876,7 +841,42 @@
           "is_owner": false,
           "locked_alpha": 97285.796249436,
           "conviction_alpha": 97285.796249436,
-          "pct_of_threshold": 29.553638676263844,
+          "pct_of_threshold": 29.628949606951423,
+          "blocks_to_threshold": null
+        }
+      ]
+    },
+    {
+      "netuid": 20,
+      "name": "Witness",
+      "alpha_out": 3284717.0,
+      "locked_alpha": 471889.0,
+      "conviction_alpha": 471889.0,
+      "threshold_alpha": 328472.0,
+      "pct_of_threshold": 143.7,
+      "blocks_to_threshold": 0,
+      "days_to_threshold": 0,
+      "can_takeover": true,
+      "registered_at": 1970929,
+      "changeable_at": 4600729,
+      "age_days": 1011.0,
+      "owner_hotkey": "5ED4s3B3syimeARcw2gEDZVErvQeLz26jd9XCk9KczqpwW2Q",
+      "num_lockers": 2,
+      "top_lockers": [
+        {
+          "hotkey": "5ED4s3B3syimeARcw2gEDZVErvQeLz26jd9XCk9KczqpwW2Q",
+          "is_owner": true,
+          "locked_alpha": 465847.657741927,
+          "conviction_alpha": 465847.657741927,
+          "pct_of_threshold": 141.822762267599,
+          "blocks_to_threshold": 0
+        },
+        {
+          "hotkey": "5EALa14jRfwHf69ZbNyFLxsPrZgZ47T2qhYxGjXxRM1qriNk",
+          "is_owner": false,
+          "locked_alpha": 6041.804942846,
+          "conviction_alpha": 6041.804942846,
+          "pct_of_threshold": 1.839368411188071,
           "blocks_to_threshold": null
         }
       ]
@@ -884,11 +884,11 @@
     {
       "netuid": 100,
       "name": "Cortex",
-      "alpha_out": 2053743.0,
-      "locked_alpha": 288519.0,
-      "conviction_alpha": 288519.0,
-      "threshold_alpha": 205374.0,
-      "pct_of_threshold": 140.5,
+      "alpha_out": 2057882.0,
+      "locked_alpha": 287914.0,
+      "conviction_alpha": 287914.0,
+      "threshold_alpha": 205788.0,
+      "pct_of_threshold": 139.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -901,9 +901,9 @@
         {
           "hotkey": "5ExuWpCMp2fUEd9NmobV6yzFN5uq88sgsGZfV7GEtKXkH5HH",
           "is_owner": true,
-          "locked_alpha": 288518.613996672,
-          "conviction_alpha": 288518.613996672,
-          "pct_of_threshold": 140.48426567662975,
+          "locked_alpha": 287914.405365087,
+          "conviction_alpha": 287914.405365087,
+          "pct_of_threshold": 139.90810603336135,
           "blocks_to_threshold": 0
         }
       ]
@@ -911,11 +911,11 @@
     {
       "netuid": 68,
       "name": "NOVA",
-      "alpha_out": 3821154.0,
-      "locked_alpha": 530999.0,
-      "conviction_alpha": 530999.0,
-      "threshold_alpha": 382115.0,
-      "pct_of_threshold": 139.0,
+      "alpha_out": 3822986.0,
+      "locked_alpha": 530714.0,
+      "conviction_alpha": 530714.0,
+      "threshold_alpha": 382299.0,
+      "pct_of_threshold": 138.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -928,9 +928,9 @@
         {
           "hotkey": "5CBBYzuB3CSLXAjzUmMhukpMEh27cwwzbo23cVnNgdfiDYQE",
           "is_owner": true,
-          "locked_alpha": 530998.991514132,
-          "conviction_alpha": 530998.991514132,
-          "pct_of_threshold": 138.96297909390506,
+          "locked_alpha": 530713.613781919,
+          "conviction_alpha": 530713.613781919,
+          "pct_of_threshold": 138.82174899704708,
           "blocks_to_threshold": 0
         }
       ]
@@ -938,11 +938,11 @@
     {
       "netuid": 9,
       "name": "iota",
-      "alpha_out": 4095603.0,
+      "alpha_out": 4098083.0,
       "locked_alpha": 566487.0,
       "conviction_alpha": 566487.0,
-      "threshold_alpha": 409560.0,
-      "pct_of_threshold": 138.3,
+      "threshold_alpha": 409808.0,
+      "pct_of_threshold": 138.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -957,7 +957,7 @@
           "is_owner": true,
           "locked_alpha": 566487.003304132,
           "conviction_alpha": 566487.003304132,
-          "pct_of_threshold": 138.31589367418434,
+          "pct_of_threshold": 138.2321896554842,
           "blocks_to_threshold": 0
         }
       ]
@@ -965,26 +965,26 @@
     {
       "netuid": 80,
       "name": "OpenRoboto",
-      "alpha_out": 2273178.0,
-      "locked_alpha": 304177.0,
-      "conviction_alpha": 304177.0,
-      "threshold_alpha": 227318.0,
-      "pct_of_threshold": 133.8,
+      "alpha_out": 2273477.0,
+      "locked_alpha": 303739.0,
+      "conviction_alpha": 303739.0,
+      "threshold_alpha": 227348.0,
+      "pct_of_threshold": 133.6,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 7151800,
       "changeable_at": 9781600,
-      "age_days": 291.0,
+      "age_days": 292.0,
       "owner_hotkey": "5HTwtytUfeUhK4p8NRCGppjUZrhJ5ckoRHeVWEQafg2N1Zo6",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5HTwtytUfeUhK4p8NRCGppjUZrhJ5ckoRHeVWEQafg2N1Zo6",
           "is_owner": true,
-          "locked_alpha": 304177.16993574,
-          "conviction_alpha": 304177.16993574,
-          "pct_of_threshold": 133.81144098766407,
+          "locked_alpha": 303738.824346667,
+          "conviction_alpha": 303738.824346667,
+          "pct_of_threshold": 133.60102180626387,
           "blocks_to_threshold": 0
         }
       ]
@@ -992,26 +992,26 @@
     {
       "netuid": 98,
       "name": "NeverPlayAlone",
-      "alpha_out": 2887718.0,
-      "locked_alpha": 378586.0,
-      "conviction_alpha": 378586.0,
-      "threshold_alpha": 288772.0,
-      "pct_of_threshold": 131.1,
+      "alpha_out": 2891122.0,
+      "locked_alpha": 377779.0,
+      "conviction_alpha": 377779.0,
+      "threshold_alpha": 289112.0,
+      "pct_of_threshold": 130.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5445992,
       "changeable_at": 8075792,
-      "age_days": 528.0,
+      "age_days": 529.0,
       "owner_hotkey": "5HWVxikTvhkzXFwcZuvpswJUiUGDUn9146zDoECr2ZBtFxvK",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5HWVxikTvhkzXFwcZuvpswJUiUGDUn9146zDoECr2ZBtFxvK",
           "is_owner": true,
-          "locked_alpha": 378585.882596528,
-          "conviction_alpha": 378585.882596528,
-          "pct_of_threshold": 131.10208511506002,
+          "locked_alpha": 377779.287794413,
+          "conviction_alpha": 377779.287794413,
+          "pct_of_threshold": 130.6687241828824,
           "blocks_to_threshold": 0
         }
       ]
@@ -1019,11 +1019,11 @@
     {
       "netuid": 109,
       "name": "Finsight",
-      "alpha_out": 1800983.0,
-      "locked_alpha": 234960.0,
-      "conviction_alpha": 234960.0,
-      "threshold_alpha": 180098.0,
-      "pct_of_threshold": 130.5,
+      "alpha_out": 1802689.0,
+      "locked_alpha": 235348.0,
+      "conviction_alpha": 235348.0,
+      "threshold_alpha": 180269.0,
+      "pct_of_threshold": 130.6,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -1036,9 +1036,9 @@
         {
           "hotkey": "5DyQkk4x6CwDtjtxe1NG2aMgQVXe9ZpZdT14SdYYwEVd3XUk",
           "is_owner": true,
-          "locked_alpha": 234960.364674813,
-          "conviction_alpha": 234960.364674813,
-          "pct_of_threshold": 130.46231094704618,
+          "locked_alpha": 235348.010745233,
+          "conviction_alpha": 235348.010745233,
+          "pct_of_threshold": 130.55385395331774,
           "blocks_to_threshold": 0
         }
       ]
@@ -1046,46 +1046,73 @@
     {
       "netuid": 72,
       "name": "StreetVision by NATIX",
-      "alpha_out": 2580817.0,
-      "locked_alpha": 327118.0,
-      "conviction_alpha": 327118.0,
-      "threshold_alpha": 258082.0,
-      "pct_of_threshold": 126.7,
+      "alpha_out": 2585205.0,
+      "locked_alpha": 326417.0,
+      "conviction_alpha": 326417.0,
+      "threshold_alpha": 258521.0,
+      "pct_of_threshold": 126.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5064327,
       "changeable_at": 7694127,
-      "age_days": 581.0,
+      "age_days": 582.0,
       "owner_hotkey": "5DUuFhF41eCf5Yu9h17j9ogGkJhXYr8mkU8tFcUDkH16k2GU",
       "num_lockers": 2,
       "top_lockers": [
         {
           "hotkey": "5DUuFhF41eCf5Yu9h17j9ogGkJhXYr8mkU8tFcUDkH16k2GU",
           "is_owner": true,
-          "locked_alpha": 321129.952933363,
-          "conviction_alpha": 321129.952933363,
-          "pct_of_threshold": 124.4295920018897,
+          "locked_alpha": 320428.941077741,
+          "conviction_alpha": 320428.941077741,
+          "pct_of_threshold": 123.94720167602796,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5Fmvr2VJs9EpyR5NbNpLTKgEXS8fRnQA6F349xqswsz6VL88",
           "is_owner": false,
-          "locked_alpha": 5988.208353649,
-          "conviction_alpha": 5988.178464605,
-          "pct_of_threshold": 2.3202650403028877,
+          "locked_alpha": 5988.207318104,
+          "conviction_alpha": 5988.178656529,
+          "pct_of_threshold": 2.3163263128372926,
           "blocks_to_threshold": null
+        }
+      ]
+    },
+    {
+      "netuid": 91,
+      "name": "cascade",
+      "alpha_out": 1243072.0,
+      "locked_alpha": 152159.0,
+      "conviction_alpha": 152159.0,
+      "threshold_alpha": 124307.0,
+      "pct_of_threshold": 122.4,
+      "blocks_to_threshold": 0,
+      "days_to_threshold": 0,
+      "can_takeover": false,
+      "registered_at": 7633645,
+      "changeable_at": 10263445,
+      "age_days": 225.0,
+      "owner_hotkey": "5FcCsoB2R5M55RdrNrvPQv7xmLJRFzs7R7C73UUSxgUCyfsw",
+      "num_lockers": 1,
+      "top_lockers": [
+        {
+          "hotkey": "5FcCsoB2R5M55RdrNrvPQv7xmLJRFzs7R7C73UUSxgUCyfsw",
+          "is_owner": true,
+          "locked_alpha": 152159.491459508,
+          "conviction_alpha": 152159.491459508,
+          "pct_of_threshold": 122.40597843416887,
+          "blocks_to_threshold": 0
         }
       ]
     },
     {
       "netuid": 24,
       "name": "Quasar",
-      "alpha_out": 4196291.0,
+      "alpha_out": 4249357.0,
       "locked_alpha": 700000.0,
-      "conviction_alpha": 517564.0,
-      "threshold_alpha": 419629.0,
-      "pct_of_threshold": 123.3,
+      "conviction_alpha": 518757.0,
+      "threshold_alpha": 424936.0,
+      "pct_of_threshold": 122.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1099,35 +1126,8 @@
           "hotkey": "5ELAvsvXL9kU9CMzkFcRiqFjw3QGVgA7MrvEfcHsicv5WvWX",
           "is_owner": false,
           "locked_alpha": 700000.000065042,
-          "conviction_alpha": 517563.861219714,
-          "pct_of_threshold": 123.33840047322515,
-          "blocks_to_threshold": 0
-        }
-      ]
-    },
-    {
-      "netuid": 91,
-      "name": "cascade",
-      "alpha_out": 1248262.0,
-      "locked_alpha": 152159.0,
-      "conviction_alpha": 152159.0,
-      "threshold_alpha": 124826.0,
-      "pct_of_threshold": 121.9,
-      "blocks_to_threshold": 0,
-      "days_to_threshold": 0,
-      "can_takeover": false,
-      "registered_at": 7633645,
-      "changeable_at": 10263445,
-      "age_days": 224.0,
-      "owner_hotkey": "5FcCsoB2R5M55RdrNrvPQv7xmLJRFzs7R7C73UUSxgUCyfsw",
-      "num_lockers": 1,
-      "top_lockers": [
-        {
-          "hotkey": "5FcCsoB2R5M55RdrNrvPQv7xmLJRFzs7R7C73UUSxgUCyfsw",
-          "is_owner": true,
-          "locked_alpha": 152159.491459508,
-          "conviction_alpha": 152159.491459508,
-          "pct_of_threshold": 121.89708235404981,
+          "conviction_alpha": 518756.585645013,
+          "pct_of_threshold": 122.07883320480717,
           "blocks_to_threshold": 0
         }
       ]
@@ -1135,11 +1135,11 @@
     {
       "netuid": 51,
       "name": "lium.io",
-      "alpha_out": 4408468.0,
-      "locked_alpha": 533557.0,
-      "conviction_alpha": 532165.0,
-      "threshold_alpha": 440847.0,
-      "pct_of_threshold": 120.7,
+      "alpha_out": 4418984.0,
+      "locked_alpha": 533946.0,
+      "conviction_alpha": 532563.0,
+      "threshold_alpha": 441898.0,
+      "pct_of_threshold": 120.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1152,17 +1152,17 @@
         {
           "hotkey": "5FTVrwEpjvpNeKwczFtYjs62GHKKLHLCdqCThtj2unZouKg1",
           "is_owner": true,
-          "locked_alpha": 531292.395720994,
-          "conviction_alpha": 531292.395720994,
-          "pct_of_threshold": 120.51632330714045,
+          "locked_alpha": 531681.141466184,
+          "conviction_alpha": 531681.141466184,
+          "pct_of_threshold": 120.3175149595296,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5DXdHixxtCvoa6GHKs2Jgrdzc61882Ftx1zN2sYFQuwgL1S1",
           "is_owner": false,
           "locked_alpha": 2264.565182354,
-          "conviction_alpha": 872.676378466,
-          "pct_of_threshold": 0.19795455274135682,
+          "conviction_alpha": 881.771781615,
+          "pct_of_threshold": 0.1995417577401827,
           "blocks_to_threshold": null
         }
       ]
@@ -1170,11 +1170,11 @@
     {
       "netuid": 3,
       "name": "Teutonic",
-      "alpha_out": 3273100.0,
-      "locked_alpha": 387072.0,
-      "conviction_alpha": 387091.0,
-      "threshold_alpha": 327310.0,
-      "pct_of_threshold": 118.3,
+      "alpha_out": 3276865.0,
+      "locked_alpha": 387065.0,
+      "conviction_alpha": 387085.0,
+      "threshold_alpha": 327686.0,
+      "pct_of_threshold": 118.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1187,17 +1187,17 @@
         {
           "hotkey": "5E6yHkmZmSpBT5aa2rNZcmeYa1y3N9jw1h7g53oNPzMUpnqG",
           "is_owner": true,
-          "locked_alpha": 386976.360416017,
-          "conviction_alpha": 386976.360416017,
-          "pct_of_threshold": 118.22929464050218,
+          "locked_alpha": 386969.96180796,
+          "conviction_alpha": 386969.96180796,
+          "pct_of_threshold": 118.09153472167708,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5DXdHixxtCvoa6GHKs2Jgrdzc61882Ftx1zN2sYFQuwgL1S1",
           "is_owner": false,
-          "locked_alpha": 95.542117422,
-          "conviction_alpha": 114.991613788,
-          "pct_of_threshold": 0.03513232015826576,
+          "locked_alpha": 95.333655368,
+          "conviction_alpha": 114.863899818,
+          "pct_of_threshold": 0.03505299003128348,
           "blocks_to_threshold": null
         }
       ]
@@ -1205,17 +1205,17 @@
     {
       "netuid": 74,
       "name": "Gittensor",
-      "alpha_out": 3469208.0,
+      "alpha_out": 3470413.0,
       "locked_alpha": 378230.0,
       "conviction_alpha": 378230.0,
-      "threshold_alpha": 346921.0,
+      "threshold_alpha": 347041.0,
       "pct_of_threshold": 109.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5086205,
       "changeable_at": 7716005,
-      "age_days": 578.0,
+      "age_days": 579.0,
       "owner_hotkey": "5Dnffftud49iScqvvymjuvS4D1MP4ApenAQG2R5wg4bXGH7L",
       "num_lockers": 1,
       "top_lockers": [
@@ -1224,7 +1224,34 @@
           "is_owner": true,
           "locked_alpha": 378229.609193408,
           "conviction_alpha": 378229.609193408,
-          "pct_of_threshold": 109.02475777138876,
+          "pct_of_threshold": 108.98691208303626,
+          "blocks_to_threshold": 0
+        }
+      ]
+    },
+    {
+      "netuid": 77,
+      "name": "Liquidity",
+      "alpha_out": 3417031.0,
+      "locked_alpha": 369578.0,
+      "conviction_alpha": 369578.0,
+      "threshold_alpha": 341703.0,
+      "pct_of_threshold": 108.2,
+      "blocks_to_threshold": 0,
+      "days_to_threshold": 0,
+      "can_takeover": true,
+      "registered_at": 5128460,
+      "changeable_at": 7758260,
+      "age_days": 573.0,
+      "owner_hotkey": "5DqALXRZumwGDyaJWRJ2fMzBqPxEuoqWypnexcwuYMDdohsE",
+      "num_lockers": 1,
+      "top_lockers": [
+        {
+          "hotkey": "5DqALXRZumwGDyaJWRJ2fMzBqPxEuoqWypnexcwuYMDdohsE",
+          "is_owner": true,
+          "locked_alpha": 369577.913917543,
+          "conviction_alpha": 369577.913917543,
+          "pct_of_threshold": 108.15760677049859,
           "blocks_to_threshold": 0
         }
       ]
@@ -1232,11 +1259,11 @@
     {
       "netuid": 39,
       "name": "deprecated",
-      "alpha_out": 3883198.0,
-      "locked_alpha": 420572.0,
-      "conviction_alpha": 420446.0,
-      "threshold_alpha": 388320.0,
-      "pct_of_threshold": 108.3,
+      "alpha_out": 3885354.0,
+      "locked_alpha": 420047.0,
+      "conviction_alpha": 419923.0,
+      "threshold_alpha": 388535.0,
+      "pct_of_threshold": 108.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1249,25 +1276,25 @@
         {
           "hotkey": "5GP7c3fFazW9GXK8Up3qgu2DJBk8inu4aK9TZy3RuoSWVCMi",
           "is_owner": true,
-          "locked_alpha": 418996.824066113,
-          "conviction_alpha": 418996.824066113,
-          "pct_of_threshold": 107.89995178074898,
+          "locked_alpha": 418472.451098187,
+          "conviction_alpha": 418472.451098187,
+          "pct_of_threshold": 107.70511422596239,
           "blocks_to_threshold": 0
         },
         {
           "hotkey": "5FF6FtDUhn7XdPYmEdH5XjLAmLfmwLTCNVBgcrj3A4sstwaw",
           "is_owner": false,
           "locked_alpha": 1560.0,
-          "conviction_alpha": 1435.338246317,
-          "pct_of_threshold": 0.36962792716132814,
+          "conviction_alpha": 1436.152858019,
+          "pct_of_threshold": 0.3696324745224685,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5Eeq15e55UTfFcsw6kUNRhzRwTsAHciXk5sPajARWXxtjzyA",
           "is_owner": false,
           "locked_alpha": 14.944408978,
-          "conviction_alpha": 13.906048744,
-          "pct_of_threshold": 0.003581082010250844,
+          "conviction_alpha": 13.912833988,
+          "pct_of_threshold": 0.003580841152175906,
           "blocks_to_threshold": null
         },
         {
@@ -1275,46 +1302,19 @@
           "is_owner": false,
           "locked_alpha": 0,
           "conviction_alpha": 0,
-          "pct_of_threshold": 1.481873760301739e-13,
+          "pct_of_threshold": 1.4815248845374114e-13,
           "blocks_to_threshold": null
-        }
-      ]
-    },
-    {
-      "netuid": 77,
-      "name": "Liquidity",
-      "alpha_out": 3414996.0,
-      "locked_alpha": 369578.0,
-      "conviction_alpha": 369578.0,
-      "threshold_alpha": 341500.0,
-      "pct_of_threshold": 108.2,
-      "blocks_to_threshold": 0,
-      "days_to_threshold": 0,
-      "can_takeover": true,
-      "registered_at": 5128460,
-      "changeable_at": 7758260,
-      "age_days": 572.0,
-      "owner_hotkey": "5DqALXRZumwGDyaJWRJ2fMzBqPxEuoqWypnexcwuYMDdohsE",
-      "num_lockers": 1,
-      "top_lockers": [
-        {
-          "hotkey": "5DqALXRZumwGDyaJWRJ2fMzBqPxEuoqWypnexcwuYMDdohsE",
-          "is_owner": true,
-          "locked_alpha": 369577.913917543,
-          "conviction_alpha": 369577.913917543,
-          "pct_of_threshold": 108.22206727827992,
-          "blocks_to_threshold": 0
         }
       ]
     },
     {
       "netuid": 93,
       "name": "Bitcast",
-      "alpha_out": 4024206.0,
+      "alpha_out": 4019743.0,
       "locked_alpha": 427931.0,
       "conviction_alpha": 427931.0,
-      "threshold_alpha": 402421.0,
-      "pct_of_threshold": 106.3,
+      "threshold_alpha": 401974.0,
+      "pct_of_threshold": 106.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1329,7 +1329,7 @@
           "is_owner": true,
           "locked_alpha": 427930.957620956,
           "conviction_alpha": 427930.957620956,
-          "pct_of_threshold": 106.33921844506808,
+          "pct_of_threshold": 106.45729247852867,
           "blocks_to_threshold": 0
         }
       ]
@@ -1337,17 +1337,17 @@
     {
       "netuid": 126,
       "name": "Attelier",
-      "alpha_out": 1493450.0,
+      "alpha_out": 1495135.0,
       "locked_alpha": 171439.0,
-      "conviction_alpha": 158757.0,
-      "threshold_alpha": 149345.0,
-      "pct_of_threshold": 106.3,
+      "conviction_alpha": 158840.0,
+      "threshold_alpha": 149514.0,
+      "pct_of_threshold": 106.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 7525773,
       "changeable_at": 10155573,
-      "age_days": 239.0,
+      "age_days": 240.0,
       "owner_hotkey": "5DqrUa2z6E9taJdY8FGiPCrtCswsEjHjPbVo5xcTw2GqvKZm",
       "num_lockers": 2,
       "top_lockers": [
@@ -1355,8 +1355,8 @@
           "hotkey": "5FZD47WhA1UaVicYAr7pGnWb2YQLMD7uViipDYN2r1AJ5ggD",
           "is_owner": false,
           "locked_alpha": 170342.540824074,
-          "conviction_alpha": 157660.868991278,
-          "pct_of_threshold": 105.56825788434327,
+          "conviction_alpha": 157743.738339462,
+          "pct_of_threshold": 105.5046734760104,
           "blocks_to_threshold": 0
         },
         {
@@ -1364,7 +1364,7 @@
           "is_owner": true,
           "locked_alpha": 1096.553699538,
           "conviction_alpha": 1096.553699538,
-          "pct_of_threshold": 0.7342422027577538,
+          "pct_of_threshold": 0.7334144685331423,
           "blocks_to_threshold": null
         }
       ]
@@ -1372,11 +1372,11 @@
     {
       "netuid": 66,
       "name": "conjectures",
-      "alpha_out": 3707286.0,
+      "alpha_out": 3713948.0,
       "locked_alpha": 392807.0,
       "conviction_alpha": 392807.0,
-      "threshold_alpha": 370729.0,
-      "pct_of_threshold": 106.0,
+      "threshold_alpha": 371395.0,
+      "pct_of_threshold": 105.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1391,7 +1391,7 @@
           "is_owner": true,
           "locked_alpha": 392806.591766313,
           "conviction_alpha": 392806.591766313,
-          "pct_of_threshold": 105.9552850048235,
+          "pct_of_threshold": 105.76524488830508,
           "blocks_to_threshold": 0
         }
       ]
@@ -1399,11 +1399,11 @@
     {
       "netuid": 117,
       "name": "everyframe.studio",
-      "alpha_out": 1933055.0,
+      "alpha_out": 1929221.0,
       "locked_alpha": 184995.0,
-      "conviction_alpha": 178946.0,
-      "threshold_alpha": 193306.0,
-      "pct_of_threshold": 92.6,
+      "conviction_alpha": 178985.0,
+      "threshold_alpha": 192922.0,
+      "pct_of_threshold": 92.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1418,15 +1418,15 @@
           "is_owner": true,
           "locked_alpha": 154144.143623114,
           "conviction_alpha": 154144.143623114,
-          "pct_of_threshold": 79.74119420364299,
+          "pct_of_threshold": 79.89969796635621,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5EsLkLnuDy2G5NtLTnSoeXJExnDd7nitwnYNxJ8mxe3sDgu9",
           "is_owner": false,
           "locked_alpha": 30851.312351323,
-          "conviction_alpha": 24801.796047961,
-          "pct_of_threshold": 12.830359874684962,
+          "conviction_alpha": 24841.346358015,
+          "pct_of_threshold": 12.876363800988655,
           "blocks_to_threshold": null
         }
       ]
@@ -1434,11 +1434,11 @@
     {
       "netuid": 56,
       "name": "Gradients",
-      "alpha_out": 2874501.0,
+      "alpha_out": 2876739.0,
       "locked_alpha": 264724.0,
       "conviction_alpha": 264724.0,
-      "threshold_alpha": 287450.0,
-      "pct_of_threshold": 92.1,
+      "threshold_alpha": 287674.0,
+      "pct_of_threshold": 92.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1453,7 +1453,7 @@
           "is_owner": true,
           "locked_alpha": 264724.185506575,
           "conviction_alpha": 264724.185506575,
-          "pct_of_threshold": 92.09397095868317,
+          "pct_of_threshold": 92.02230974003109,
           "blocks_to_threshold": null
         }
       ]
@@ -1461,17 +1461,17 @@
     {
       "netuid": 125,
       "name": "Refinery",
-      "alpha_out": 2558488.0,
+      "alpha_out": 2559475.0,
       "locked_alpha": 226024.0,
       "conviction_alpha": 226024.0,
-      "threshold_alpha": 255849.0,
+      "threshold_alpha": 255948.0,
       "pct_of_threshold": 88.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5834408,
       "changeable_at": 8464208,
-      "age_days": 474.0,
+      "age_days": 475.0,
       "owner_hotkey": "5CFFokuo3Xkt2cgH3cnS3Nzm36zS4Lqg9KjTR99DdUKuydnx",
       "num_lockers": 1,
       "top_lockers": [
@@ -1480,7 +1480,7 @@
           "is_owner": true,
           "locked_alpha": 226023.662897553,
           "conviction_alpha": 226023.662897553,
-          "pct_of_threshold": 88.34267345140945,
+          "pct_of_threshold": 88.30859416111217,
           "blocks_to_threshold": null
         }
       ]
@@ -1488,10 +1488,10 @@
     {
       "netuid": 87,
       "name": "Provenonce",
-      "alpha_out": 1949820.0,
-      "locked_alpha": 168029.0,
-      "conviction_alpha": 168029.0,
-      "threshold_alpha": 194982.0,
+      "alpha_out": 1950428.0,
+      "locked_alpha": 168051.0,
+      "conviction_alpha": 168051.0,
+      "threshold_alpha": 195043.0,
       "pct_of_threshold": 86.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -1505,9 +1505,9 @@
         {
           "hotkey": "5Do9743TzawQr4TKapjkxEnvNeaZC6Ldk1GephdJai7cQsN5",
           "is_owner": true,
-          "locked_alpha": 168029.119719376,
-          "conviction_alpha": 168029.119719376,
-          "pct_of_threshold": 86.17672025525175,
+          "locked_alpha": 168051.326112067,
+          "conviction_alpha": 168051.326112067,
+          "pct_of_threshold": 86.16123588584071,
           "blocks_to_threshold": null
         }
       ]
@@ -1515,11 +1515,11 @@
     {
       "netuid": 105,
       "name": "Beam",
-      "alpha_out": 2234796.0,
-      "locked_alpha": 171749.0,
-      "conviction_alpha": 171749.0,
-      "threshold_alpha": 223480.0,
-      "pct_of_threshold": 76.9,
+      "alpha_out": 2233891.0,
+      "locked_alpha": 171638.0,
+      "conviction_alpha": 171638.0,
+      "threshold_alpha": 223389.0,
+      "pct_of_threshold": 76.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -1532,9 +1532,9 @@
         {
           "hotkey": "5HBSExJPHsaHV3TuohhRi4oajphhVXFyanhWN96Ed3DHHTY4",
           "is_owner": true,
-          "locked_alpha": 171748.613238084,
-          "conviction_alpha": 171748.613238084,
-          "pct_of_threshold": 76.85202603701167,
+          "locked_alpha": 171637.922874576,
+          "conviction_alpha": 171637.922874576,
+          "pct_of_threshold": 76.83361218027359,
           "blocks_to_threshold": null
         }
       ]
@@ -1542,11 +1542,11 @@
     {
       "netuid": 1,
       "name": "Apex",
-      "alpha_out": 2578075.0,
+      "alpha_out": 2580127.0,
       "locked_alpha": 192837.0,
       "conviction_alpha": 192836.0,
-      "threshold_alpha": 257807.0,
-      "pct_of_threshold": 74.8,
+      "threshold_alpha": 258013.0,
+      "pct_of_threshold": 74.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1561,15 +1561,15 @@
           "is_owner": true,
           "locked_alpha": 192824.591394465,
           "conviction_alpha": 192824.591394465,
-          "pct_of_threshold": 74.79402874569492,
+          "pct_of_threshold": 74.734535636351,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5CsvRJXuR955WojnGMdok1hbhffZyB4N5ocrv82f3p5A2zVp",
           "is_owner": false,
-          "locked_alpha": 12.801009654,
-          "conviction_alpha": 11.785332729,
-          "pct_of_threshold": 0.004571369805962427,
+          "locked_alpha": 12.801009653,
+          "conviction_alpha": 11.791969747,
+          "pct_of_threshold": 0.004570305980926494,
           "blocks_to_threshold": null
         }
       ]
@@ -1577,11 +1577,11 @@
     {
       "netuid": 114,
       "name": "SOMA",
-      "alpha_out": 1975409.0,
+      "alpha_out": 1977976.0,
       "locked_alpha": 146040.0,
       "conviction_alpha": 146040.0,
-      "threshold_alpha": 197541.0,
-      "pct_of_threshold": 73.9,
+      "threshold_alpha": 197798.0,
+      "pct_of_threshold": 73.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -1596,7 +1596,7 @@
           "is_owner": true,
           "locked_alpha": 146039.760277138,
           "conviction_alpha": 146039.760277138,
-          "pct_of_threshold": 73.92885611658933,
+          "pct_of_threshold": 73.83291466116837,
           "blocks_to_threshold": null
         }
       ]
@@ -1604,17 +1604,17 @@
     {
       "netuid": 41,
       "name": "Almanac",
-      "alpha_out": 3838149.0,
+      "alpha_out": 3844453.0,
       "locked_alpha": 271112.0,
       "conviction_alpha": 271112.0,
-      "threshold_alpha": 383815.0,
-      "pct_of_threshold": 70.6,
+      "threshold_alpha": 384445.0,
+      "pct_of_threshold": 70.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 3394182,
       "changeable_at": 6023982,
-      "age_days": 813.0,
+      "age_days": 814.0,
       "owner_hotkey": "5FCSevLkofmKZRixMawp6jyyjBty1AeSCLa7N5Fv892DYkXX",
       "num_lockers": 1,
       "top_lockers": [
@@ -1623,7 +1623,7 @@
           "is_owner": true,
           "locked_alpha": 271111.945633162,
           "conviction_alpha": 271111.945633162,
-          "pct_of_threshold": 70.63611922255575,
+          "pct_of_threshold": 70.52028648608668,
           "blocks_to_threshold": null
         }
       ]
@@ -1631,11 +1631,11 @@
     {
       "netuid": 33,
       "name": "ReadyAI",
-      "alpha_out": 1981748.0,
+      "alpha_out": 1977629.0,
       "locked_alpha": 138810.0,
       "conviction_alpha": 138809.0,
-      "threshold_alpha": 198175.0,
-      "pct_of_threshold": 70.0,
+      "threshold_alpha": 197763.0,
+      "pct_of_threshold": 70.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1650,15 +1650,15 @@
           "is_owner": true,
           "locked_alpha": 138808.045342108,
           "conviction_alpha": 138808.045342108,
-          "pct_of_threshold": 70.04323903576858,
+          "pct_of_threshold": 70.18911731495307,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5GQyFzvtVMw9X45t6dvUFgR9unFpDCccPPCiAoqJrtPuC8my",
           "is_owner": false,
           "locked_alpha": 1.75519424,
-          "conviction_alpha": 1.42478435,
-          "pct_of_threshold": 0.000718953361683064,
+          "conviction_alpha": 1.426943438,
+          "pct_of_threshold": 0.0007215424739094805,
           "blocks_to_threshold": null
         }
       ]
@@ -1666,11 +1666,11 @@
     {
       "netuid": 121,
       "name": "sundae_bar",
-      "alpha_out": 3030181.0,
+      "alpha_out": 3032208.0,
       "locked_alpha": 202886.0,
       "conviction_alpha": 202886.0,
-      "threshold_alpha": 303018.0,
-      "pct_of_threshold": 67.0,
+      "threshold_alpha": 303221.0,
+      "pct_of_threshold": 66.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1685,7 +1685,7 @@
           "is_owner": true,
           "locked_alpha": 202885.709556554,
           "conviction_alpha": 202885.709556554,
-          "pct_of_threshold": 66.95498872322268,
+          "pct_of_threshold": 66.91023054478572,
           "blocks_to_threshold": null
         }
       ]
@@ -1693,11 +1693,11 @@
     {
       "netuid": 28,
       "name": "SayGM",
-      "alpha_out": 5264776.0,
-      "locked_alpha": 349405.0,
-      "conviction_alpha": 349405.0,
-      "threshold_alpha": 526478.0,
-      "pct_of_threshold": 66.4,
+      "alpha_out": 5266936.0,
+      "locked_alpha": 348675.0,
+      "conviction_alpha": 348676.0,
+      "threshold_alpha": 526694.0,
+      "pct_of_threshold": 66.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1710,17 +1710,17 @@
         {
           "hotkey": "5Evgh9QTXJLxYLusVy3tcY5S6Z3GgRSNDb9AzXUchX5dco3P",
           "is_owner": true,
-          "locked_alpha": 349399.910268877,
-          "conviction_alpha": 349399.910268877,
-          "pct_of_threshold": 66.36558330952148,
+          "locked_alpha": 348670.351609207,
+          "conviction_alpha": 348670.351609207,
+          "pct_of_threshold": 66.19985176415518,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5E2LP6EnZ54m3wS8s1yPvD5c3xo71kQroBw7aUVK32TKeZ5u",
           "is_owner": false,
-          "locked_alpha": 4.691956641,
-          "conviction_alpha": 5.496361044,
-          "pct_of_threshold": 0.001043987694525133,
+          "locked_alpha": 4.681714317,
+          "conviction_alpha": 5.491071089,
+          "pct_of_threshold": 0.0010425552114198165,
           "blocks_to_threshold": null
         }
       ]
@@ -1728,10 +1728,10 @@
     {
       "netuid": 19,
       "name": "blockmachine",
-      "alpha_out": 2762395.0,
-      "locked_alpha": 169388.0,
-      "conviction_alpha": 169388.0,
-      "threshold_alpha": 276240.0,
+      "alpha_out": 2764890.0,
+      "locked_alpha": 169387.0,
+      "conviction_alpha": 169387.0,
+      "threshold_alpha": 276489.0,
       "pct_of_threshold": 61.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -1745,9 +1745,9 @@
         {
           "hotkey": "5CK49hDJcseEk1V7iB1dmmztdw4igafhxLsVN82VtUVAQRfC",
           "is_owner": true,
-          "locked_alpha": 169388.243942817,
-          "conviction_alpha": 169388.243942817,
-          "pct_of_threshold": 61.319341142790954,
+          "locked_alpha": 169387.134447715,
+          "conviction_alpha": 169387.134447715,
+          "pct_of_threshold": 61.26361638725301,
           "blocks_to_threshold": null
         }
       ]
@@ -1755,10 +1755,10 @@
     {
       "netuid": 50,
       "name": "Synth",
-      "alpha_out": 3526020.0,
+      "alpha_out": 3524878.0,
       "locked_alpha": 212500.0,
       "conviction_alpha": 212500.0,
-      "threshold_alpha": 352602.0,
+      "threshold_alpha": 352488.0,
       "pct_of_threshold": 60.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -1774,7 +1774,7 @@
           "is_owner": true,
           "locked_alpha": 212500.00519846,
           "conviction_alpha": 212500.00519846,
-          "pct_of_threshold": 60.266258167586706,
+          "pct_of_threshold": 60.28578403343965,
           "blocks_to_threshold": null
         }
       ]
@@ -1782,11 +1782,11 @@
     {
       "netuid": 44,
       "name": "Score",
-      "alpha_out": 4312700.0,
+      "alpha_out": 4309286.0,
       "locked_alpha": 245862.0,
       "conviction_alpha": 245862.0,
-      "threshold_alpha": 431270.0,
-      "pct_of_threshold": 57.0,
+      "threshold_alpha": 430929.0,
+      "pct_of_threshold": 57.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1801,7 +1801,7 @@
           "is_owner": true,
           "locked_alpha": 245862.449528441,
           "conviction_alpha": 245862.449528441,
-          "pct_of_threshold": 57.00894437084397,
+          "pct_of_threshold": 57.0541002664435,
           "blocks_to_threshold": null
         }
       ]
@@ -1809,26 +1809,26 @@
     {
       "netuid": 47,
       "name": "GPUForge",
-      "alpha_out": 1587696.0,
-      "locked_alpha": 72057.0,
-      "conviction_alpha": 89536.0,
-      "threshold_alpha": 158770.0,
-      "pct_of_threshold": 56.4,
+      "alpha_out": 1590076.0,
+      "locked_alpha": 71902.0,
+      "conviction_alpha": 89421.0,
+      "threshold_alpha": 159008.0,
+      "pct_of_threshold": 56.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 7340355,
       "changeable_at": 9970155,
-      "age_days": 265.0,
+      "age_days": 266.0,
       "owner_hotkey": "5GjN9n3ndtbRTir5HCRsaaFjxfoQpffnYsAc5VG9iWMfdEWj",
       "num_lockers": 2,
       "top_lockers": [
         {
           "hotkey": "5Do5iLBHhSEjwCpHFW5LK1sZR3m7gVAefdQyKF5Psc6TcFut",
           "is_owner": false,
-          "locked_alpha": 70975.471277977,
-          "conviction_alpha": 88454.235177087,
-          "pct_of_threshold": 55.712317455485085,
+          "locked_alpha": 70820.459347529,
+          "conviction_alpha": 88339.455688973,
+          "pct_of_threshold": 55.55675595030222,
           "blocks_to_threshold": null
         },
         {
@@ -1836,7 +1836,7 @@
           "is_owner": true,
           "locked_alpha": 1082.01056104,
           "conviction_alpha": 1082.01056104,
-          "pct_of_threshold": 0.6814972256123591,
+          "pct_of_threshold": 0.6804773269941282,
           "blocks_to_threshold": null
         }
       ]
@@ -1844,26 +1844,26 @@
     {
       "netuid": 62,
       "name": "Ridges",
-      "alpha_out": 2695090.0,
-      "locked_alpha": 147686.0,
-      "conviction_alpha": 147686.0,
-      "threshold_alpha": 269509.0,
-      "pct_of_threshold": 54.8,
+      "alpha_out": 2702597.0,
+      "locked_alpha": 147680.0,
+      "conviction_alpha": 147680.0,
+      "threshold_alpha": 270260.0,
+      "pct_of_threshold": 54.6,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 4474225,
       "changeable_at": 7104025,
-      "age_days": 663.0,
+      "age_days": 664.0,
       "owner_hotkey": "5EsNzkZ3DwDqCsYmSJDeGXX51dQJd5broUCH6dbDjvkTcicD",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5EsNzkZ3DwDqCsYmSJDeGXX51dQJd5broUCH6dbDjvkTcicD",
           "is_owner": true,
-          "locked_alpha": 147685.594168941,
-          "conviction_alpha": 147685.594168941,
-          "pct_of_threshold": 54.79801022445714,
+          "locked_alpha": 147680.118619253,
+          "conviction_alpha": 147680.118619253,
+          "pct_of_threshold": 54.64378094669413,
           "blocks_to_threshold": null
         }
       ]
@@ -1871,11 +1871,11 @@
     {
       "netuid": 52,
       "name": "Dojo",
-      "alpha_out": 3226842.0,
+      "alpha_out": 3228712.0,
       "locked_alpha": 167638.0,
       "conviction_alpha": 167638.0,
-      "threshold_alpha": 322684.0,
-      "pct_of_threshold": 52.0,
+      "threshold_alpha": 322871.0,
+      "pct_of_threshold": 51.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1890,7 +1890,7 @@
           "is_owner": true,
           "locked_alpha": 167638.354572778,
           "conviction_alpha": 167638.354572778,
-          "pct_of_threshold": 51.95121467502231,
+          "pct_of_threshold": 51.92113011861444,
           "blocks_to_threshold": null
         }
       ]
@@ -1898,11 +1898,11 @@
     {
       "netuid": 118,
       "name": "Ditto",
-      "alpha_out": 2293231.0,
-      "locked_alpha": 122369.0,
-      "conviction_alpha": 116768.0,
-      "threshold_alpha": 229323.0,
-      "pct_of_threshold": 50.9,
+      "alpha_out": 2302562.0,
+      "locked_alpha": 122240.0,
+      "conviction_alpha": 116717.0,
+      "threshold_alpha": 230256.0,
+      "pct_of_threshold": 50.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1915,17 +1915,17 @@
         {
           "hotkey": "5HEouuDaDASnWdqDwYtwQATS5z916W9DyDAtK6WyB2jPRReb",
           "is_owner": true,
-          "locked_alpha": 103262.708317497,
-          "conviction_alpha": 103262.708317497,
-          "pct_of_threshold": 45.02936161443522,
+          "locked_alpha": 103175.281640599,
+          "conviction_alpha": 103175.281640599,
+          "pct_of_threshold": 44.80891249218657,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5HT9U1J85fyNVudFAHuhYSGajRth8r3kYo7hTvkUXFEEDhQD",
           "is_owner": false,
-          "locked_alpha": 19106.603548078,
-          "conviction_alpha": 13505.649077211,
-          "pct_of_threshold": 5.889355083207519,
+          "locked_alpha": 19064.874321812,
+          "conviction_alpha": 13542.130189107,
+          "pct_of_threshold": 5.881332398154076,
           "blocks_to_threshold": null
         }
       ]
@@ -1933,11 +1933,11 @@
     {
       "netuid": 65,
       "name": "True Performance Network",
-      "alpha_out": 3455531.0,
+      "alpha_out": 3470577.0,
       "locked_alpha": 171794.0,
       "conviction_alpha": 171794.0,
-      "threshold_alpha": 345553.0,
-      "pct_of_threshold": 49.7,
+      "threshold_alpha": 347058.0,
+      "pct_of_threshold": 49.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -1952,7 +1952,7 @@
           "is_owner": true,
           "locked_alpha": 171794.150223016,
           "conviction_alpha": 171794.150223016,
-          "pct_of_threshold": 49.71570940463608,
+          "pct_of_threshold": 49.50017434588605,
           "blocks_to_threshold": null
         }
       ]
@@ -1960,10 +1960,10 @@
     {
       "netuid": 4,
       "name": "Targon",
-      "alpha_out": 3836654.0,
+      "alpha_out": 3838755.0,
       "locked_alpha": 183019.0,
       "conviction_alpha": 183019.0,
-      "threshold_alpha": 383665.0,
+      "threshold_alpha": 383876.0,
       "pct_of_threshold": 47.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -1979,7 +1979,7 @@
           "is_owner": true,
           "locked_alpha": 183019.057563734,
           "conviction_alpha": 183019.057563734,
-          "pct_of_threshold": 47.702783578240265,
+          "pct_of_threshold": 47.676666643213686,
           "blocks_to_threshold": null
         }
       ]
@@ -1987,26 +1987,26 @@
     {
       "netuid": 46,
       "name": "Instant",
-      "alpha_out": 3548532.0,
-      "locked_alpha": 169264.0,
-      "conviction_alpha": 169264.0,
-      "threshold_alpha": 354853.0,
-      "pct_of_threshold": 47.7,
+      "alpha_out": 3561542.0,
+      "locked_alpha": 169227.0,
+      "conviction_alpha": 169227.0,
+      "threshold_alpha": 356154.0,
+      "pct_of_threshold": 47.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 3919107,
       "changeable_at": 6548907,
-      "age_days": 740.0,
+      "age_days": 741.0,
       "owner_hotkey": "5CDnZ6oeCrXKoL2VJQuQFxSfr49yQWz2DvdaYx47hr9QdM6D",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5CDnZ6oeCrXKoL2VJQuQFxSfr49yQWz2DvdaYx47hr9QdM6D",
           "is_owner": true,
-          "locked_alpha": 169263.969108171,
-          "conviction_alpha": 169263.969108171,
-          "pct_of_threshold": 47.6997203847947,
+          "locked_alpha": 169226.664135645,
+          "conviction_alpha": 169226.664135645,
+          "pct_of_threshold": 47.514993647014265,
           "blocks_to_threshold": null
         }
       ]
@@ -2014,26 +2014,26 @@
     {
       "netuid": 78,
       "name": "Umi",
-      "alpha_out": 1136191.0,
-      "locked_alpha": 54179.0,
-      "conviction_alpha": 54179.0,
-      "threshold_alpha": 113619.0,
-      "pct_of_threshold": 47.7,
+      "alpha_out": 1137990.0,
+      "locked_alpha": 54062.0,
+      "conviction_alpha": 54062.0,
+      "threshold_alpha": 113799.0,
+      "pct_of_threshold": 47.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 7966145,
       "changeable_at": 10595945,
-      "age_days": 178.0,
+      "age_days": 179.0,
       "owner_hotkey": "5Fk765B4CRBekwErwE5VxvveWhHztHSfsnsLt8cbDayDWsuk",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5Fk765B4CRBekwErwE5VxvveWhHztHSfsnsLt8cbDayDWsuk",
           "is_owner": true,
-          "locked_alpha": 54179.224199465,
-          "conviction_alpha": 54179.224199465,
-          "pct_of_threshold": 47.6849721448572,
+          "locked_alpha": 54062.10022913,
+          "conviction_alpha": 54062.10022913,
+          "pct_of_threshold": 47.50663611600739,
           "blocks_to_threshold": null
         }
       ]
@@ -2041,26 +2041,26 @@
     {
       "netuid": 34,
       "name": "BitMind",
-      "alpha_out": 2924128.0,
-      "locked_alpha": 138049.0,
-      "conviction_alpha": 138049.0,
-      "threshold_alpha": 292413.0,
-      "pct_of_threshold": 47.2,
+      "alpha_out": 2926804.0,
+      "locked_alpha": 138292.0,
+      "conviction_alpha": 138292.0,
+      "threshold_alpha": 292680.0,
+      "pct_of_threshold": 47.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 3493948,
       "changeable_at": 6123748,
-      "age_days": 799.0,
+      "age_days": 800.0,
       "owner_hotkey": "5HjBSeeoz52CLfvDWDkzupqrYLHz1oToDPHjdmJjc4TF68LQ",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5HjBSeeoz52CLfvDWDkzupqrYLHz1oToDPHjdmJjc4TF68LQ",
           "is_owner": true,
-          "locked_alpha": 138048.803186785,
-          "conviction_alpha": 138048.803186785,
-          "pct_of_threshold": 47.210249213696436,
+          "locked_alpha": 138292.303096574,
+          "conviction_alpha": 138292.303096574,
+          "pct_of_threshold": 47.25028240460479,
           "blocks_to_threshold": null
         }
       ]
@@ -2068,26 +2068,26 @@
     {
       "netuid": 85,
       "name": "Vidaio",
-      "alpha_out": 3063613.0,
-      "locked_alpha": 139264.0,
-      "conviction_alpha": 139264.0,
-      "threshold_alpha": 306361.0,
-      "pct_of_threshold": 45.5,
+      "alpha_out": 3042288.0,
+      "locked_alpha": 139209.0,
+      "conviction_alpha": 139209.0,
+      "threshold_alpha": 304229.0,
+      "pct_of_threshold": 45.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5258781,
       "changeable_at": 7888581,
-      "age_days": 554.0,
+      "age_days": 555.0,
       "owner_hotkey": "5FR392L6eKrTGwUjQurpxw89YUe7LzKANktDwRKLYYSgwxhb",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5FR392L6eKrTGwUjQurpxw89YUe7LzKANktDwRKLYYSgwxhb",
           "is_owner": true,
-          "locked_alpha": 139264.322649929,
-          "conviction_alpha": 139264.322649929,
-          "pct_of_threshold": 45.45754962251699,
+          "locked_alpha": 139208.87053679,
+          "conviction_alpha": 139208.87053679,
+          "pct_of_threshold": 45.757959688249,
           "blocks_to_threshold": null
         }
       ]
@@ -2095,11 +2095,11 @@
     {
       "netuid": 40,
       "name": "Ralph",
-      "alpha_out": 497004.0,
+      "alpha_out": 498909.0,
       "locked_alpha": 22428.0,
       "conviction_alpha": 22428.0,
-      "threshold_alpha": 49700.0,
-      "pct_of_threshold": 45.1,
+      "threshold_alpha": 49891.0,
+      "pct_of_threshold": 45.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -2114,7 +2114,7 @@
           "is_owner": true,
           "locked_alpha": 22427.898380107,
           "conviction_alpha": 22427.898380107,
-          "pct_of_threshold": 45.126176537906225,
+          "pct_of_threshold": 44.95387991859205,
           "blocks_to_threshold": null
         }
       ]
@@ -2122,11 +2122,11 @@
     {
       "netuid": 13,
       "name": "Data Universe",
-      "alpha_out": 2214953.0,
+      "alpha_out": 2212167.0,
       "locked_alpha": 93697.0,
       "conviction_alpha": 93697.0,
-      "threshold_alpha": 221495.0,
-      "pct_of_threshold": 42.3,
+      "threshold_alpha": 221217.0,
+      "pct_of_threshold": 42.4,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -2141,7 +2141,7 @@
           "is_owner": true,
           "locked_alpha": 93697.039216446,
           "conviction_alpha": 93697.039216446,
-          "pct_of_threshold": 42.30203868304431,
+          "pct_of_threshold": 42.355324823504034,
           "blocks_to_threshold": null
         }
       ]
@@ -2149,17 +2149,17 @@
     {
       "netuid": 112,
       "name": "for sale",
-      "alpha_out": 2807138.0,
+      "alpha_out": 2807959.0,
       "locked_alpha": 109192.0,
       "conviction_alpha": 109192.0,
-      "threshold_alpha": 280714.0,
+      "threshold_alpha": 280796.0,
       "pct_of_threshold": 38.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5633022,
       "changeable_at": 8262822,
-      "age_days": 502.0,
+      "age_days": 503.0,
       "owner_hotkey": "5C4xjnQkyKGsmwmEknMDYwQnw7zWaZ8BVbRs79MdGst3fYMk",
       "num_lockers": 1,
       "top_lockers": [
@@ -2168,7 +2168,7 @@
           "is_owner": true,
           "locked_alpha": 109192.016768061,
           "conviction_alpha": 109192.016768061,
-          "pct_of_threshold": 38.89799285577276,
+          "pct_of_threshold": 38.88660999169019,
           "blocks_to_threshold": null
         }
       ]
@@ -2176,11 +2176,11 @@
     {
       "netuid": 45,
       "name": "AlphaRidge.ai",
-      "alpha_out": 3307138.0,
+      "alpha_out": 3319992.0,
       "locked_alpha": 111021.0,
       "conviction_alpha": 111021.0,
-      "threshold_alpha": 330714.0,
-      "pct_of_threshold": 33.6,
+      "threshold_alpha": 331999.0,
+      "pct_of_threshold": 33.4,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -2195,15 +2195,15 @@
           "is_owner": true,
           "locked_alpha": 111019.200205241,
           "conviction_alpha": 111019.200205241,
-          "pct_of_threshold": 33.56956813259142,
+          "pct_of_threshold": 33.43959836620755,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5FtBncJvGhxjBs4aFn2pid6aur9tBUuo9QR7sHe5DkoRizzo",
           "is_owner": false,
-          "locked_alpha": 1.814165467,
-          "conviction_alpha": 1.637905103,
-          "pct_of_threshold": 0.0004952635836763053,
+          "locked_alpha": 1.810203291,
+          "conviction_alpha": 1.63904448,
+          "pct_of_threshold": 0.0004936892811802348,
           "blocks_to_threshold": null
         }
       ]
@@ -2211,11 +2211,11 @@
     {
       "netuid": 53,
       "name": "engy",
-      "alpha_out": 5115232.0,
-      "locked_alpha": 163215.0,
-      "conviction_alpha": 163215.0,
-      "threshold_alpha": 511523.0,
-      "pct_of_threshold": 31.9,
+      "alpha_out": 5112948.0,
+      "locked_alpha": 163604.0,
+      "conviction_alpha": 163604.0,
+      "threshold_alpha": 511295.0,
+      "pct_of_threshold": 32.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -2228,9 +2228,9 @@
         {
           "hotkey": "5DXSBCCKH5ENuyHFNaAvtaMfbhEEWpjSJB4rzc4mJfsc1uvJ",
           "is_owner": true,
-          "locked_alpha": 149081.762150583,
-          "conviction_alpha": 149081.762150583,
-          "pct_of_threshold": 29.14467509971159,
+          "locked_alpha": 149470.552262103,
+          "conviction_alpha": 149470.552262103,
+          "pct_of_threshold": 29.233730581745665,
           "blocks_to_threshold": null
         },
         {
@@ -2238,7 +2238,7 @@
           "is_owner": false,
           "locked_alpha": 14132.979301623,
           "conviction_alpha": 14132.979301623,
-          "pct_of_threshold": 2.762920722124966,
+          "pct_of_threshold": 2.7641545640143326,
           "blocks_to_threshold": null
         }
       ]
@@ -2246,34 +2246,34 @@
     {
       "netuid": 26,
       "name": "Perturb",
-      "alpha_out": 1049204.0,
-      "locked_alpha": 31825.0,
-      "conviction_alpha": 32005.0,
-      "threshold_alpha": 104920.0,
-      "pct_of_threshold": 30.5,
+      "alpha_out": 1040968.0,
+      "locked_alpha": 31757.0,
+      "conviction_alpha": 31942.0,
+      "threshold_alpha": 104097.0,
+      "pct_of_threshold": 30.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 8123781,
       "changeable_at": 10753581,
-      "age_days": 156.0,
+      "age_days": 157.0,
       "owner_hotkey": "5EHfTi6RWouYP7YQD5tXgm56SgeC1Wp7xS7BVG6uCRWw3fvP",
       "num_lockers": 2,
       "top_lockers": [
         {
           "hotkey": "5EHfTi6RWouYP7YQD5tXgm56SgeC1Wp7xS7BVG6uCRWw3fvP",
           "is_owner": true,
-          "locked_alpha": 29139.307308065,
-          "conviction_alpha": 29139.307308065,
-          "pct_of_threshold": 27.772781979791688,
+          "locked_alpha": 29077.260697986,
+          "conviction_alpha": 29077.260697986,
+          "pct_of_threshold": 27.932913488447593,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5CCutNmuBootZPa38xQP5cycnzgXvx7d1EWmoMdEAg5ovBbX",
           "is_owner": false,
-          "locked_alpha": 2685.441335519,
-          "conviction_alpha": 2866.183057964,
-          "pct_of_threshold": 2.73176971372192,
+          "locked_alpha": 2679.579141113,
+          "conviction_alpha": 2864.982806063,
+          "pct_of_threshold": 2.7522302633274784,
           "blocks_to_threshold": null
         }
       ]
@@ -2281,11 +2281,11 @@
     {
       "netuid": 113,
       "name": "SN113",
-      "alpha_out": 1768154.0,
-      "locked_alpha": 52056.0,
-      "conviction_alpha": 52056.0,
-      "threshold_alpha": 176815.0,
-      "pct_of_threshold": 29.4,
+      "alpha_out": 1794016.0,
+      "locked_alpha": 51943.0,
+      "conviction_alpha": 51943.0,
+      "threshold_alpha": 179402.0,
+      "pct_of_threshold": 29.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -2298,9 +2298,9 @@
         {
           "hotkey": "5FRumLA6zhL7G72xfojizAeZaTGhAYqw3WQYrq1iusC3M8uB",
           "is_owner": true,
-          "locked_alpha": 52055.976933008,
-          "conviction_alpha": 52055.976933008,
-          "pct_of_threshold": 29.44085466261971,
+          "locked_alpha": 51943.047088059,
+          "conviction_alpha": 51943.047088059,
+          "pct_of_threshold": 28.953496813276153,
           "blocks_to_threshold": null
         }
       ]
@@ -2308,11 +2308,11 @@
     {
       "netuid": 48,
       "name": "Quantum Compute",
-      "alpha_out": 3573776.0,
+      "alpha_out": 3587628.0,
       "locked_alpha": 101863.0,
       "conviction_alpha": 101863.0,
-      "threshold_alpha": 357378.0,
-      "pct_of_threshold": 28.5,
+      "threshold_alpha": 358763.0,
+      "pct_of_threshold": 28.4,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -2327,7 +2327,7 @@
           "is_owner": true,
           "locked_alpha": 101862.559282014,
           "conviction_alpha": 101862.559282014,
-          "pct_of_threshold": 28.50278490389366,
+          "pct_of_threshold": 28.392732314368285,
           "blocks_to_threshold": null
         }
       ]
@@ -2335,10 +2335,10 @@
     {
       "netuid": 107,
       "name": "Minos",
-      "alpha_out": 1705992.0,
+      "alpha_out": 1708723.0,
       "locked_alpha": 41165.0,
       "conviction_alpha": 41165.0,
-      "threshold_alpha": 170599.0,
+      "threshold_alpha": 170872.0,
       "pct_of_threshold": 24.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2354,7 +2354,7 @@
           "is_owner": true,
           "locked_alpha": 41164.694002343,
           "conviction_alpha": 41164.694002343,
-          "pct_of_threshold": 24.12947748888456,
+          "pct_of_threshold": 24.090908518190908,
           "blocks_to_threshold": null
         }
       ]
@@ -2362,10 +2362,10 @@
     {
       "netuid": 63,
       "name": "Enigma",
-      "alpha_out": 3431205.0,
+      "alpha_out": 3426856.0,
       "locked_alpha": 72398.0,
       "conviction_alpha": 72398.0,
-      "threshold_alpha": 343121.0,
+      "threshold_alpha": 342686.0,
       "pct_of_threshold": 21.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2381,7 +2381,7 @@
           "is_owner": true,
           "locked_alpha": 72397.992373783,
           "conviction_alpha": 72397.992373783,
-          "pct_of_threshold": 21.099872649723377,
+          "pct_of_threshold": 21.126649330632382,
           "blocks_to_threshold": null
         }
       ]
@@ -2389,10 +2389,10 @@
     {
       "netuid": 120,
       "name": "Affine",
-      "alpha_out": 2742842.0,
-      "locked_alpha": 46079.0,
-      "conviction_alpha": 46078.0,
-      "threshold_alpha": 274284.0,
+      "alpha_out": 2744575.0,
+      "locked_alpha": 45978.0,
+      "conviction_alpha": 45978.0,
+      "threshold_alpha": 274457.0,
       "pct_of_threshold": 16.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2406,33 +2406,33 @@
         {
           "hotkey": "5HmYnmUYT6qe3yFMg1Ad8WLLqDvnwtjYakXBpDvoRW1Qqzb8",
           "is_owner": true,
-          "locked_alpha": 46078.290867422,
-          "conviction_alpha": 46078.290867422,
-          "pct_of_threshold": 16.799468842986183,
+          "locked_alpha": 45977.692903471,
+          "conviction_alpha": 45977.692903471,
+          "pct_of_threshold": 16.752209791596925,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5DUgf9f6C4reB7jTrj74fwAJjtoAcRjKQzzKTUnzwVwozQsu",
           "is_owner": false,
-          "locked_alpha": 0.593219083,
-          "conviction_alpha": 0.07757773,
-          "pct_of_threshold": 2.8283702556457512e-05,
+          "locked_alpha": 0.59192348,
+          "conviction_alpha": 0.080944631,
+          "pct_of_threshold": 2.9492594234860315e-05,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5Eg6zJfNLvKqWjDikXJYXSrw5N8K17Zq6fHdP5XpYkiWK5KH",
           "is_owner": false,
           "locked_alpha": 0.001581274,
-          "conviction_alpha": 0.000208286,
-          "pct_of_threshold": 7.59381039695621e-08,
+          "conviction_alpha": 0.000217262,
+          "pct_of_threshold": 7.916071386008943e-08,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5EGmQsfni1RLNL1r9XV6FneJ1noBa8CYALTby16s6rxjNPqy",
           "is_owner": false,
           "locked_alpha": 0.001581263,
-          "conviction_alpha": 0.00020824,
-          "pct_of_threshold": 7.592151215642595e-08,
+          "conviction_alpha": 0.000217217,
+          "pct_of_threshold": 7.914421472365204e-08,
           "blocks_to_threshold": null
         }
       ]
@@ -2440,34 +2440,34 @@
     {
       "netuid": 14,
       "name": "Cacheon",
-      "alpha_out": 3297694.0,
-      "locked_alpha": 55366.0,
-      "conviction_alpha": 52396.0,
-      "threshold_alpha": 329769.0,
+      "alpha_out": 3302379.0,
+      "locked_alpha": 55340.0,
+      "conviction_alpha": 52401.0,
+      "threshold_alpha": 330238.0,
       "pct_of_threshold": 15.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 4848444,
       "changeable_at": 7478244,
-      "age_days": 611.0,
+      "age_days": 612.0,
       "owner_hotkey": "5FxbrVDh7brAup3eneqGtyaUsCjXvgm6s6t5ygaikpRmQhq7",
       "num_lockers": 2,
       "top_lockers": [
         {
           "hotkey": "5FxbrVDh7brAup3eneqGtyaUsCjXvgm6s6t5ygaikpRmQhq7",
           "is_owner": true,
-          "locked_alpha": 49917.386761538,
-          "conviction_alpha": 49917.386761538,
-          "pct_of_threshold": 15.13705799886206,
+          "locked_alpha": 49903.125659357,
+          "conviction_alpha": 49903.125659357,
+          "pct_of_threshold": 15.111266335061307,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5CoZxgtfhcJKX2HmkwnsN18KbaT9aih9eF3b6qVPTgAUbifj",
           "is_owner": false,
-          "locked_alpha": 5448.862022784,
-          "conviction_alpha": 2478.223168369,
-          "pct_of_threshold": 0.7515018366834324,
+          "locked_alpha": 5436.967408648,
+          "conviction_alpha": 2497.596113932,
+          "pct_of_threshold": 0.7563021268983999,
           "blocks_to_threshold": null
         }
       ]
@@ -2475,10 +2475,10 @@
     {
       "netuid": 71,
       "name": "Leadpoet",
-      "alpha_out": 4753444.0,
+      "alpha_out": 4750918.0,
       "locked_alpha": 63565.0,
       "conviction_alpha": 63565.0,
-      "threshold_alpha": 475344.0,
+      "threshold_alpha": 475092.0,
       "pct_of_threshold": 13.4,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2494,7 +2494,34 @@
           "is_owner": true,
           "locked_alpha": 63565.086413894,
           "conviction_alpha": 63565.086413894,
-          "pct_of_threshold": 13.372426511883182,
+          "pct_of_threshold": 13.379536789245664,
+          "blocks_to_threshold": null
+        }
+      ]
+    },
+    {
+      "netuid": 11,
+      "name": "TrajectoryRL",
+      "alpha_out": 3462224.0,
+      "locked_alpha": 46180.0,
+      "conviction_alpha": 46180.0,
+      "threshold_alpha": 346222.0,
+      "pct_of_threshold": 13.3,
+      "blocks_to_threshold": 0,
+      "days_to_threshold": 0,
+      "can_takeover": true,
+      "registered_at": 2918568,
+      "changeable_at": 5548368,
+      "age_days": 880.0,
+      "owner_hotkey": "5ECzcM7sixWNEeD6RbpeEHW1YcYMFejwHuvDBgQxVSjGyrMS",
+      "num_lockers": 1,
+      "top_lockers": [
+        {
+          "hotkey": "5ECzcM7sixWNEeD6RbpeEHW1YcYMFejwHuvDBgQxVSjGyrMS",
+          "is_owner": true,
+          "locked_alpha": 46180.459268605,
+          "conviction_alpha": 46180.459268605,
+          "pct_of_threshold": 13.338378937318618,
           "blocks_to_threshold": null
         }
       ]
@@ -2502,11 +2529,11 @@
     {
       "netuid": 10,
       "name": "Pareton",
-      "alpha_out": 3485030.0,
-      "locked_alpha": 53905.0,
-      "conviction_alpha": 46245.0,
-      "threshold_alpha": 348503.0,
-      "pct_of_threshold": 13.3,
+      "alpha_out": 3495905.0,
+      "locked_alpha": 53820.0,
+      "conviction_alpha": 46285.0,
+      "threshold_alpha": 349591.0,
+      "pct_of_threshold": 13.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -2519,44 +2546,17 @@
         {
           "hotkey": "5HK5tp6t2S59DywmHRWPBVJeJ86T61KjurYqeooqj8sREpeN",
           "is_owner": false,
-          "locked_alpha": 34664.532017722,
-          "conviction_alpha": 27004.437637061,
-          "pct_of_threshold": 7.748696590233384,
+          "locked_alpha": 34588.860945335,
+          "conviction_alpha": 27054.245506442,
+          "pct_of_threshold": 7.738838632669418,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5GKbzKzGvberrQF3Axx67jy5xqs9xFd1bqV36JVxBV184LWm",
           "is_owner": true,
-          "locked_alpha": 19240.359560039,
-          "conviction_alpha": 19240.359560039,
-          "pct_of_threshold": 5.520859590615222,
-          "blocks_to_threshold": null
-        }
-      ]
-    },
-    {
-      "netuid": 11,
-      "name": "TrajectoryRL",
-      "alpha_out": 3460633.0,
-      "locked_alpha": 46180.0,
-      "conviction_alpha": 46180.0,
-      "threshold_alpha": 346063.0,
-      "pct_of_threshold": 13.3,
-      "blocks_to_threshold": 0,
-      "days_to_threshold": 0,
-      "can_takeover": true,
-      "registered_at": 2918568,
-      "changeable_at": 5548368,
-      "age_days": 879.0,
-      "owner_hotkey": "5ECzcM7sixWNEeD6RbpeEHW1YcYMFejwHuvDBgQxVSjGyrMS",
-      "num_lockers": 1,
-      "top_lockers": [
-        {
-          "hotkey": "5ECzcM7sixWNEeD6RbpeEHW1YcYMFejwHuvDBgQxVSjGyrMS",
-          "is_owner": true,
-          "locked_alpha": 46180.459268605,
-          "conviction_alpha": 46180.459268605,
-          "pct_of_threshold": 13.344512194025556,
+          "locked_alpha": 19231.252591833,
+          "conviction_alpha": 19231.252591833,
+          "pct_of_threshold": 5.501079691054924,
           "blocks_to_threshold": null
         }
       ]
@@ -2564,10 +2564,10 @@
     {
       "netuid": 37,
       "name": "Aurelius",
-      "alpha_out": 3583489.0,
+      "alpha_out": 3585516.0,
       "locked_alpha": 45507.0,
       "conviction_alpha": 45507.0,
-      "threshold_alpha": 358349.0,
+      "threshold_alpha": 358552.0,
       "pct_of_threshold": 12.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2583,7 +2583,7 @@
           "is_owner": true,
           "locked_alpha": 45507.151093348,
           "conviction_alpha": 45507.151093348,
-          "pct_of_threshold": 12.69911943375269,
+          "pct_of_threshold": 12.691938208132136,
           "blocks_to_threshold": null
         }
       ]
@@ -2591,11 +2591,11 @@
     {
       "netuid": 38,
       "name": "ChronoLLM",
-      "alpha_out": 2026417.0,
-      "locked_alpha": 24653.0,
-      "conviction_alpha": 24653.0,
-      "threshold_alpha": 202642.0,
-      "pct_of_threshold": 12.2,
+      "alpha_out": 2027630.0,
+      "locked_alpha": 24600.0,
+      "conviction_alpha": 24600.0,
+      "threshold_alpha": 202763.0,
+      "pct_of_threshold": 12.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
@@ -2608,9 +2608,9 @@
         {
           "hotkey": "5HNjFeSd7hNgn2iWGPcreRNVBPcreJsaEr6HWdvr4FpgBp1n",
           "is_owner": true,
-          "locked_alpha": 24652.634799149,
-          "conviction_alpha": 24652.634799149,
-          "pct_of_threshold": 12.165627546423433,
+          "locked_alpha": 24599.621905279,
+          "conviction_alpha": 24599.621905279,
+          "pct_of_threshold": 12.132206756949959,
           "blocks_to_threshold": null
         }
       ]
@@ -2618,17 +2618,17 @@
     {
       "netuid": 119,
       "name": "CapabilityForge Next",
-      "alpha_out": 1720342.0,
+      "alpha_out": 1722116.0,
       "locked_alpha": 20723.0,
       "conviction_alpha": 20723.0,
-      "threshold_alpha": 172034.0,
+      "threshold_alpha": 172212.0,
       "pct_of_threshold": 12.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5740660,
       "changeable_at": 8370460,
-      "age_days": 487.0,
+      "age_days": 488.0,
       "owner_hotkey": "5HMwvi1dHWCBHTNTtizL5peRBwqvd8HtGrTVouN51p75JNd4",
       "num_lockers": 1,
       "top_lockers": [
@@ -2637,7 +2637,7 @@
           "is_owner": true,
           "locked_alpha": 20722.542632217,
           "conviction_alpha": 20722.542632217,
-          "pct_of_threshold": 12.045596792890704,
+          "pct_of_threshold": 12.033183202235476,
           "blocks_to_threshold": null
         }
       ]
@@ -2645,10 +2645,10 @@
     {
       "netuid": 16,
       "name": "kenju",
-      "alpha_out": 563065.0,
+      "alpha_out": 562974.0,
       "locked_alpha": 7334.0,
-      "conviction_alpha": 6549.0,
-      "threshold_alpha": 56306.0,
+      "conviction_alpha": 6554.0,
+      "threshold_alpha": 56297.0,
       "pct_of_threshold": 11.6,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2663,8 +2663,8 @@
           "hotkey": "5Eo5pyNqVqdsmBJJWoPegQU7BakmNL7Ndwqo7VaZRTJdoSG5",
           "is_owner": false,
           "locked_alpha": 7333.737256624,
-          "conviction_alpha": 6549.301889581,
-          "pct_of_threshold": 11.631521941681104,
+          "conviction_alpha": 6554.42784209,
+          "pct_of_threshold": 11.642503549564957,
           "blocks_to_threshold": null
         }
       ]
@@ -2672,11 +2672,11 @@
     {
       "netuid": 27,
       "name": "Orion",
-      "alpha_out": 3510433.0,
+      "alpha_out": 3497377.0,
       "locked_alpha": 29260.0,
       "conviction_alpha": 29260.0,
-      "threshold_alpha": 351043.0,
-      "pct_of_threshold": 8.3,
+      "threshold_alpha": 349738.0,
+      "pct_of_threshold": 8.4,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -2691,7 +2691,7 @@
           "is_owner": true,
           "locked_alpha": 29259.979274079,
           "conviction_alpha": 29259.979274079,
-          "pct_of_threshold": 8.335147802760716,
+          "pct_of_threshold": 8.36626421634097,
           "blocks_to_threshold": null
         }
       ]
@@ -2699,26 +2699,26 @@
     {
       "netuid": 97,
       "name": "Albedo",
-      "alpha_out": 1188541.0,
-      "locked_alpha": 9116.0,
-      "conviction_alpha": 9116.0,
-      "threshold_alpha": 118854.0,
-      "pct_of_threshold": 7.7,
+      "alpha_out": 1191456.0,
+      "locked_alpha": 9113.0,
+      "conviction_alpha": 9113.0,
+      "threshold_alpha": 119146.0,
+      "pct_of_threshold": 7.6,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 7735450,
       "changeable_at": 10365250,
-      "age_days": 210.0,
+      "age_days": 211.0,
       "owner_hotkey": "5EvHrbHz8rT8DrWazxFhzfMsmscFtPE3qhRDeY4ggKZrBcxZ",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5EvHrbHz8rT8DrWazxFhzfMsmscFtPE3qhRDeY4ggKZrBcxZ",
           "is_owner": true,
-          "locked_alpha": 9116.016573151,
-          "conviction_alpha": 9116.016573151,
-          "pct_of_threshold": 7.66992361060571,
+          "locked_alpha": 9113.450107635,
+          "conviction_alpha": 9113.450107635,
+          "pct_of_threshold": 7.649003490279583,
           "blocks_to_threshold": null
         }
       ]
@@ -2726,17 +2726,17 @@
     {
       "netuid": 101,
       "name": "Tag101",
-      "alpha_out": 2622324.0,
+      "alpha_out": 2623964.0,
       "locked_alpha": 13575.0,
       "conviction_alpha": 13575.0,
-      "threshold_alpha": 262232.0,
+      "threshold_alpha": 262396.0,
       "pct_of_threshold": 5.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5481350,
       "changeable_at": 8111150,
-      "age_days": 523.0,
+      "age_days": 524.0,
       "owner_hotkey": "5H6Dezn7frLQbNFk2pEKFtzE2YjRJu7KfdsitF3waiUAS2Zj",
       "num_lockers": 1,
       "top_lockers": [
@@ -2745,7 +2745,7 @@
           "is_owner": true,
           "locked_alpha": 13574.61335476,
           "conviction_alpha": 13574.61335476,
-          "pct_of_threshold": 5.176558091777885,
+          "pct_of_threshold": 5.173322847195185,
           "blocks_to_threshold": null
         }
       ]
@@ -2753,17 +2753,17 @@
     {
       "netuid": 55,
       "name": "NIOME",
-      "alpha_out": 3089694.0,
+      "alpha_out": 3017842.0,
       "locked_alpha": 14842.0,
       "conviction_alpha": 14842.0,
-      "threshold_alpha": 308969.0,
-      "pct_of_threshold": 4.8,
+      "threshold_alpha": 301784.0,
+      "pct_of_threshold": 4.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 4703386,
       "changeable_at": 7333186,
-      "age_days": 631.0,
+      "age_days": 632.0,
       "owner_hotkey": "5DJ5fT174AY8GzbYHnamYQCJd4cTcj2Zf7ogUvBhry1KfYVd",
       "num_lockers": 1,
       "top_lockers": [
@@ -2772,7 +2772,7 @@
           "is_owner": true,
           "locked_alpha": 14841.866940702,
           "conviction_alpha": 14841.866940702,
-          "pct_of_threshold": 4.803668416737069,
+          "pct_of_threshold": 4.918039507462987,
           "blocks_to_threshold": null
         }
       ]
@@ -2780,17 +2780,17 @@
     {
       "netuid": 95,
       "name": "Actual",
-      "alpha_out": 3070172.0,
+      "alpha_out": 3068308.0,
       "locked_alpha": 9025.0,
       "conviction_alpha": 9025.0,
-      "threshold_alpha": 307017.0,
+      "threshold_alpha": 306831.0,
       "pct_of_threshold": 2.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5403674,
       "changeable_at": 8033474,
-      "age_days": 534.0,
+      "age_days": 535.0,
       "owner_hotkey": "5ExqqyEBXLpGwqy6sSVrauozhcyAKBaMz1y5x9wAYSk7n7HP",
       "num_lockers": 1,
       "top_lockers": [
@@ -2799,7 +2799,7 @@
           "is_owner": true,
           "locked_alpha": 9024.997700073,
           "conviction_alpha": 9024.997700073,
-          "pct_of_threshold": 2.9395743325867594,
+          "pct_of_threshold": 2.941359418465217,
           "blocks_to_threshold": null
         }
       ]
@@ -2807,11 +2807,11 @@
     {
       "netuid": 110,
       "name": "Green Compute",
-      "alpha_out": 3222559.0,
+      "alpha_out": 3232576.0,
       "locked_alpha": 9206.0,
       "conviction_alpha": 9206.0,
-      "threshold_alpha": 322256.0,
-      "pct_of_threshold": 2.9,
+      "threshold_alpha": 323258.0,
+      "pct_of_threshold": 2.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
@@ -2826,7 +2826,7 @@
           "is_owner": true,
           "locked_alpha": 9205.92186508,
           "conviction_alpha": 9205.92186508,
-          "pct_of_threshold": 2.8567119781528727,
+          "pct_of_threshold": 2.8478595237712128,
           "blocks_to_threshold": null
         }
       ]
@@ -2834,10 +2834,10 @@
     {
       "netuid": 83,
       "name": "CliqueAI",
-      "alpha_out": 2935131.0,
+      "alpha_out": 2936470.0,
       "locked_alpha": 8057.0,
       "conviction_alpha": 8057.0,
-      "threshold_alpha": 293513.0,
+      "threshold_alpha": 293647.0,
       "pct_of_threshold": 2.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2853,7 +2853,7 @@
           "is_owner": true,
           "locked_alpha": 8057.340853611,
           "conviction_alpha": 8057.340853611,
-          "pct_of_threshold": 2.7451379500028184,
+          "pct_of_threshold": 2.7438867183965865,
           "blocks_to_threshold": null
         }
       ]
@@ -2861,26 +2861,26 @@
     {
       "netuid": 21,
       "name": "AdTAO",
-      "alpha_out": 4307210.0,
-      "locked_alpha": 9426.0,
-      "conviction_alpha": 9426.0,
-      "threshold_alpha": 430721.0,
+      "alpha_out": 4324865.0,
+      "locked_alpha": 9418.0,
+      "conviction_alpha": 9418.0,
+      "threshold_alpha": 432486.0,
       "pct_of_threshold": 2.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 3156578,
       "changeable_at": 5786378,
-      "age_days": 846.0,
+      "age_days": 847.0,
       "owner_hotkey": "5EqAzby1upPkqpba5qrbDLZtFLmaTUe2PRbzih62voorQVHp",
       "num_lockers": 1,
       "top_lockers": [
         {
           "hotkey": "5EqAzby1upPkqpba5qrbDLZtFLmaTUe2PRbzih62voorQVHp",
           "is_owner": true,
-          "locked_alpha": 9426.221141964,
-          "conviction_alpha": 9426.221141964,
-          "pct_of_threshold": 2.1884749038412323,
+          "locked_alpha": 9418.391776524,
+          "conviction_alpha": 9418.391776524,
+          "pct_of_threshold": 2.177731032420046,
           "blocks_to_threshold": null
         }
       ]
@@ -2888,10 +2888,10 @@
     {
       "netuid": 42,
       "name": "Unknown",
-      "alpha_out": 2606803.0,
+      "alpha_out": 2615688.0,
       "locked_alpha": 5444.0,
       "conviction_alpha": 5444.0,
-      "threshold_alpha": 260680.0,
+      "threshold_alpha": 261569.0,
       "pct_of_threshold": 2.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2907,7 +2907,7 @@
           "is_owner": true,
           "locked_alpha": 5444.016612431,
           "conviction_alpha": 5444.016612431,
-          "pct_of_threshold": 2.088388121803562,
+          "pct_of_threshold": 2.0812941905141304,
           "blocks_to_threshold": null
         }
       ]
@@ -2915,10 +2915,10 @@
     {
       "netuid": 5,
       "name": "Hone",
-      "alpha_out": 3319729.0,
+      "alpha_out": 3322087.0,
       "locked_alpha": 6650.0,
       "conviction_alpha": 6650.0,
-      "threshold_alpha": 331973.0,
+      "threshold_alpha": 332209.0,
       "pct_of_threshold": 2.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2934,7 +2934,7 @@
           "is_owner": true,
           "locked_alpha": 6649.821324041,
           "conviction_alpha": 6649.821324041,
-          "pct_of_threshold": 2.003121483441084,
+          "pct_of_threshold": 2.001700069967572,
           "blocks_to_threshold": null
         }
       ]
@@ -2942,10 +2942,10 @@
     {
       "netuid": 89,
       "name": "InfiniteQuant",
-      "alpha_out": 2989700.0,
+      "alpha_out": 2992585.0,
       "locked_alpha": 6095.0,
       "conviction_alpha": 6095.0,
-      "threshold_alpha": 298970.0,
+      "threshold_alpha": 299258.0,
       "pct_of_threshold": 2.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2961,7 +2961,7 @@
           "is_owner": true,
           "locked_alpha": 6094.632142656,
           "conviction_alpha": 6094.632142656,
-          "pct_of_threshold": 2.038543246394413,
+          "pct_of_threshold": 2.0365778460027557,
           "blocks_to_threshold": null
         }
       ]
@@ -2969,10 +2969,10 @@
     {
       "netuid": 102,
       "name": "ConnitoAI",
-      "alpha_out": 1113137.0,
+      "alpha_out": 1109002.0,
       "locked_alpha": 2002.0,
       "conviction_alpha": 2002.0,
-      "threshold_alpha": 111314.0,
+      "threshold_alpha": 110900.0,
       "pct_of_threshold": 1.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -2988,7 +2988,7 @@
           "is_owner": true,
           "locked_alpha": 2002.340459168,
           "conviction_alpha": 2002.340459168,
-          "pct_of_threshold": 1.7988262069576488,
+          "pct_of_threshold": 1.8055344803857378,
           "blocks_to_threshold": null
         }
       ]
@@ -2996,17 +2996,17 @@
     {
       "netuid": 127,
       "name": "Astrid",
-      "alpha_out": 3020879.0,
+      "alpha_out": 3029271.0,
       "locked_alpha": 5536.0,
       "conviction_alpha": 5536.0,
-      "threshold_alpha": 302088.0,
+      "threshold_alpha": 302927.0,
       "pct_of_threshold": 1.8,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5848837,
       "changeable_at": 8478637,
-      "age_days": 472.0,
+      "age_days": 473.0,
       "owner_hotkey": "5EKrpcqVNWfVfmKiq8v3LRrgb3E3ENBwYzmAziDhMK58gtb5",
       "num_lockers": 1,
       "top_lockers": [
@@ -3015,7 +3015,7 @@
           "is_owner": true,
           "locked_alpha": 5535.674552263,
           "conviction_alpha": 5535.674552263,
-          "pct_of_threshold": 1.832471327921471,
+          "pct_of_threshold": 1.8273949166622956,
           "blocks_to_threshold": null
         }
       ]
@@ -3023,17 +3023,17 @@
     {
       "netuid": 115,
       "name": "MoirAI",
-      "alpha_out": 1800023.0,
+      "alpha_out": 1801669.0,
       "locked_alpha": 2942.0,
       "conviction_alpha": 2942.0,
-      "threshold_alpha": 180002.0,
+      "threshold_alpha": 180167.0,
       "pct_of_threshold": 1.6,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5683635,
       "changeable_at": 8313435,
-      "age_days": 495.0,
+      "age_days": 496.0,
       "owner_hotkey": "5EhTo9AXu6JCK2voyEz2ftwFq9cmYR1ACj8qobD67MGZKgTV",
       "num_lockers": 1,
       "top_lockers": [
@@ -3042,7 +3042,7 @@
           "is_owner": true,
           "locked_alpha": 2942.008322496,
           "conviction_alpha": 2942.008322496,
-          "pct_of_threshold": 1.6344285291590501,
+          "pct_of_threshold": 1.632934743247786,
           "blocks_to_threshold": null
         }
       ]
@@ -3050,17 +3050,17 @@
     {
       "netuid": 30,
       "name": "Endure Network",
-      "alpha_out": 3590439.0,
+      "alpha_out": 3589671.0,
       "locked_alpha": 4963.0,
       "conviction_alpha": 4963.0,
-      "threshold_alpha": 359044.0,
+      "threshold_alpha": 358967.0,
       "pct_of_threshold": 1.4,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 3250216,
       "changeable_at": 5880016,
-      "age_days": 833.0,
+      "age_days": 834.0,
       "owner_hotkey": "5HW12NvEZoGz8ZzcWMh4xyDUy6H1Af85m5LB8V1L11erK1S1",
       "num_lockers": 1,
       "top_lockers": [
@@ -3069,7 +3069,7 @@
           "is_owner": true,
           "locked_alpha": 4962.596266974,
           "conviction_alpha": 4962.596266974,
-          "pct_of_threshold": 1.3821697309388155,
+          "pct_of_threshold": 1.3824655843233737,
           "blocks_to_threshold": null
         }
       ]
@@ -3077,10 +3077,10 @@
     {
       "netuid": 57,
       "name": "SN57",
-      "alpha_out": 1069136.0,
+      "alpha_out": 1071151.0,
       "locked_alpha": 1254.0,
       "conviction_alpha": 1254.0,
-      "threshold_alpha": 106914.0,
+      "threshold_alpha": 107115.0,
       "pct_of_threshold": 1.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -3096,7 +3096,7 @@
           "is_owner": true,
           "locked_alpha": 1254.306998862,
           "conviction_alpha": 1254.306998862,
-          "pct_of_threshold": 1.173197024339433,
+          "pct_of_threshold": 1.1709895087603313,
           "blocks_to_threshold": null
         }
       ]
@@ -3104,17 +3104,17 @@
     {
       "netuid": 128,
       "name": "ByteLeap",
-      "alpha_out": 3063376.0,
+      "alpha_out": 3065413.0,
       "locked_alpha": 3775.0,
       "conviction_alpha": 3775.0,
-      "threshold_alpha": 306338.0,
+      "threshold_alpha": 306541.0,
       "pct_of_threshold": 1.2,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 5856038,
       "changeable_at": 8485838,
-      "age_days": 471.0,
+      "age_days": 472.0,
       "owner_hotkey": "5FpsgU3JFa8S2GnngH92J9vtHHi4PYgZzxGXnwdFNwEwt9h8",
       "num_lockers": 2,
       "top_lockers": [
@@ -3123,15 +3123,15 @@
           "is_owner": true,
           "locked_alpha": 3774.573941721,
           "conviction_alpha": 3774.573941721,
-          "pct_of_threshold": 1.2321613988050844,
+          "pct_of_threshold": 1.2313426713374769,
           "blocks_to_threshold": null
         },
         {
           "hotkey": "5DXdHixxtCvoa6GHKs2Jgrdzc61882Ftx1zN2sYFQuwgL1S1",
           "is_owner": false,
-          "locked_alpha": 0.004387315,
-          "conviction_alpha": 0.003961053,
-          "pct_of_threshold": 1.2930351580056055e-06,
+          "locked_alpha": 0.004377733,
+          "conviction_alpha": 0.003963808,
+          "pct_of_threshold": 1.2930748600287845e-06,
           "blocks_to_threshold": null
         }
       ]
@@ -3139,17 +3139,17 @@
     {
       "netuid": 43,
       "name": "Graphite",
-      "alpha_out": 3070017.0,
+      "alpha_out": 3071938.0,
       "locked_alpha": 3451.0,
       "conviction_alpha": 3451.0,
-      "threshold_alpha": 307002.0,
+      "threshold_alpha": 307194.0,
       "pct_of_threshold": 1.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 3408582,
       "changeable_at": 6038382,
-      "age_days": 811.0,
+      "age_days": 812.0,
       "owner_hotkey": "5HjMs5JDrLH3Hknmfm1gDq7nFYAv6M7t9v3EWMctSRXJS9HC",
       "num_lockers": 1,
       "top_lockers": [
@@ -3158,7 +3158,7 @@
           "is_owner": true,
           "locked_alpha": 3451.069241962,
           "conviction_alpha": 3451.069241962,
-          "pct_of_threshold": 1.1241205671085808,
+          "pct_of_threshold": 1.1234177164304038,
           "blocks_to_threshold": null
         }
       ]
@@ -3166,10 +3166,10 @@
     {
       "netuid": 7,
       "name": "Allways",
-      "alpha_out": 3167590.0,
+      "alpha_out": 3170510.0,
       "locked_alpha": 3211.0,
       "conviction_alpha": 3211.0,
-      "threshold_alpha": 316759.0,
+      "threshold_alpha": 317051.0,
       "pct_of_threshold": 1.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -3185,7 +3185,7 @@
           "is_owner": true,
           "locked_alpha": 3211.260531444,
           "conviction_alpha": 3211.260531444,
-          "pct_of_threshold": 1.0137865478058317,
+          "pct_of_threshold": 1.0128528614160617,
           "blocks_to_threshold": null
         }
       ]
@@ -3193,17 +3193,17 @@
     {
       "netuid": 12,
       "name": "Compute Horde",
-      "alpha_out": 3772974.0,
+      "alpha_out": 3778405.0,
       "locked_alpha": 3871.0,
       "conviction_alpha": 3871.0,
-      "threshold_alpha": 377297.0,
+      "threshold_alpha": 377840.0,
       "pct_of_threshold": 1.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 2256433,
       "changeable_at": 4886233,
-      "age_days": 971.0,
+      "age_days": 972.0,
       "owner_hotkey": "5ELzhHvgUqmnAYs74vFWjMMehXNeHkRtkreAa3g8QQS96PCp",
       "num_lockers": 1,
       "top_lockers": [
@@ -3212,7 +3212,7 @@
           "is_owner": true,
           "locked_alpha": 3870.537061652,
           "conviction_alpha": 3870.537061652,
-          "pct_of_threshold": 1.0258583972581405,
+          "pct_of_threshold": 1.0243839648989104,
           "blocks_to_threshold": null
         }
       ]
@@ -3220,17 +3220,17 @@
     {
       "netuid": 29,
       "name": "ho\u03c4floa\u03c4",
-      "alpha_out": 3019412.0,
+      "alpha_out": 3021450.0,
       "locked_alpha": 3166.0,
       "conviction_alpha": 3166.0,
-      "threshold_alpha": 301941.0,
+      "threshold_alpha": 302145.0,
       "pct_of_threshold": 1.0,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": true,
       "registered_at": 3379782,
       "changeable_at": 6009582,
-      "age_days": 815.0,
+      "age_days": 816.0,
       "owner_hotkey": "5HHHHHzgLnYRvnKkHd45cRUDMHXTSwx7MjUzxBrKbY4JfZWn",
       "num_lockers": 1,
       "top_lockers": [
@@ -3239,7 +3239,7 @@
           "is_owner": true,
           "locked_alpha": 3165.974907187,
           "conviction_alpha": 3165.974907187,
-          "pct_of_threshold": 1.0485401600591755,
+          "pct_of_threshold": 1.0478331005685162,
           "blocks_to_threshold": null
         }
       ]
@@ -3247,10 +3247,10 @@
     {
       "netuid": 104,
       "name": "TAOstatus",
-      "alpha_out": 3272455.0,
+      "alpha_out": 3273606.0,
       "locked_alpha": 3018.0,
       "conviction_alpha": 3018.0,
-      "threshold_alpha": 327246.0,
+      "threshold_alpha": 327361.0,
       "pct_of_threshold": 0.9,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -3266,7 +3266,7 @@
           "is_owner": true,
           "locked_alpha": 3017.92106809,
           "conviction_alpha": 3017.92106809,
-          "pct_of_threshold": 0.9222191749317712,
+          "pct_of_threshold": 0.9218950327504696,
           "blocks_to_threshold": null
         }
       ]
@@ -3274,10 +3274,10 @@
     {
       "netuid": 84,
       "name": "SN84",
-      "alpha_out": 937191.0,
+      "alpha_out": 939205.0,
       "locked_alpha": 660.0,
       "conviction_alpha": 660.0,
-      "threshold_alpha": 93719.0,
+      "threshold_alpha": 93921.0,
       "pct_of_threshold": 0.7,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -3293,7 +3293,7 @@
           "is_owner": true,
           "locked_alpha": 660.436412233,
           "conviction_alpha": 660.436412233,
-          "pct_of_threshold": 0.7046977342437483,
+          "pct_of_threshold": 0.7031865016492207,
           "blocks_to_threshold": null
         }
       ]
@@ -3301,10 +3301,10 @@
     {
       "netuid": 15,
       "name": "ORO",
-      "alpha_out": 1668537.0,
+      "alpha_out": 1671713.0,
       "locked_alpha": 1011.0,
       "conviction_alpha": 1011.0,
-      "threshold_alpha": 166854.0,
+      "threshold_alpha": 167171.0,
       "pct_of_threshold": 0.6,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -3320,7 +3320,7 @@
           "is_owner": true,
           "locked_alpha": 1010.651574802,
           "conviction_alpha": 1010.651574802,
-          "pct_of_threshold": 0.6057112759082501,
+          "pct_of_threshold": 0.6045602837822135,
           "blocks_to_threshold": null
         }
       ]
@@ -3328,10 +3328,10 @@
     {
       "netuid": 67,
       "name": "Harnyx",
-      "alpha_out": 1009693.0,
+      "alpha_out": 1013282.0,
       "locked_alpha": 522.0,
       "conviction_alpha": 522.0,
-      "threshold_alpha": 100969.0,
+      "threshold_alpha": 101328.0,
       "pct_of_threshold": 0.5,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -3347,7 +3347,7 @@
           "is_owner": true,
           "locked_alpha": 522.283347221,
           "conviction_alpha": 522.283347221,
-          "pct_of_threshold": 0.5172694719402565,
+          "pct_of_threshold": 0.5154373475047834,
           "blocks_to_threshold": null
         }
       ]
@@ -3355,17 +3355,17 @@
     {
       "netuid": 69,
       "name": "Herald",
-      "alpha_out": 1391337.0,
+      "alpha_out": 1393365.0,
       "locked_alpha": 486.0,
       "conviction_alpha": 486.0,
-      "threshold_alpha": 139134.0,
+      "threshold_alpha": 139337.0,
       "pct_of_threshold": 0.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
       "can_takeover": false,
       "registered_at": 8138182,
       "changeable_at": 10767982,
-      "age_days": 154.0,
+      "age_days": 155.0,
       "owner_hotkey": "5FWB5CFZQB4FcmekEXrXtoGgjFt37HGQk27JzWKkRzqWjkg5",
       "num_lockers": 1,
       "top_lockers": [
@@ -3374,7 +3374,7 @@
           "is_owner": true,
           "locked_alpha": 485.813350565,
           "conviction_alpha": 485.813350565,
-          "pct_of_threshold": 0.34917003491537757,
+          "pct_of_threshold": 0.3486618759941748,
           "blocks_to_threshold": null
         }
       ]
@@ -3382,10 +3382,10 @@
     {
       "netuid": 111,
       "name": "Claims",
-      "alpha_out": 3648343.0,
+      "alpha_out": 3653858.0,
       "locked_alpha": 1222.0,
       "conviction_alpha": 1222.0,
-      "threshold_alpha": 364834.0,
+      "threshold_alpha": 365386.0,
       "pct_of_threshold": 0.3,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -3401,7 +3401,7 @@
           "is_owner": true,
           "locked_alpha": 1221.604957048,
           "conviction_alpha": 1221.604957048,
-          "pct_of_threshold": 0.33483830444212576,
+          "pct_of_threshold": 0.33433288885421547,
           "blocks_to_threshold": null
         }
       ]
@@ -3409,10 +3409,10 @@
     {
       "netuid": 94,
       "name": "Cathedral",
-      "alpha_out": 2085278.0,
+      "alpha_out": 2091810.0,
       "locked_alpha": 274.0,
       "conviction_alpha": 274.0,
-      "threshold_alpha": 208528.0,
+      "threshold_alpha": 209181.0,
       "pct_of_threshold": 0.1,
       "blocks_to_threshold": 0,
       "days_to_threshold": 0,
@@ -3428,7 +3428,7 @@
           "is_owner": true,
           "locked_alpha": 273.723032556,
           "conviction_alpha": 273.723032556,
-          "pct_of_threshold": 0.13126450723260083,
+          "pct_of_threshold": 0.13085462352032606,
           "blocks_to_threshold": null
         }
       ]
